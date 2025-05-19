@@ -1,0 +1,119 @@
+.elementor-720 .elementor-element.elementor-element-edd6ce1 {
+    padding: 30px 0px 30px 0px;
+}
+
+.elementor-720 .elementor-element.elementor-element-231f9b9 img {
+    height: 430px;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.elementor-720 .elementor-element.elementor-element-09b2825:not(.elementor-motion-effects-element-type-background)>.elementor-widget-wrap,
+.elementor-720 .elementor-element.elementor-element-09b2825>.elementor-widget-wrap>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+    background-image: url("https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/03/new-arrivals.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.elementor-720 .elementor-element.elementor-element-09b2825>.elementor-element-populated>.elementor-background-overlay {
+    background-color: transparent;
+    background-image: linear-gradient(170deg, #00000000 50%, #000000 100%);
+    opacity: 0.12;
+}
+
+.elementor-bc-flex-widget .elementor-720 .elementor-element.elementor-element-09b2825.elementor-column .elementor-widget-wrap {
+    align-items: flex-end;
+}
+
+.elementor-720 .elementor-element.elementor-element-09b2825.elementor-column.elementor-element[data-element_type="column"]>.elementor-widget-wrap.elementor-element-populated {
+    align-content: flex-end;
+    align-items: flex-end;
+}
+
+.elementor-720 .elementor-element.elementor-element-09b2825>.elementor-element-populated {
+    transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;
+    padding: 0px 25px 25px 25px;
+}
+
+.elementor-720 .elementor-element.elementor-element-09b2825>.elementor-element-populated>.elementor-background-overlay {
+    transition: background 0.3s, border-radius 0.3s, opacity 0.3s;
+}
+
+.elementor-720 .elementor-element.elementor-element-b385aea .elementor-heading-title {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-color: currentColor;
+    -webkit-text-stroke-width: var(--heading-stroke-size, 2px);
+    font-size: 57px;
+    font-weight: 900;
+    line-height: 0.4em;
+    color: #FFFFFF;
+}
+
+.elementor-720 .elementor-element.elementor-element-b385aea {
+    width: auto;
+    max-width: auto;
+    --heading-stroke-size: 2px;
+}
+
+.elementor-720 .elementor-element.elementor-element-b385aea>.elementor-widget-container {
+    padding: 0px 20px 0px 0px;
+}
+
+.elementor-720 .elementor-element.elementor-element-7b13800 .elementor-heading-title {
+    font-size: 16px;
+    color: #adb5bd;
+}
+
+.elementor-720 .elementor-element.elementor-element-0003aca.reyEl-menu--vertical .reyEl-menu-nav {
+    --menu-cols: 1;
+}
+
+.elementor-720 .elementor-element.elementor-element-0003aca {
+    --distance: 0.2em;
+}
+
+.elementor-720 .elementor-element.elementor-element-b341eee .elementor-heading-title {
+    font-size: 16px;
+    color: #adb5bd;
+}
+
+.elementor-720 .elementor-element.elementor-element-aaaaf9b .reyEl-wcAttr-list {
+    --cols: 1;
+}
+
+.elementor-720 .elementor-element.elementor-element-d7fb8c4 .elementor-heading-title {
+    font-size: 16px;
+    color: #adb5bd;
+}
+
+.elementor-720 .elementor-element.elementor-element-5d3e7a9 .elementor-heading-title {
+    font-size: 16px;
+    color: #adb5bd;
+}
+
+@media(max-width:767px) {
+    .elementor-720 .elementor-element.elementor-element-2aaeaee>.elementor-element-populated {
+        margin: 0px 0px 30px 0px;
+        --e-column-margin-right: 0px;
+        --e-column-margin-left: 0px;
+        padding: 0px 0px 0px 0px;
+    }
+    .elementor-720 .elementor-element.elementor-element-c100077>.elementor-element-populated {
+        margin: 0px 0px 30px 0px;
+        --e-column-margin-right: 0px;
+        --e-column-margin-left: 0px;
+    }
+}
+
+@media(max-width:1024px) and (min-width:768px) {
+    .elementor-720 .elementor-element.elementor-element-2aaeaee {
+        width: 33%;
+    }
+    .elementor-720 .elementor-element.elementor-element-c100077 {
+        width: 33%;
+    }
+    .elementor-720 .elementor-element.elementor-element-5efbea8 {
+        width: 33%;
+    }
+}

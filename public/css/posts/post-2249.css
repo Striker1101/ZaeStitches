@@ -1,0 +1,89 @@
+.elementor-2249 .elementor-element.elementor-element-58330f9f>.elementor-container {
+    min-height: 120px;
+}
+
+.elementor-bc-flex-widget .elementor-2249 .elementor-element.elementor-element-7436cccf.elementor-column .elementor-widget-wrap {
+    align-items: center;
+}
+
+.elementor-2249 .elementor-element.elementor-element-7436cccf.elementor-column.elementor-element[data-element_type="column"]>.elementor-widget-wrap.elementor-element-populated {
+    align-content: center;
+    align-items: center;
+}
+
+.elementor-2249 .elementor-element.elementor-element-6281e6f4 {
+    width: auto;
+    max-width: auto;
+    align-self: center;
+}
+
+.elementor-2249 .elementor-element.elementor-element-6281e6f4 .rey-siteLogo img,
+.elementor-2249 .elementor-element.elementor-element-6281e6f4 .rey-siteLogo .custom-logo {
+    width: 107px;
+    height: 44px;
+}
+
+.elementor-2249 .elementor-element.elementor-element-9e34f80 {
+    width: auto;
+    max-width: auto;
+    align-self: center;
+    flex-grow: 1;
+    --header-nav-x-spacing: 1rem;
+}
+
+.elementor-2249 .elementor-element.elementor-element-9e34f80>.elementor-widget-container {
+    margin: 0px 0px 0px 50px;
+}
+
+.elementor-2249 .elementor-element.elementor-element-9e34f80 .rey-mainNavigation-mobileBtn {
+    --hbg-bars-width: 20px;
+    --hbg-bars-thick: 2px;
+    --hbg-bars-distance: 4px;
+    --hbg-bars-roundness: 2px;
+}
+
+.elementor-2249 .elementor-element.elementor-element-1102f891 {
+    width: auto;
+    max-width: auto;
+    align-self: center;
+}
+
+.elementor-2249 .elementor-element.elementor-element-1102f891>.elementor-widget-container {
+    margin: 0px 0px 0px 20px;
+}
+
+.elementor-2249 .elementor-element.elementor-element-3af0c577 {
+    width: auto;
+    max-width: auto;
+    align-self: center;
+}
+
+.elementor-2249 .elementor-element.elementor-element-3af0c577>.elementor-widget-container {
+    margin: 0px 0px 0px 20px;
+}
+
+.elementor-2249 .elementor-element.elementor-element-3af0c577 .rey-headerCart .rey-headerIcon-counter {
+    display: inline-flex;
+}
+
+.elementor-2249 .elementor-element.elementor-element-6aa9db0b {
+    width: initial;
+    max-width: initial;
+    align-self: center;
+}
+
+.elementor-2249 .elementor-element.elementor-element-6aa9db0b>.elementor-widget-container {
+    margin: 0px 0px 0px 20px;
+}
+
+@media(max-width:1024px) {
+    .elementor-2249 .elementor-element.elementor-element-9e34f80 {
+        align-self: center;
+    }
+}
+
+@media(max-width:767px) {
+    .elementor-2249 .elementor-element.elementor-element-58330f9f>.elementor-container {
+        min-height: 70px;
+    }
+}

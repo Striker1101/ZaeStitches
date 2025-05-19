@@ -1,0 +1,271 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+img:is([sizes="auto" i], [sizes^="auto," i]) {
+    contain-intrinsic-size: 3000px 1500px;
+}
+.wp-block-button__link {
+    color: #fff;
+    background-color: #32373c;
+    border-radius: 9999px;
+    box-shadow: none;
+    text-decoration: none;
+    padding: calc(0.667em + 2px) calc(1.333em + 2px);
+    font-size: 1.125em;
+}
+
+.wp-block-file__button {
+    background: #32373c;
+    color: #fff;
+    text-decoration: none;
+}
+
+.woocommerce form .form-row .required {
+    visibility: visible;
+}
+
+.woocommerce form .form-row abbr.required {
+    visibility: visible;
+}
+
+.woocommerce ul.products li.product.is-animated-entry {
+    opacity: 1;
+    transform: none;
+}
+
+.woocommerce div.product .woocommerce-product-gallery:after {
+    display: none;
+}
+
+.woocommerce
+    div.product
+    .woocommerce-product-gallery
+    .woocommerce-product-gallery__wrapper {
+    opacity: 1;
+}
+.woocommerce-product-gallery {
+    opacity: 1 !important;
+}
+.e-con.e-parent:nth-of-type(n + 4):not(.e-lazyloaded):not(.e-no-lazyload),
+.e-con.e-parent:nth-of-type(n + 4):not(.e-lazyloaded):not(.e-no-lazyload) * {
+    background-image: none !important;
+}
+
+@media screen and (max-height: 1024px) {
+    .e-con.e-parent:nth-of-type(n + 3):not(.e-lazyloaded):not(.e-no-lazyload),
+    .e-con.e-parent:nth-of-type(n + 3):not(.e-lazyloaded):not(.e-no-lazyload)
+        * {
+        background-image: none !important;
+    }
+}
+
+@media screen and (max-height: 640px) {
+    .e-con.e-parent:nth-of-type(n + 2):not(.e-lazyloaded):not(.e-no-lazyload),
+    .e-con.e-parent:nth-of-type(n + 2):not(.e-lazyloaded):not(.e-no-lazyload)
+        * {
+        background-image: none !important;
+    }
+}
+.home-video-section {
+    background-color: #111;
+}
+
+/* Homepage background video height */
+.home-video-section > .elementor-background-video-container {
+    max-height: 80vh;
+}
+
+/* temp */
+.rey-acPopup-modal .rey-modalClose {
+    left: auto;
+    right: 2em;
+}
+
+/* maybe a temporary fix? */
+.elementor-heading-title {
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+.elementor-heading-title a {
+    color: inherit;
+}
+
+:root {
+    --rey-container-spacing: 15px;
+    --main-gutter-size: 15px;
+    --site-wrapper-overflow: visible;
+    --body-bg-color: #ffffff;
+    --neutral-hue: 210;
+    --blog-columns: 2;
+    --post-align-wide-size: 25vw;
+    --woocommerce-products-gutter: 30px;
+    --woocommerce-sidebar-size: 16%;
+    --woocommerce-loop-basic-padding: 0px;
+    --woocommerce-swatches-width: 35px;
+    --woocommerce-swatches-height: 5px;
+    --woocommerce-fullscreen-summary-valign: flex-start;
+    --woocommerce-summary-size: 45%;
+    --woocommerce-summary-padding: 0px;
+    --woocommerce-fullscreen-top-padding-anim: 50px;
+    --star-rating-color: #ff4545;
+}
+
+h2,
+.h2 {
+    font-family: var(--primary-ff);
+    font-weight: 300;
+}
+
+h3,
+.h3 {
+    font-family: var(--primary-ff);
+    font-weight: 300;
+}
+
+h4,
+.h4 {
+    font-family: var(--primary-ff);
+    font-weight: 300;
+}
+
+h5,
+.h5 {
+    font-family: var(--primary-ff);
+    font-weight: 300;
+}
+
+h6,
+.h6 {
+    font-family: var(--primary-ff);
+    font-weight: 300;
+}
+
+.rey-postList .rey-postTitle > a {
+    font-family: var(--primary-ff);
+    font-weight: 600;
+}
+
+.woocommerce-store-notice .woocommerce-store-notice-content {
+    min-height: 32px;
+}
+
+@media (min-width: 768px) and (max-width: 1025px) {
+    :root {
+        --rey-container-spacing: 15px;
+        --main-gutter-size: 15px;
+        --blog-columns: 1;
+        --woocommerce-products-gutter: 10px;
+        --woocommerce-summary-padding: 0px;
+    }
+}
+
+@media (max-width: 767px) {
+    :root {
+        --rey-container-spacing: 15px;
+        --main-gutter-size: 15px;
+        --blog-columns: 1;
+        --woocommerce-products-gutter: 10px;
+        --woocommerce-summary-padding: 0px;
+    }
+}
+
+@font-face {
+    font-family: "Outfit";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://demos.reytheme.com/london/wp-content/fonts/outfit/788596d46eeb2990)
+        format("woff");
+}
+
+@font-face {
+    font-family: "Outfit";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://demos.reytheme.com/london/wp-content/fonts/outfit/bb1d62c4f59c2690)
+        format("woff");
+}
+
+@font-face {
+    font-family: "Rey Primary";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://demos.reytheme.com/london/wp-content/fonts/outfit/788596d46eeb2990)
+        format("woff");
+}
+
+@font-face {
+    font-family: "Rey Primary";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://demos.reytheme.com/london/wp-content/fonts/outfit/bb1d62c4f59c2690)
+        format("woff");
+}
+
+:root {
+    --zero-px: 0.001px;
+}
+
+@media (max-width: 1024px) {
+    :root {
+        --nav-breakpoint-desktop: none;
+        --nav-breakpoint-mobile: flex;
+    }
+}
+
+:root {
+    --primary-ff: Outfit, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --body-font-family: var(--primary-ff);
+    --body-font-weight: 300;
+    --accent-color: #212529;
+    --accent-hover-color: #000000;
+    --accent-text-color: #fff;
+}
+
+.rey-mainMenu--desktop .menu-item.menu-item-has-children.menu-item-1728 {
+    --ec-max-width: 880px;
+}
+
+:root {
+    --woocommerce-grid-columns: 4;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    :root {
+        --woocommerce-grid-columns: 2;
+    }
+}
+
+@media (max-width: 767px) {
+    :root {
+        --woocommerce-grid-columns: 2;
+    }
+}
+.rey-js .elementor-element.rey-lazyBg,
+.rey-js .elementor-element.rey-lazyBg > .elementor-widget-container,
+.rey-js .elementor-element.rey-lazyBg > .elementor-widget-wrap {
+    background-image: none !important;
+}
+.rll-youtube-player,
+[data-lazy-src] {
+    display: none !important;
+}
+.elementor-element-9e34f80,
+.rey-mobileNav--9e34f80 {
+    --nav-breakpoint-desktop: none;
+    --nav-breakpoint-mobile: flex;
+}
+
+@media (min-width: 1025px) {
+    .elementor-element-9e34f80,
+    .rey-mobileNav--9e34f80 {
+        --nav-breakpoint-desktop: flex;
+        --nav-breakpoint-mobile: none;
+    }
+}

@@ -1,0 +1,69 @@
+.elementor-2471 .elementor-element.elementor-element-545513d:not(.elementor-motion-effects-element-type-background),
+.elementor-2471 .elementor-element.elementor-element-545513d>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+    background-color: #BF1B1B;
+}
+
+.elementor-2471 .elementor-element.elementor-element-545513d,
+.elementor-2471 .elementor-element.elementor-element-545513d>.elementor-background-overlay {
+    border-radius: 5px 5px 5px 5px;
+}
+
+.elementor-2471 .elementor-element.elementor-element-545513d {
+    transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;
+    padding: 40px 40px 40px 40px;
+}
+
+.elementor-2471 .elementor-element.elementor-element-545513d>.elementor-background-overlay {
+    transition: background 0.3s, border-radius 0.3s, opacity 0.3s;
+}
+
+.elementor-2471 .elementor-element.elementor-element-5ba4e80 .elementor-heading-title {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-color: currentColor;
+    -webkit-text-stroke-width: var(--heading-stroke-size, 2px);
+    font-family: "Arial Black", Sans-serif;
+    font-size: 50px;
+    font-weight: 900;
+    letter-spacing: -3.1px;
+    color: #FFFFFF;
+}
+
+.elementor-2471 .elementor-element.elementor-element-5ba4e80 {
+    --heading-stroke-size: 1px;
+}
+
+.elementor-2471 .elementor-element.elementor-element-dc9c0d1 {
+    text-align: left;
+}
+
+.elementor-2471 .elementor-element.elementor-element-56b0eab .elementor-heading-title {
+    font-size: 34px;
+    color: #FFFFFF;
+}
+
+.elementor-2471 .elementor-element.elementor-element-ebeb70c {
+    font-size: 18px;
+    color: #FFFFFF;
+}
+
+.elementor-2471 .elementor-element.elementor-element-ebeb70c p:last-of-type {
+    margin-bottom: 0;
+}
+
+.elementor-2471 .elementor-element.elementor-element-282aa32 .elementor-button {
+    font-weight: 600;
+    fill: #FFFFFF;
+    color: #FFFFFF;
+}
+
+@media(max-width:767px) {
+    .elementor-2471 .elementor-element.elementor-element-5ba4e80 .elementor-heading-title {
+        font-size: 31px;
+    }
+    .elementor-2471 .elementor-element.elementor-element-dc9c0d1 img {
+        width: 30px;
+    }
+    .elementor-2471 .elementor-element.elementor-element-56b0eab .elementor-heading-title {
+        font-size: 16px;
+    }
+}
