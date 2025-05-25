@@ -15,37 +15,37 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => '123123'
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        //     'password' => '123123'
+        // ]);
 
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'adminaccount@boxfi.uk',
-            'password' => '123123',
-            'role' => 'admin'
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Admin',
+        //     'email' => 'adminaccount@boxfi.uk',
+        //     'password' => '123123',
+        //     'role' => 'admin'
+        // ]);
 
-        // Create 10 additional default users
-        User::factory(10)->create();
+        // // Create 10 additional default users
+        // User::factory(10)->create();
 
         $this->call(
             [
-                ColorSeeder::class,
-                SizeSeeder::class,
-                CategorySeeder::class,
-                TagSeeder::class,
-                BrandSeeder::class,
-                ProductVariantSeeder::class,
-                BlogSeeder::class,
-                ProductSeeder::class, // Assuming you have this
-                MediaSeeder::class,
-                CartSeeder::class,
-                CartItemSeeder::class,
-                OrderSeeder::class,
-                OrderItemSeeder::class
+                    // ColorSeeder::class,
+                    // SizeSeeder::class,
+                    // CategorySeeder::class,
+                    // TagSeeder::class,
+                    // BrandSeeder::class,
+                    // CartSeeder::class,
+                    // OrderSeeder::class,
+                    // BlogSeeder::class,
+                ProductSeeder::class,
+                // ProductVariantSeeder::class,
+                // MediaSeeder::class,
+                // CartItemSeeder::class,
+                // OrderItemSeeder::class
             ]
         );
 

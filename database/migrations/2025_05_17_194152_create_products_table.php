@@ -15,7 +15,11 @@ return new class extends Migration {
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
+            $table->decimal('rating')->default(0.0);
+            $table->boolean('is_popular')->default(false);
+            $table->boolean('is_latest')->default(false);
             $table->decimal('price', 10, 2); // base price
+            $table->decimal('discount_price', 10, 2);
             $table->foreignId('brand_id')->constrained()->onDelete('cascade');
             $table->string('weight')->nullable();
             $table->string('dimension')->nullable();

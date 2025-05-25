@@ -52,7 +52,8 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://localhost:8000'),
+    'port' => env('APP_POST', '8000'),
 
     /*
     |--------------------------------------------------------------------------

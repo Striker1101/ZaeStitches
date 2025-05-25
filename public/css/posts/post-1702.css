@@ -14,7 +14,7 @@
     .elementor-element.elementor-element-65276cb
     > .elementor-motion-effects-container
     > .elementor-motion-effects-layer {
-    background-image: url("https://demos.reytheme.com/london/wp-content/uploads/sites/8/2021/04/home-v4.jpg");
+    background-image: url("../../images/homepage/home-v4.jpg");
 }
 .elementor-1702
     .elementor-element.elementor-element-65276cb
@@ -140,7 +140,7 @@
     > .elementor-widget-wrap
     > .elementor-motion-effects-container
     > .elementor-motion-effects-layer {
-    background-image: url("https://demos.reytheme.com/london/wp-content/uploads/sites/8/2021/04/img1-v2.jpg");
+    background-image: url("../../images/homepage/img1-v2.jpg");
     background-position: center center;
     background-size: cover;
 }
@@ -256,7 +256,7 @@
     > .elementor-widget-wrap
     > .elementor-motion-effects-container
     > .elementor-motion-effects-layer {
-    background-image: url("https://demos.reytheme.com/london/wp-content/uploads/sites/8/2021/04/img21-v2.jpg");
+    background-image: url("../../images/homepage/img21-v2.jpg");
     background-position: bottom center;
     background-size: cover;
 }
@@ -585,7 +585,7 @@
     > .elementor-widget-wrap
     > .elementor-motion-effects-container
     > .elementor-motion-effects-layer {
-    background-image: url("https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/03/22.jpg");
+    background-image: url("../../images/homepage/22.jpg");
     background-position: 50% 27%;
     background-size: cover;
 }
@@ -659,7 +659,7 @@
     > .elementor-widget-wrap
     > .elementor-motion-effects-container
     > .elementor-motion-effects-layer {
-    background-image: url("https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/03/11.jpg");
+    background-image: url("../../images/homepage/11.jpg");
     background-position: center center;
     background-size: cover;
 }
@@ -818,7 +818,7 @@
     > .elementor-widget-wrap
     > .elementor-motion-effects-container
     > .elementor-motion-effects-layer {
-    background-image: url("https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/03/1559602507_2_2_3.jpg");
+    background-image: url("../../images/homepage/1559602507_2_2_3.jpg");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1158,7 +1158,7 @@ body.rtl .elementor-1702 .elementor-element.elementor-element-ad6efdd {
     > .elementor-motion-effects-container
     > .elementor-motion-effects-layer {
     background-color: #2b2b2b;
-    background-image: url("https://demos.reytheme.com/london/wp-content/uploads/sites/8/2021/04/img8-v2.jpg");
+    background-image: url("../../images/homepage/img8-v2.jpg");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1582,7 +1582,7 @@ body.elementor-page-1702:not(.elementor-motion-effects-element-type-background),
 body.elementor-page-1702
     > .elementor-motion-effects-container
     > .elementor-motion-effects-layer {
-    background-image: url("https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/03/home_bg_rgba.svg");
+    background-image: url("../../images/homepage/home_bg_rgba.svg");
     background-position: top center;
     background-repeat: no-repeat;
     background-size: contain;

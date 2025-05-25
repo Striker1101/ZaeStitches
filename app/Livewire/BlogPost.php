@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Livewire;
 
+use App\Models\Blog;
 use Livewire\Component;
-use App\Models\Post; // assume you have a Post model
 
 class BlogPost extends Component
 {
@@ -10,7 +10,7 @@ class BlogPost extends Component
 
     public function mount($slug)
     {
-        $this->post = Post::where('slug', $slug)->firstOrFail();
+        $this->post = Blog::where('slug', $slug)->firstOrFail();
     }
 
     public function render()

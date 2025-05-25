@@ -77,6 +77,12 @@
     <link rel="apple-touch-icon" href="{{ asset('icon.png') }}" />
     <meta name="msapplication-TileImage" content="{{ asset('icon.png') }}" />
     @yield('custom_head')
+    <link href="../../css" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Include Toastify CSS & JS if not already in your layout -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" href="{{ asset('css/custom/test.css') }}">
 </head>
 
 <body @yield('body_attributes')>
@@ -110,7 +116,7 @@
 
         @include('partials.footer')
         <!-- .rey-siteFooter -->
-
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     </div>
 
     <script type='text/javascript' id='reyscripts-loaded'>

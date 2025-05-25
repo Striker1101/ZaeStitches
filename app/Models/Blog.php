@@ -40,11 +40,11 @@ class Blog extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class)->where('type', 'blog');
+        return $this->belongsToMany(Comment::class);
     }
 
     public function media()
     {
-        return $this->hasMany(Media::class)->whereIn('type', ['blog', 'both']);
+        return $this->belongsToMany(Media::class)->whereIn('type', ['blog', 'both']);
     }
 }

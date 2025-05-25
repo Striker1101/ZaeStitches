@@ -72,34 +72,19 @@
 
                                      <div class="rey-element reyEl-menu" data-compact-list="scroll">
                                          <div class="reyEl-menu-navWrapper">
-                                             <ul data-menu-qid="25" id="menu-blog-categories-menu"
-                                                 class="reyEl-menu-nav rey-navEl --menuHover-ulr">
-                                                 <li id="menu-item-1134"
-                                                     class="menu-item menu-item-type-post_type menu-item-object-page  page_item page-item-25 current_page_item current_page_parent menu-item-1134 o-id-25">
-                                                     <a href="https://demos.reytheme.com/london/journal/"
-                                                         aria-current="page"><span>All</span></a>
+                                             <ul class="reyEl-menu-nav rey-navEl --menuHover-ulr">
+                                                 <li>
+                                                     <a href="{{ route('blog') }}"><span>All</span></a>
                                                  </li>
-                                                 <li id="menu-item-2025"
-                                                     class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2025 o-id-85">
-                                                     <a
-                                                         href="https://demos.reytheme.com/london/category/style/"><span>Style</span></a>
-                                                 </li>
-                                                 <li id="menu-item-2026"
-                                                     class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2026 o-id-86">
-                                                     <a
-                                                         href="https://demos.reytheme.com/london/category/grooming/"><span>Grooming</span></a>
-                                                 </li>
-                                                 <li id="menu-item-2027"
-                                                     class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2027 o-id-87">
-                                                     <a
-                                                         href="https://demos.reytheme.com/london/category/inspiration/"><span>Inspiration</span></a>
-                                                 </li>
-                                                 <li id="menu-item-2028"
-                                                     class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2028 o-id-88">
-                                                     <a
-                                                         href="https://demos.reytheme.com/london/category/advice/"><span>Advice</span></a>
-                                                 </li>
+                                                 @foreach ($categories as $category)
+                                                     <li>
+                                                         <a href="{{ route('blog', ['category' => $category->slug]) }}">
+                                                             <span>{{ $category->name }}</span>
+                                                         </a>
+                                                     </li>
+                                                 @endforeach
                                              </ul>
+
                                          </div>
                                      </div>
                                  </div>
@@ -119,21 +104,19 @@
              <div class="rey-siteRow">
 
 
-                 <main id="main"
-                     class="rey-siteMain --is-bloglist blog--columns-2 blog--columns_tablet-1 blog--columns_mobile-1 --filter-panel">
-
-                     <div class="rey-siteMain-inner">
-
-
-                         <div class="">
-                             <div>this is a start if a new world </div>
-
+                 <main id="main" class="py-10 px-4 sm:px-6 lg:px-8 bg-gray-50">
+                     <div class="max-w-7xl mx-auto">
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                             @foreach ($blogs as $blog)
+                                 <x-blog-card :blog="$blog" />
+                             @endforeach
                          </div>
-                         <!-- .rey-postList -->
+
+                         <!-- Pagination -->
+                         <div class="mt-10">
+                             {{ $blogs->links('vendor.pagination.tailwind') }}
+                         </div>
                      </div>
-
-
-
                  </main>
                  <!-- .rey-siteMain -->
 

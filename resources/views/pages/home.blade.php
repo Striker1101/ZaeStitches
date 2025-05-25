@@ -26,6 +26,8 @@
 
     <link rel='stylesheet' id='elementor-post-2331-css' href='{{ asset('css/posts/post-2331.css') }}' type='text/css'
         media='all' />
+
+
 @endsection
 
 @section('content')
@@ -72,7 +74,7 @@
                                             <div class="elementor-widget-container">
                                                 <div class="elementor-button-wrapper">
                                                     <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                        href="https://demos.reytheme.com/london/shop/">
+                                                        href="{{ route('home') }}">
                                                         <span class="elementor-button-content-wrapper">
                                                             <span class="elementor-button-text">shop now</span>
                                                         </span>
@@ -106,7 +108,7 @@
                                             <div class="elementor-widget-container">
                                                 <div class="elementor-button-wrapper">
                                                     <a class="elementor-button elementor-button-link elementor-size-xs"
-                                                        href="#">
+                                                        href="{{ route('shop', ['category' => 'men']) }}">
                                                         <span class="elementor-button-content-wrapper">
                                                             <span class="elementor-button-text">MEN</span>
                                                         </span>
@@ -129,10 +131,10 @@
                                             <div class="elementor-widget-container">
                                                 <div class="elementor-button-wrapper">
                                                     <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                        href="https://demos.reytheme.com/london/shop/">
+                                                        href="{{ route('shop', ['category' => 'hoody']) }}">
                                                         <span class="elementor-button-content-wrapper">
                                                             <span class="elementor-button-text">shop
-                                                                blouses</span>
+                                                                Hoody</span>
                                                         </span>
                                                     </a>
                                                 </div>
@@ -161,7 +163,7 @@
                                                             <div class="elementor-widget-container">
                                                                 <div class="elementor-button-wrapper">
                                                                     <a class="elementor-button elementor-button-link elementor-size-xs"
-                                                                        href="#">
+                                                                        href="{{ route('shop', ['category' => 'women']) }}">
                                                                         <span class="elementor-button-content-wrapper">
                                                                             <span
                                                                                 class="elementor-button-text">WOMEN</span>
@@ -185,7 +187,7 @@
                                                             <div class="elementor-widget-container">
                                                                 <div class="elementor-button-wrapper">
                                                                     <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                                        href="https://demos.reytheme.com/london/shop/">
+                                                                        href="{{ route('shop', ['category' => 'fleeces']) }}">
                                                                         <span class="elementor-button-content-wrapper">
                                                                             <span class="elementor-button-text">SHOP
                                                                                 FLEECES</span>
@@ -207,7 +209,8 @@
                                                                 <div class="elementor-social-icons-wrapper elementor-grid">
                                                                     <span class="elementor-grid-item">
                                                                         <a class="elementor-icon elementor-social-icon elementor-social-icon- elementor-repeater-item-c60c241"
-                                                                            href="#" target="_blank">
+                                                                            href="{{ config('custom.facebook') }}"
+                                                                            target="_blank">
                                                                             <span class="elementor-screen-only"></span>
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -227,7 +230,8 @@
                                                                     </span>
                                                                     <span class="elementor-grid-item">
                                                                         <a class="elementor-icon elementor-social-icon elementor-social-icon- elementor-repeater-item-629ff1f"
-                                                                            href="#" target="_blank">
+                                                                            href="{{ config('custom.instagram') }}"
+                                                                            target="_blank">
                                                                             <span class="elementor-screen-only"></span>
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -329,29 +333,14 @@
 
                                                                 <div
                                                                     class="rey-element rey-newsletterForm rey-nlForm--inline-basic">
-                                                                    <script type="rocketlazyloadscript">(function() {
-	window.mc4wp = window.mc4wp || {
-		listeners: [],
-		forms: {
-			on: function(evt, cb) {
-				window.mc4wp.listeners.push(
-					{
-						event   : evt,
-						callback: cb
-					}
-				);
-			}
-		}
-	}
-})();
-</script>
-                                                                    <!-- Mailchimp for WordPress v4.10.3 - https://wordpress.org/plugins/mailchimp-for-wp/ -->
                                                                     <form id="mc4wp-form-1"
                                                                         class="mc4wp-form mc4wp-form-59" method="post"
-                                                                        data-id="59" data-name="Newsletter form">
+                                                                        data-id="59" data-name="Newsletter form"
+                                                                        action="{{ route('subscribe') }}">
+                                                                        @csrf
                                                                         <div class="mc4wp-form-fields">
                                                                             <p>
-                                                                                <input type="email" name="EMAIL"
+                                                                                <input type="email" name="email"
                                                                                     placeholder="Your email address"
                                                                                     required />
                                                                             </p>
@@ -359,30 +348,12 @@
                                                                             <p>
                                                                                 <input type="submit" value="JOIN" />
                                                                             </p>
-                                                                        </div><label
-                                                                            style="display: none !important;">Leave
-                                                                            this field empty if you're human: <input
-                                                                                type="text" name="_mc4wp_honeypot"
-                                                                                value="" tabindex="-1"
-                                                                                autocomplete="off" /></label><input
-                                                                            type="hidden" name="_mc4wp_timestamp"
-                                                                            value="1746371938" /><input type="hidden"
-                                                                            name="_mc4wp_form_id" value="59" /><input
-                                                                            type="hidden" name="_mc4wp_form_element_id"
-                                                                            value="mc4wp-form-1" />
-                                                                        <div class="mc4wp-response"></div>
+                                                                        </div>
                                                                     </form><!-- / Mailchimp for WordPress Plugin -->
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="elementor-element elementor-element-6daddb4 u-last-p-margin elementor-widget elementor-widget-text-editor"
-                                                            data-id="6daddb4" data-element_type="widget"
-                                                            data-widget_type="text-editor.default">
-                                                            <div class="elementor-widget-container">
-                                                                <p>Oh, and you’ll get <strong>10% off</strong> your
-                                                                    first order.</p>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -414,7 +385,7 @@
                                                             <div class="elementor-widget-container">
                                                                 <h3 class="elementor-heading-title elementor-size-default">
                                                                     <a class="h-ani"
-                                                                        href="https://demos.reytheme.com/london/shop/">T-SHIRTS
+                                                                        href="{{ route('shop', ['category' => 't-shirts_and_tops']) }}">T-SHIRTS
                                                                         &amp; TOPS</a>
                                                                 </h3>
                                                             </div>
@@ -433,7 +404,7 @@
                                                             <div class="elementor-widget-container">
                                                                 <h3 class="elementor-heading-title elementor-size-default">
                                                                     <a class="h-ani"
-                                                                        href="https://demos.reytheme.com/london/shop/">JEANS</a>
+                                                                        href="{{ route('shop', ['category' => 'jeans']) }}">JEANS</a>
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -454,46 +425,15 @@
                                                                         <ul data-menu-qid="1702"
                                                                             id="menu-home-product-categories"
                                                                             class="reyEl-menu-nav rey-navEl --menuHover-ulr --thinner">
-                                                                            <li id="menu-item-1198"
-                                                                                class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-1198 o-id-82">
-                                                                                <a
-                                                                                    href="https://demos.reytheme.com/london/product-category/men/casual-urban-wear/"><span>Jumpers
-                                                                                        &#038; Cardigans</span></a>
-                                                                            </li>
-                                                                            <li id="menu-item-1199"
-                                                                                class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-1199 o-id-82">
-                                                                                <a
-                                                                                    href="https://demos.reytheme.com/london/product-category/men/casual-urban-wear/"><span>Sweatshirts
-                                                                                        &#038; Hoodies</span></a>
-                                                                            </li>
-                                                                            <li id="menu-item-1200"
-                                                                                class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-1200 o-id-82">
-                                                                                <a
-                                                                                    href="https://demos.reytheme.com/london/product-category/men/casual-urban-wear/"><span>Shirts</span></a>
-                                                                            </li>
-                                                                            <li id="menu-item-1201"
-                                                                                class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-1201 o-id-82">
-                                                                                <a
-                                                                                    href="https://demos.reytheme.com/london/product-category/men/casual-urban-wear/"><span>T-Shirts
-                                                                                        &#038; Tops</span></a>
-                                                                            </li>
-                                                                            <li id="menu-item-1202"
-                                                                                class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-1202 o-id-82">
-                                                                                <a
-                                                                                    href="https://demos.reytheme.com/london/product-category/men/casual-urban-wear/"><span>Polo
-                                                                                        Shirts</span></a>
-                                                                            </li>
-                                                                            <li id="menu-item-1203"
-                                                                                class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-1203 o-id-82">
-                                                                                <a
-                                                                                    href="https://demos.reytheme.com/london/product-category/men/casual-urban-wear/"><span>Jeans</span></a>
-                                                                            </li>
-                                                                            <li id="menu-item-1204"
-                                                                                class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-1204 o-id-82">
-                                                                                <a
-                                                                                    href="https://demos.reytheme.com/london/product-category/men/casual-urban-wear/"><span>Loungewear
-                                                                                        &#038; Pyjamas</span></a>
-                                                                            </li>
+
+                                                                            @foreach ($categories as $category)
+                                                                                <li class="menu-item ">
+                                                                                    <a
+                                                                                        href="{{ route('shop', ['category' => $category->slug]) }}">
+                                                                                        <span>{{ $category->name }}</span>
+                                                                                    </a>
+                                                                                </li>
+                                                                            @endforeach
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -516,7 +456,8 @@
                                             data-widget_type="heading.default">
                                             <div class="elementor-widget-container">
                                                 <h3 class="elementor-heading-title elementor-size-default"><a
-                                                        class="h-ani" href="https://demos.reytheme.com/london/shop/">Down
+                                                        class="h-ani"
+                                                        href="{{ route('shop', ['category' => 'coats']) }}">Down
                                                         Coats,<br> Jackets & Gilets</a></h3>
                                             </div>
                                         </div>
@@ -551,7 +492,7 @@
                                             <div class="elementor-widget-container">
                                                 <div class="elementor-button-wrapper">
                                                     <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                        href="https://demos.reytheme.com/london/shop/">
+                                                        href="{{ route('shop', ['new' => true]) }}">
                                                         <span class="elementor-button-content-wrapper">
                                                             <span class="elementor-button-text">SHOP LATEST</span>
                                                         </span>
@@ -576,28 +517,11 @@
                                             data-widget_type="reycore-product-grid.default">
                                             <div class="elementor-widget-container">
                                                 <div class="__placeholder-wrapper placeholder_products products">
-                                                    <div class="__placeholders "
-                                                        style="--cols: 4; --cols-tablet: 2; --cols-mobile: 2;">
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
+                                                    <div
+                                                        class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 __placeholder-wrapper placeholder_products products">
+                                                        @foreach ($latestProducts as $product)
+                                                            <x-product-card :product="$product" />
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                             </div>
@@ -616,8 +540,9 @@
                                         <div class="elementor-element elementor-element-ba83e80 elementor-widget elementor-widget-heading"
                                             data-id="ba83e80" data-element_type="widget"
                                             data-widget_type="heading.default">
-                                            <div class="elementor-widget-container">
-                                                <h4 class="elementor-heading-title elementor-size-default"><b>A
+                                            <div class="elementor-widget-container mr-5">
+                                                <h4 class="elementor-heading-title elementor-size-default mr-5"
+                                                    style="margin-left: 70px;"><b>A
                                                         curated experience</b> of clothing, <br>footwear and
                                                     accessories</h4>
                                             </div>
@@ -639,7 +564,7 @@
                                             <div class="elementor-container elementor-column-gap-no">
                                                 <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-5731e33 rey-colbg--video u-overlay-blend-fix"
                                                     data-id="5731e33" data-element_type="column"
-                                                    data-settings='{"background_background":"video","background_video_link":"https:\/\/youtu.be\/QFJFFXEbJNQ"}'>
+                                                    data-settings='{"background_background":"video","background_video_link":"https://youtu.be/QFJFFXEbJNQ"}'>
                                                     <div
                                                         class="elementor-column-wrap--5731e33 elementor-widget-wrap elementor-element-populated">
                                                         <div class="rey-youtubeVideo rey-background-video-container --lazy-video elementor-hidden-mobile"
@@ -664,7 +589,7 @@
                                                             <div class="elementor-widget-container">
                                                                 <div class="elementor-button-wrapper">
                                                                     <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                                        href="https://demos.reytheme.com/london/shop/">
+                                                                        href="{{ route('shop') }}">
                                                                         <span class="elementor-button-content-wrapper">
                                                                             <span class="elementor-button-text">EXPLORE
                                                                                 SHIRTS</span>
@@ -688,16 +613,9 @@
                                             data-widget_type="image.default">
                                             <div class="elementor-widget-container">
                                                 <img decoding="async" width="760" height="672"
-                                                    src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20760%20672'%3E%3C/svg%3E"
+                                                    src="{{ asset('images/homepage/season-checks-1.webp') }}"
                                                     class="attachment-large size-large wp-image-1931" alt=""
-                                                    data-lazy-srcset="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-1.jpg 760w, https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-1-300x265.jpg 300w, https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-1-480x424.jpg 480w, https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-1-240x212.jpg 240w"
-                                                    data-lazy-sizes="(max-width: 760px) 100vw, 760px"
-                                                    data-lazy-src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-1.jpg" /><noscript><img
-                                                        loading="lazy" decoding="async" width="760" height="672"
-                                                        src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-1.jpg"
-                                                        class="attachment-large size-large wp-image-1931" alt=""
-                                                        srcset="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-1.jpg 760w, https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-1-300x265.jpg 300w, https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-1-480x424.jpg 480w, https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-1-240x212.jpg 240w"
-                                                        sizes="(max-width: 760px) 100vw, 760px" /></noscript>
+                                                    data-lazy-sizes="(max-width: 760px) 100vw, 760px" />
                                             </div>
                                         </div>
                                         <div class="elementor-element elementor-element-26f5909 elementor-widget__width-auto elementor-absolute elementor-hidden-phone elementor-widget elementor-widget-image"
@@ -706,15 +624,13 @@
                                             data-widget_type="image.default">
                                             <div class="elementor-widget-container">
                                                 <img decoding="async" width="234" height="300"
-                                                    src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20234%20300'%3E%3C/svg%3E"
+                                                    src="{{ asset('images/homepage/season-checks-3-234x300.webp') }}"
                                                     class="attachment-medium size-medium wp-image-1935" alt=""
-                                                    data-lazy-srcset="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-3-234x300.jpg 234w, https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-3-240x308.jpg 240w, https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-3.jpg 440w"
-                                                    data-lazy-sizes="(max-width: 234px) 100vw, 234px"
-                                                    data-lazy-src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-3-234x300.jpg" /><noscript><img
-                                                        loading="lazy" decoding="async" width="234" height="300"
-                                                        src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-3-234x300.jpg"
+                                                    data-lazy-sizes="(max-width: 234px) 100vw, 234px" />
+                                                <noscript>
+                                                    <img loading="lazy" decoding="async" width="234" height="300"
+                                                        src="{{ asset('images/homepage/season-checks-3-234x300.webp') }}"
                                                         class="attachment-medium size-medium wp-image-1935" alt=""
-                                                        srcset="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-3-234x300.jpg 234w, https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-3-240x308.jpg 240w, https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/09/season-checks-3.jpg 440w"
                                                         sizes="(max-width: 234px) 100vw, 234px" /></noscript>
                                             </div>
                                         </div>
@@ -725,7 +641,7 @@
                                             <div class="elementor-widget-container">
                                                 <div class="elementor-button-wrapper">
                                                     <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                        href="https://demos.reytheme.com/london/shop/">
+                                                        href="{{ route('shop', ['category' => 'hoodies']) }}">
                                                         <span class="elementor-button-content-wrapper">
                                                             <span class="elementor-button-text">SHOP MEN
                                                                 HOODIES</span>
@@ -782,7 +698,7 @@
                                             <div class="elementor-widget-container">
                                                 <div class="elementor-button-wrapper">
                                                     <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                        href="https://demos.reytheme.com/london/collections/">
+                                                        href="{{ route('shop') }}">
                                                         <span class="elementor-button-content-wrapper">
                                                             <span class="elementor-button-text">shop
                                                                 collection</span>
@@ -823,7 +739,7 @@
                                             <div class="elementor-widget-container">
                                                 <div class="elementor-button-wrapper">
                                                     <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                        href="https://demos.reytheme.com/london/shop/">
+                                                        href="{{ route('shop', ['category' => 'women']) }}">
                                                         <span class="elementor-button-content-wrapper">
                                                             <span class="elementor-button-text">SHOP
                                                                 WOMEN'S</span>
@@ -838,7 +754,7 @@
                                             <div class="elementor-widget-container">
                                                 <div class="elementor-button-wrapper">
                                                     <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                        href="https://demos.reytheme.com/london/shop/">
+                                                        href="{{ route('shop', ['category' => 'men']) }}">
                                                         <span class="elementor-button-content-wrapper">
                                                             <span class="elementor-button-text">SHOP MEN'S</span>
                                                         </span>
@@ -865,46 +781,14 @@
                                                 <div class="__placeholder-wrapper placeholder_products products">
                                                     <div class="__placeholders "
                                                         style="--cols: 4; --cols-tablet: 2; --cols-mobile: 2;">
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
+
+                                                        <div
+                                                            class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 __placeholder-wrapper placeholder_products products">
+                                                            @foreach ($latestProducts as $product)
+                                                                <x-product-card :product="$product" />
+                                                            @endforeach
                                                         </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -943,23 +827,10 @@
                                             data-widget_type="reycore-basic-post-grid.default">
                                             <div class="elementor-widget-container">
                                                 <div class="__placeholder-wrapper placeholder_posts">
-                                                    <div class="__placeholders "
-                                                        style="--cols: 3; --cols-tablet: 2; --cols-mobile: 1;">
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
-                                                        <div class="__placeholder-item">
-                                                            <div class="__placeholder-thumb"></div>
-                                                            <div class="__placeholder-title"></div>
-                                                            <div class="__placeholder-subtitle"></div>
-                                                        </div>
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                        @foreach ($blogs as $blog)
+                                                            <x-blog-card :blog="$blog" />
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                             </div>
@@ -1003,12 +874,130 @@
                                     data-id="a58e0bf" data-element_type="column">
                                     <div
                                         class="elementor-column-wrap--a58e0bf elementor-widget-wrap elementor-element-populated">
-                                        <div data-lazy-load="{&quot;element_id&quot;:&quot;077ab4b&quot;,&quot;skin&quot;:&quot;shuffle&quot;,&quot;trigger&quot;:&quot;scroll&quot;,&quot;qid&quot;:1702,&quot;options&quot;:[],&quot;cache&quot;:false}"
-                                            class="elementor-element elementor-element-077ab4b elementor-widget elementor-widget-reycore-instagram"
+                                        <div class="elementor-element elementor-element-077ab4b elementor-widget elementor-widget-reycore-instagram rey-inView"
                                             data-id="077ab4b" data-element_type="widget"
                                             data-widget_type="reycore-instagram.shuffle">
                                             <div class="elementor-widget-container">
-                                                <div class="__lazy-loader"></div>
+                                                <div data-gap="30" data-per-row="6"
+                                                    class="rey-elInsta rey-elInsta--skin-shuffle"
+                                                    data-image-size="standard_resolution"
+                                                    style="--gw: 1410px; position: relative; height: 720px;">
+
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 1; position: absolute; left: 0%; top: 0px; transition-delay: 0s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Distinctively actualize wireless manufactured products after corporate innovation"
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/Xl4ipwH.jpg"
+                                                                alt="Distinctively actualize wireless manufactured products after corporate innovation"></a>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 0.5; position: absolute; left: 17.0213%; top: 0px; transition-delay: 0.05s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Interactively monetize maintainable e-services rather than empowered imperatives."
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/6ykgndU.jpg"
+                                                                alt="Interactively monetize maintainable e-services rather than empowered imperatives."></a>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 1; position: absolute; left: 34.0426%; top: 0px; transition-delay: 0.1s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Progressively revolutionize scalable partnerships whereas goal-oriented imperatives."
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/pTLJjPa.jpg"
+                                                                alt="Progressively revolutionize scalable partnerships whereas goal-oriented imperatives."></a>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 0.5; position: absolute; left: 51.0638%; top: 0px; transition-delay: 0.15s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Authoritatively utilize inexpensive bandwidth via leveraged leadership skills."
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/cBsYmuZ.jpg"
+                                                                alt="Authoritatively utilize inexpensive bandwidth via leveraged leadership skills."></a>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-shuffleItem rey-elInsta-item--animated --hide-mobile --animated-in rey-inView"
+                                                        style="--td: 0; position: absolute; left: 68.0851%; top: 0px; transition-delay: 0.2s;">
+                                                        <div><a href="https://www.instagram.com/rey.theme.wp"
+                                                                rel="noreferrer" class="rey-instaItem-link"
+                                                                target="_blank"><span>rey.theme.wp</span></a></div>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 0.5; position: absolute; left: 85.1064%; top: 0px; transition-delay: 0.25s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Holisticly impact effective portals and resource maximizing materials."
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/OH24qTv.jpg"
+                                                                alt="Holisticly impact effective portals and resource maximizing materials."></a>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 0; position: absolute; left: 68.0851%; top: 240px; transition-delay: 0.3s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Energistically fabricate client-focused vortals after installed base outside the box thinking."
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/aHW8r8A.jpg"
+                                                                alt="Energistically fabricate client-focused vortals after installed base outside the box thinking."></a>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 0; position: absolute; left: 17.0213%; top: 345px; transition-delay: 0.35s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Efficiently provide access to go forward functionalities and multimedia based customer service."
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/q1fuA7V.jpg"
+                                                                alt="Efficiently provide access to go forward functionalities and multimedia based customer service."></a>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 0; position: absolute; left: 51.0638%; top: 345px; transition-delay: 0.4s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Dynamically develop wireless outside the box thinking for stand-alone experiences."
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/Vzb1LGw.jpg"
+                                                                alt="Dynamically develop wireless outside the box thinking for stand-alone experiences."></a>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 0; position: absolute; left: 85.1064%; top: 345px; transition-delay: 0.45s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Quickly maximize revolutionary core competencies whereas team building users."
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/DEtkjyQ.jpg"
+                                                                alt="Quickly maximize revolutionary core competencies whereas team building users."></a>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 0; position: absolute; left: 0%; top: 450px; transition-delay: 0.5s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Authoritatively aggregate out-of-the-box interfaces vis-a-vis fully researched opportunities."
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/YZ5tugs.jpg"
+                                                                alt="Authoritatively aggregate out-of-the-box interfaces vis-a-vis fully researched opportunities."></a>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 0; position: absolute; left: 34.0426%; top: 450px; transition-delay: 0.55s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Phosfluorescently expedite worldwide infomediaries and professional collaboration and idea-sharing."
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/SEO86sG.jpg"
+                                                                alt="Phosfluorescently expedite worldwide infomediaries and professional collaboration and idea-sharing."></a>
+                                                    </div>
+                                                    <div class="rey-elInsta-item rey-elInsta-item--animated --animated-in rey-inView"
+                                                        style="--td: 0; position: absolute; left: 68.0851%; top: 480px; transition-delay: 0.6s;">
+                                                        <a href="https://www.instagram.com/p/BvT8S0yHDMW/"
+                                                            class="rey-instaItem-link"
+                                                            title="Objectively conceptualize frictionless systems vis-a-vis inexpensive data."
+                                                            target="_blank"><img class="rey-instaItem-img"
+                                                                src="https://i.imgur.com/xVwoJ1K.jpg"
+                                                                alt="Objectively conceptualize frictionless systems vis-a-vis inexpensive data."></a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1036,15 +1025,10 @@
                                                             data-widget_type="image.default">
                                                             <div class="elementor-widget-container">
                                                                 <img decoding="async" width="1" height="1"
-                                                                    src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201%201'%3E%3C/svg%3E"
+                                                                    src="{{ asset('images/homepage/gift_card.svg') }}"
                                                                     class="attachment-thumbnail size-thumbnail wp-image-1488"
-                                                                    alt=""
-                                                                    data-lazy-src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/gift_card.svg" /><noscript><img
-                                                                        loading="lazy" decoding="async" width="1"
-                                                                        height="1"
-                                                                        src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/gift_card.svg"
-                                                                        class="attachment-thumbnail size-thumbnail wp-image-1488"
-                                                                        alt="" /></noscript>
+                                                                    alt="" />
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1076,7 +1060,7 @@
                                                             <div class="elementor-widget-container">
                                                                 <div class="elementor-button-wrapper">
                                                                     <a class="elementor-button elementor-button-link elementor-size-xs"
-                                                                        href="https://demos.reytheme.com/london/contact/">
+                                                                        href="{{ route('contact') }}">
                                                                         <span class="elementor-button-content-wrapper">
                                                                             <span class="elementor-button-text">GET
                                                                                 A GIFT CARD</span>
@@ -1100,14 +1084,10 @@
                                             data-widget_type="image.default">
                                             <div class="elementor-widget-container">
                                                 <img decoding="async" width="1" height="1"
-                                                    src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201%201'%3E%3C/svg%3E"
+                                                    src="{{ asset('images/homepage/returns.svg') }}"
                                                     class="attachment-thumbnail size-thumbnail wp-image-1490"
-                                                    alt=""
-                                                    data-lazy-src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/returns.svg" /><noscript><img
-                                                        loading="lazy" decoding="async" width="1" height="1"
-                                                        src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/returns.svg"
-                                                        class="attachment-thumbnail size-thumbnail wp-image-1490"
-                                                        alt="" /></noscript>
+                                                    alt="" />
+
                                             </div>
                                         </div>
                                         <div class="elementor-element elementor-element-1d5e82c elementor-widget elementor-widget-heading"
@@ -1137,31 +1117,29 @@
                                             data-widget_type="image.default">
                                             <div class="elementor-widget-container">
                                                 <img decoding="async" width="1" height="1"
-                                                    src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201%201'%3E%3C/svg%3E"
+                                                    src="{{ asset('images/homepage/delivery.svg') }}"
                                                     class="attachment-thumbnail size-thumbnail wp-image-1487"
-                                                    alt=""
-                                                    data-lazy-src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/delivery.svg" /><noscript><img
-                                                        loading="lazy" decoding="async" width="1" height="1"
-                                                        src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/delivery.svg"
-                                                        class="attachment-thumbnail size-thumbnail wp-image-1487"
-                                                        alt="" /></noscript>
+                                                    alt="" />
                                             </div>
                                         </div>
                                         <div class="elementor-element elementor-element-7e4a9cc elementor-widget elementor-widget-heading"
                                             data-id="7e4a9cc" data-element_type="widget"
                                             data-widget_type="heading.default">
                                             <div class="elementor-widget-container">
-                                                <h4 class="elementor-heading-title elementor-size-default">FREE
-                                                    DELIVERY</h4>
+                                                <h4 class="elementor-heading-title elementor-size-default">
+                                                    FREE DELIVERY
+                                                </h4>
                                             </div>
                                         </div>
                                         <div class="elementor-element elementor-element-766e913 elementor-widget elementor-widget-text-editor"
                                             data-id="766e913" data-element_type="widget"
                                             data-widget_type="text-editor.default">
                                             <div class="elementor-widget-container">
-                                                <p>If you purchase over 100$, shipping is on us. Receive your order
-                                                    within 1 to 2 working days.</p><span class="rey-canShip"
-                                                    style="display:block;" data-text="Yes, we ship to %s!"></span>
+                                                <p>
+                                                    If you purchase over 100$, shipping is on us. Receive your order
+                                                    within 1 to 2 working days.
+                                                </p>
+
                                             </div>
                                         </div>
                                     </div>
@@ -1172,12 +1150,8 @@
 
                 </main>
                 <!-- .rey-siteMain -->
-
             </div>
-
-
         </div>
         <!-- .rey-siteContainer -->
-
     </div>
 @endsection

@@ -13,7 +13,7 @@
                              data-id="280e0c0" data-element_type="widget" data-widget_type="image.default">
                              <div class="elementor-widget-container">
                                  <a href="{{ route('home') }}">
-                                     <img width="1" height="1" src="{{ asset('images/logo.png') }}"
+                                     <img width="1" height="1" src="{{ asset('images/logo-name.png') }}"
                                          class="attachment-thumbnail size-thumbnail wp-image-16" alt="" /> </a>
                              </div>
                          </div>
@@ -36,8 +36,7 @@
 
 
                                          <p class="elementor-icon-box-description">
-                                             17 Irving Pl, New York,
-                                             NY 10003 </p>
+                                             {{ config('custom.address') }}</p>
 
                                      </div>
 
@@ -47,8 +46,9 @@
                          <div class="elementor-element elementor-element-40551b5 elementor-widget elementor-widget-text-editor"
                              data-id="40551b5" data-element_type="widget" data-widget_type="text-editor.default">
                              <div class="elementor-widget-container">
-                                 <p><strong><a href="mailto:care@reytheme.com">care@reytheme.com</a>
-                                     </strong><br /><strong>778 568 999</strong></p>
+                                 <p><strong><a
+                                             href="mailto:{{ config('custom.email') }}">{{ config('custom.email') }}</a>
+                                     </strong><br /><strong>{{ config('custom.phone') }}</strong></p>
                              </div>
                          </div>
                          <div class="elementor-element elementor-element-759b03e e-grid-align-left elementor-grid-2 elementor-shape-rounded elementor-widget elementor-widget-social-icons"
@@ -57,7 +57,7 @@
                                  <div class="elementor-social-icons-wrapper elementor-grid">
                                      <span class="elementor-grid-item">
                                          <a class="elementor-icon elementor-social-icon elementor-social-icon- elementor-repeater-item-19cfc1a"
-                                             href="#" target="_blank">
+                                             href="{{ config('custom.instagram') }}" target="_blank">
                                              <span class="elementor-screen-only"></span>
                                              <svg xmlns="http://www.w3.org/2000/svg"
                                                  xmlns:xlink="http://www.w3.org/1999/xlink" height="512px"
@@ -75,7 +75,7 @@
                                      </span>
                                      <span class="elementor-grid-item">
                                          <a class="elementor-icon elementor-social-icon elementor-social-icon- elementor-repeater-item-3c38254"
-                                             href="#" target="_blank">
+                                             href="{{ config('custom.facebook') }}" target="_blank">
                                              <span class="elementor-screen-only"></span>
                                              <svg xmlns="http://www.w3.org/2000/svg"
                                                  xmlns:xlink="http://www.w3.org/1999/xlink" height="512px"
@@ -112,25 +112,10 @@
                              <div class="elementor-widget-container">
 
                                  <div class="rey-element rey-newsletterForm rey-nlForm--inline-basic">
-                                     <script type="rocketlazyloadscript">(function() {
-	window.mc4wp = window.mc4wp || {
-		listeners: [],
-		forms: {
-			on: function(evt, cb) {
-				window.mc4wp.listeners.push(
-					{
-						event   : evt,
-						callback: cb
-					}
-				);
-			}
-		}
-	}
-})();
-</script>
                                      <!-- Mailchimp for WordPress v4.10.3 - https://wordpress.org/plugins/mailchimp-for-wp/ -->
                                      <form id="mc4wp-form-2" class="mc4wp-form mc4wp-form-59" method="post"
-                                         data-id="59" data-name="Newsletter form">
+                                         data-id="59" data-name="Newsletter form"
+                                         action="{{ route('subscribe') }}">
                                          <div class="mc4wp-form-fields">
                                              <p>
                                                  <input type="email" name="EMAIL"
@@ -178,23 +163,19 @@
                                                              class="reyEl-menu-nav rey-navEl --menuHover-ulr --thinner">
                                                              <li id="menu-item-1178"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1178 o-id-4">
-                                                                 <a
-                                                                     href="https://demos.reytheme.com/london/shop/"><span>Shop</span></a>
+                                                                 <a href="#"><span>Shop</span></a>
                                                              </li>
                                                              <li id="menu-item-1179"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1179 o-id-1172">
-                                                                 <a
-                                                                     href="https://demos.reytheme.com/london/collections/"><span>Collections</span></a>
+                                                                 <a href="#"><span>Collections</span></a>
                                                              </li>
                                                              <li id="menu-item-1180"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1180 o-id-681">
-                                                                 <a
-                                                                     href="https://demos.reytheme.com/london/sale/"><span>Outlet</span></a>
+                                                                 <a href="#"><span>Outlet</span></a>
                                                              </li>
                                                              <li id="menu-item-1015"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1015 o-id-685">
-                                                                 <a
-                                                                     href="https://demos.reytheme.com/london/lookbook/"><span>Lookbook</span></a>
+                                                                 <a href="#"><span>Lookbook</span></a>
                                                              </li>
                                                          </ul>
                                                      </div>
@@ -226,25 +207,21 @@
                                                              class="reyEl-menu-nav rey-navEl --menuHover-ulr --thinner">
                                                              <li id="menu-item-1017"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1017 o-id-971">
-                                                                 <a
-                                                                     href="https://demos.reytheme.com/london/frequently-asked-questions/"><span>FAQ</span></a>
+                                                                 <a href="#"><span>FAQ</span></a>
                                                              </li>
                                                              <li id="menu-item-1016"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-1016 o-id-981">
-                                                                 <a
-                                                                     href="https://demos.reytheme.com/london/terms-conditions/"><span>Privacy
+                                                                 <a href="#"><span>Privacy
                                                                          policy</span></a>
                                                              </li>
                                                              <li id="menu-item-1018"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-1018 o-id-981">
-                                                                 <a
-                                                                     href="https://demos.reytheme.com/london/terms-conditions/"><span>Terms
+                                                                 <a href="#"><span>Terms
                                                                          &#038; Conditions</span></a>
                                                              </li>
                                                              <li id="menu-item-1019"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-1019 o-id-981">
-                                                                 <a
-                                                                     href="https://demos.reytheme.com/london/terms-conditions/"><span>Returns
+                                                                 <a href="#"><span>Returns
                                                                          &#038; Exchanges</span></a>
                                                              </li>
                                                          </ul>
@@ -277,19 +254,16 @@
                                                              class="reyEl-menu-nav rey-navEl --menuHover-ulr --thinner">
                                                              <li id="menu-item-1022"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1022 o-id-25">
-                                                                 <a
-                                                                     href="https://demos.reytheme.com/london/journal/"><span>Journal</span></a>
+                                                                 <a href="#"><span>Journal</span></a>
                                                              </li>
                                                              <li id="menu-item-1021"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1021 o-id-935">
-                                                                 <a
-                                                                     href="https://demos.reytheme.com/london/our-story/"><span>Our
+                                                                 <a href="#"><span>Our
                                                                          Story</span></a>
                                                              </li>
                                                              <li id="menu-item-1020"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1020 o-id-954">
-                                                                 <a
-                                                                     href="https://demos.reytheme.com/london/contact/"><span>Contact</span></a>
+                                                                 <a href="#"><span>Contact</span></a>
                                                              </li>
                                                              <li id="menu-item-130"
                                                                  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-130">
@@ -319,7 +293,7 @@
                          <div class="elementor-element elementor-element-2254e91 elementor-widget elementor-widget-text-editor"
                              data-id="2254e91" data-element_type="widget" data-widget_type="text-editor.default">
                              <div class="elementor-widget-container">
-                                 <p>© Copyright 2025 <b>Rey Theme</b>. </p>
+                                 <p>© Copyright 2025 <b>{{ config('custom.site_name') }}</b>. </p>
                              </div>
                          </div>
                      </div>
@@ -336,53 +310,30 @@
                          <div class="elementor-element elementor-element-5ab530a elementor-widget__width-auto elementor-widget elementor-widget-image"
                              data-id="5ab530a" data-element_type="widget" data-widget_type="image.default">
                              <div class="elementor-widget-container">
-                                 <img width="1" height="1"
-                                     src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201%201'%3E%3C/svg%3E"
-                                     class="attachment-large size-large wp-image-1491" alt=""
-                                     data-lazy-src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/visa.svg" /><noscript><img
-                                         width="1" height="1"
-                                         src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/visa.svg"
-                                         class="attachment-large size-large wp-image-1491"
-                                         alt="" /></noscript>
+                                 <img width="1" height="1" src="{{ asset('images/global/visa.svg') }}"
+                                     class="attachment-large size-large wp-image-1491" alt="" />
                              </div>
                          </div>
                          <div class="elementor-element elementor-element-df3d2ab elementor-widget__width-auto elementor-widget elementor-widget-image"
                              data-id="df3d2ab" data-element_type="widget" data-widget_type="image.default">
                              <div class="elementor-widget-container">
-                                 <img width="1" height="1"
-                                     src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201%201'%3E%3C/svg%3E"
-                                     class="attachment-large size-large wp-image-1485" alt=""
-                                     data-lazy-src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/amex.svg" /><noscript><img
-                                         width="1" height="1"
-                                         src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/amex.svg"
-                                         class="attachment-large size-large wp-image-1485"
-                                         alt="" /></noscript>
+                                 <img width="1" height="1" src="{{ asset('images/global/amex.svg') }}"
+                                     class="attachment-large size-large wp-image-1485" alt="" />
                              </div>
                          </div>
                          <div class="elementor-element elementor-element-f163037 elementor-widget__width-auto elementor-widget elementor-widget-image"
                              data-id="f163037" data-element_type="widget" data-widget_type="image.default">
                              <div class="elementor-widget-container">
-                                 <img width="1" height="1"
-                                     src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201%201'%3E%3C/svg%3E"
-                                     class="attachment-large size-large wp-image-1489" alt=""
-                                     data-lazy-src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/paypal.svg" /><noscript><img
-                                         width="1" height="1"
-                                         src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/paypal.svg"
-                                         class="attachment-large size-large wp-image-1489"
-                                         alt="" /></noscript>
+                                 <img width="1" height="1" src="{{ asset('images/global/paypal.svg') }}"
+                                     class="attachment-large size-large wp-image-1489" alt="" />
+
                              </div>
                          </div>
                          <div class="elementor-element elementor-element-ad500c2 elementor-widget__width-auto elementor-widget elementor-widget-image"
                              data-id="ad500c2" data-element_type="widget" data-widget_type="image.default">
                              <div class="elementor-widget-container">
-                                 <img width="1" height="1"
-                                     src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201%201'%3E%3C/svg%3E"
-                                     class="attachment-large size-large wp-image-1486" alt=""
-                                     data-lazy-src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/apple_pay.svg" /><noscript><img
-                                         width="1" height="1"
-                                         src="https://demos.reytheme.com/london/wp-content/uploads/sites/8/2019/04/apple_pay.svg"
-                                         class="attachment-large size-large wp-image-1486"
-                                         alt="" /></noscript>
+                                 <img width="1" height="1" src="{{ asset('images/global/apple_pay.svg') }}"
+                                     class="attachment-large size-large wp-image-1486" alt="" />
                              </div>
                          </div>
                      </div>
