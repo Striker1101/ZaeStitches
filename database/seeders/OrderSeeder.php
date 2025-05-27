@@ -15,10 +15,6 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
         //
-        Order::factory(10)->create()->each(function ($order) {
-            OrderItem::factory(rand(1, 3))->create([
-                'order_id' => $order->id,
-            ]);
-        });
+        Order::factory(10)->count(20)->create();
     }
 }

@@ -24,6 +24,7 @@ class StoreSizeRequest extends FormRequest
         return [
             //
             'name' => 'required|string|unique:sizes,name' . ($this->size ? ',' . $this->size->id : ''),
+            'hex'=> 'sometimes|string|'
         ];
     }
 }

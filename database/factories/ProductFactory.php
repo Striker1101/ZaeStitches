@@ -23,6 +23,7 @@ class ProductFactory extends Factory
             'rating' => $this->faker->randomFloat(2, 0, 5),
             'brand_id' => Brand::factory(),
             'is_latest' => $this->faker->randomElement([false, true]),
+            'is_available' => $this->faker->randomElement([false, true]),
             'is_popular' => $this->faker->randomElement([false, true]),
             'weight' => $this->faker->randomElement(['1kg', '500g', '2kg']),
             'dimension' => $this->faker->randomElement(['10x10x5', '20x15x10']),

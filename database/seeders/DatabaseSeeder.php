@@ -33,16 +33,19 @@ class DatabaseSeeder extends Seeder
 
         $this->call(
             [
-                    // ColorSeeder::class,
-                    // SizeSeeder::class,
-                    // CategorySeeder::class,
-                    // TagSeeder::class,
-                    // BrandSeeder::class,
-                    // CartSeeder::class,
-                    // OrderSeeder::class,
-                    // BlogSeeder::class,
+                // ColorSeeder::class,
+                // SizeSeeder::class,
+                // CategorySeeder::class,
+                // TagSeeder::class,
+                // BrandSeeder::class,
+                // CartSeeder::class,
+                // OrderSeeder::class,
+                // BlogSeeder::class,
                 ProductSeeder::class,
+                PaymentTransactionSeeder::class,
+                OrderSeeder::class,
                 // ProductVariantSeeder::class,
+                // CommentSeeder::class,
                 // MediaSeeder::class,
                 // CartItemSeeder::class,
                 // OrderItemSeeder::class

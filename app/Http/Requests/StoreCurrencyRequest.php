@@ -27,7 +27,7 @@ class StoreCurrencyRequest extends FormRequest
             'name' => 'sometimes|string',
             'symbol' => 'sometimes|string',
             'rate_to_naira' => 'sometimes|numeric|min:0.01',
-            'country_code' => 'sometimes|string|size:2',
+            'country_code' => 'sometimes|string|size:3',
         ];
     }
 }

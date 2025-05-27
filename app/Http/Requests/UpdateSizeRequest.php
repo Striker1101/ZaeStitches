@@ -11,7 +11,7 @@ class UpdateSizeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,8 @@ class UpdateSizeRequest extends FormRequest
     {
         return [
             //
-            'name' => 'sometimes|string|unique:sizes,name' . ($this->size ? ',' . $this->size->id : ''),
+            'name' => 'sometimes|string|unique:sizes,name' . ($this->size ? ',' . $this->size->id : '')
+
         ];
     }
 }

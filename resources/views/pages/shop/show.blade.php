@@ -162,7 +162,24 @@
                              return;
                          }
 
-                         toast(`Added to cart: ${qty} × ${size} / ${color}`, 'success');
+                         fetch("{{ route('cart.add') }}", {
+                                 method: "POST",
+                                 headers: {
+                                     'Content-Type': 'application/json',
+                                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                 },
+                                 body: JSON.stringify({
+                                     product_id: productId,
+                                     size: size,
+                                     color: color,
+                                     quantity: qty
+                                 })
+                             })
+                             .then(res => res.json())
+                             .then(data => {
+                                 toast(data.message, 'success');
+                                 document.querySelector('.__cart-count').innerText = data.count;
+                             });
                      }
                  </script>
 
@@ -216,14 +233,30 @@
                      @endforeach
                  </ul>
 
-                 <form action="{{ route('comment.store', $product->id) }}" method="POST">
-                     @csrf
-                     <div class="mb-3">
-                         <label for="comment" class="form-label">Leave a comment</label>
-                         <textarea name="content" id="comment" rows="3" class="form-control" required></textarea>
-                     </div>
-                     <button class="btn btn-primary">Post Comment</button>
-                 </form>
+                 <div class="container py-4">
+
+                     {{-- FLASH MESSAGE --}}
+                     @if (session('success'))
+                         <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                             {{ session('success') }}
+                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                         </div>
+                     @endif
+
+                     {{-- COMMENT FORM --}}
+                     <form action="{{ route('comment.store', $product->id) }}" method="POST">
+                         @csrf
+                         <div class="mb-3">
+                             <label for="comment" class="form-label">Leave a comment</label>
+                             <textarea name="content" id="comment" rows="3" class="form-control" required></textarea>
+                             <input type="hidden" name="parent_id" value="{{ $product->id }}">
+                             <input type="hidden" name="type" value="product">
+                         </div>
+                         <button type="submit" class="btn btn-primary">Post Comment</button>
+                     </form>
+
+                     {{-- existing comments… --}}
+                 </div>
              </div>
          </div>
 

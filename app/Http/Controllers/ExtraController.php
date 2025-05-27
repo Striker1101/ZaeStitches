@@ -91,4 +91,9 @@ class ExtraController extends Controller
 
         return view('pages.home', compact('categories', 'latestProducts', 'popularProducts', 'blogs'));
     }
+
+    public function dashboard()
+    {
+        return view('dashboard');
+    }
 }

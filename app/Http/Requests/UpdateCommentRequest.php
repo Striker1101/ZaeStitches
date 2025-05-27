@@ -11,7 +11,7 @@ class UpdateCommentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,6 +24,8 @@ class UpdateCommentRequest extends FormRequest
         return [
             //
             'content' => 'required|string|min:3',
+            'parent_id' => 'sometimes|string',
+            'type' => 'sometimes|string'
         ];
     }
 }

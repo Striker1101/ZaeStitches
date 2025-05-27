@@ -12,13 +12,14 @@ class PaymentTransaction extends Model
 
     protected $fillable = [
         'reference',
-        'user_id',
+        'payable_id',
         'provider',
         'status',
         'amount',
         'currency',
         'gateway_response',
         'paid_at',
+        'payable_type'
     ];
 
     protected $casts = [
@@ -29,11 +30,6 @@ class PaymentTransaction extends Model
     public function payable()
     {
         return $this->morphTo();
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
     }
 
 }

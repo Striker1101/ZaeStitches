@@ -14,6 +14,8 @@ class SizeController extends Controller
     public function index()
     {
         //
+        $sizes = Size::latest()->paginate(10);
+        return view('dashboard.size.index', compact('sizes'));
     }
 
     /**
@@ -21,7 +23,7 @@ class SizeController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.size.create');
     }
 
     /**
@@ -30,6 +32,8 @@ class SizeController extends Controller
     public function store(StoreSizeRequest $request)
     {
         //
+        $size = Size::create($request->validated());
+        return redirect()->route('dashboard.size.index')->with('success', 'Size created successfully.');
     }
 
     /**
@@ -46,6 +50,7 @@ class SizeController extends Controller
     public function edit(Size $size)
     {
         //
+        return view('dashboard.size.edit', compact('size'));
     }
 
     /**
@@ -53,8 +58,14 @@ class SizeController extends Controller
      */
     public function update(UpdateSizeRequest $request, Size $size)
     {
-        //
+        $validatedData = $request->validated();
+        $size->update($validatedData);
+
+        return redirect()
+            ->route('dashboard.size.index')
+            ->with('success', 'Size updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -62,5 +73,8 @@ class SizeController extends Controller
     public function destroy(Size $size)
     {
         //
+        $size->delete();
+
+        return redirect()->route('dashboard.size.index')->with('success', 'Size deleted successfully.');
     }
 }

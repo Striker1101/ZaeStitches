@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -21,11 +22,11 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::latest()->paginate(10);
-        return view('dashboard.shop.index', compact('products'));
+        return view('dashboard.product.index', compact('products'));
     }
 
     /**
-     * Public shop page with brand grouping and filtering
+     * Public product page with brand grouping and filtering
      */
     public function pageIndex(Request $request)
     {
@@ -164,7 +165,7 @@ class ProductController extends Controller
             })
             ->toArray();
 
-        return view('pages.shop.index', [
+        return view('pages.product.index', [
             'brandsWithProducts' => $paginatedBrands,
             'products' => $products,
             'categories' => $categories,
@@ -177,8 +178,13 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('dashboard.shop.create');
+        $brands = Brand::all();
+        $categories = Category::whereIn('type', ['product', 'both'])->get();
+        $tags = Tag::whereIn('type', ['product', 'both'])->get();
+
+        return view('dashboard.product.create', compact('brands', 'categories', 'tags'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -186,7 +192,7 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $product = Product::create($request->validated());
-        return redirect()->route('dashboard.shop.index')->with('success', 'Product created successfully.');
+        return redirect()->route('dashboard.product.index')->with('success', 'Product created successfully.');
     }
 
     /**
@@ -194,7 +200,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('dashboard.shop.show', compact('product'));
+        return view('dashboard.product.show', compact('product'));
     }
 
     /**
@@ -269,7 +275,11 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('dashboard.shop.edit', compact('product'));
+        $brands = Brand::all();
+        $categories = Category::whereIn('type', ['product', 'both'])->get();
+        $tags = Tag::whereIn('type', ['product', 'both'])->get();
+
+        return view('dashboard.product.edit', compact('product', 'brands', 'categories', 'tags'));
     }
 
     /**
@@ -278,7 +288,26 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         $product->update($request->validated());
-        return redirect()->route('dashboard.shop.index')->with('success', 'Product updated successfully.');
+        // Handle file upload
+        if ($request->hasFile('featured_image'))
+        {
+            // Delete old image if exists
+            if ($product->featured_image)
+            {
+                \Storage::disk('public')->delete($product->featured_image);
+            }
+            $path = $request->file('featured_image')->store('products', 'public');
+            $validated['featured_image'] = $path;
+        }
+
+        // Update product
+        $product->update($validated);
+
+        // Sync categories & tags relationships
+        $product->categories()->sync($request->input('categories', []));
+        $product->tags()->sync($request->input('tags', []));
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
     /**
@@ -286,8 +315,21 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        // Detach relationships to prevent orphan relations
+        $product->categories()->detach();
+        $product->tags()->detach();
+        $product->comments()->detach();
+        $product->media()->detach();
+
+        // Delete featured image file
+        if ($product->featured_image)
+        {
+            \Storage::disk('public')->delete($product->featured_image);
+        }
+
         $product->delete();
-        return redirect()->route('dashboard.shop.index')->with('success', 'Product deleted successfully.');
+
+        return redirect()->route('dashboard.product.index')->with('success', 'Product deleted successfully.');
     }
 
     private function getProductsGroupedByBrand(Request $request)

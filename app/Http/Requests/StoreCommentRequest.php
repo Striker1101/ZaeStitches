@@ -25,6 +25,8 @@ class StoreCommentRequest extends FormRequest
             'content' => 'required|string|min:3',
             'commentable_id' => 'required|integer',
             'commentable_type' => 'required|string|in:App\Models\Blog,App\Models\Product',
+            'parent_id'=> 'sometimes|string',
+            'type'=> 'sometimes|string'
         ];
     }
 }

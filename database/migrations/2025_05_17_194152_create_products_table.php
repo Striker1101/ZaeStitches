@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->decimal('rating')->default(0.0);
             $table->boolean('is_popular')->default(false);
+            $table->boolean('is_available')->default(true);
             $table->boolean('is_latest')->default(false);
             $table->decimal('price', 10, 2); // base price
             $table->decimal('discount_price', 10, 2);

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StoreCurrencyRequest;
+use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Requests\UpdateCurrencyRequest;
 use App\Models\Currency;
 
@@ -14,6 +16,8 @@ class CurrencyController extends Controller
     public function index()
     {
         //
+        $currencies = Currency::latest()->paginate(10);
+        return view('dashboard.currency.index', compact('currencies'));
     }
 
     /**
@@ -21,7 +25,7 @@ class CurrencyController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.currency.create');
     }
 
     /**
@@ -30,6 +34,8 @@ class CurrencyController extends Controller
     public function store(StoreCurrencyRequest $request)
     {
         //
+        $currency = Currency::create($request->validated());
+        return redirect()->route('dashboard.currency.index')->with('success', 'Currency posted successfully!');
     }
 
     /**
@@ -46,6 +52,7 @@ class CurrencyController extends Controller
     public function edit(Currency $currency)
     {
         //
+        return view('dashboard.currency.edit', compact('currency'));
     }
 
     /**
@@ -53,8 +60,14 @@ class CurrencyController extends Controller
      */
     public function update(UpdateCurrencyRequest $request, Currency $currency)
     {
-        //
+        $validatedData = $request->validated();
+        $currency->update($validatedData);
+
+        return redirect()
+            ->route('dashboard.currency.index')
+            ->with('success', 'Currency updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -62,5 +75,8 @@ class CurrencyController extends Controller
     public function destroy(Currency $currency)
     {
         //
+        $currency->delete();
+
+        return redirect()->route('dashboard.currency.index')->with('success', 'Currency deleted successfully.');
     }
 }

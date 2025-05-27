@@ -1,9 +1,18 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ExtraController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SizeController;
+use App\Http\Controllers\SubscribeController;
+use App\Http\Controllers\TagController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -30,6 +39,9 @@ Route::get('/search', function () {
     return view('pages.search');
 })->name('search');
 
+Route::resource('cart', CartController::class);
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::resource('checkout', OrderController::class);
 
 
 Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
@@ -51,9 +63,6 @@ Route::get('/terms-conditions', function () {
     return view('pages.wishlist');
 })->name('terms-conditions');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
@@ -64,11 +73,22 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::middleware(['auth'])
+Route::middleware(['auth', 'verified'])
     ->prefix('dashboard')
     ->name('dashboard.')
     ->group(function () {
+        Route::get('/', [ExtraController::class, 'dashboard'])->name('index');
+        Route::resource('product', ProductController::class);
         Route::resource('blog', BlogController::class);
+        Route::resource('size', SizeController::class);
+        Route::resource('color', ColorController::class);
+         Route::resource('category', CategoryController::class);
+        Route::resource('comment', CommentController::class);
+        Route::resource('currency', CurrencyController::class);
+        Route::resource('media', MediaController::class)->parameters(['media' => 'media']);
+        Route::resource('subscribe', SubscribeController::class);
+        Route::resource('order', OrderController::class);
+        Route::resource('tag', TagController::class);
     });
 
 require __DIR__ . '/auth.php';

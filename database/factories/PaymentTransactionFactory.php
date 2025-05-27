@@ -20,15 +20,13 @@ class PaymentTransactionFactory extends Factory
     {
         return [
             'reference' => Str::uuid(),
-            'user_id' => User::factory(),
             'provider' => $this->faker->randomElement(['flutterwave', 'paystack']),
-            'status' => $this->faker->randomElement(['pending', 'success', 'failed']),
+            'payable_id' => rand(1, 10), // numeric
+            'payable_type' => \App\Models\Order::class, // or null
             'amount' => $this->faker->randomFloat(2, 100, 10000),
             'currency' => 'NGN',
             'gateway_response' => ['message' => 'Simulated response'],
             'paid_at' => now(),
-            'payable_id' => null,
-            'payable_type' => null,
         ];
     }
 }

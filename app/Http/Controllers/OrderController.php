@@ -13,7 +13,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::with(['user', 'paymentTransaction'])->latest()->paginate(10);
+        return view('dashboard.order.index', compact('orders'));
     }
 
     /**
@@ -37,8 +38,28 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        // Load related user and payment transaction
+        $order->load(['user', 'paymentTransaction']);
+
+        // Safely decode carts_ids and ensure it's an array
+        $cartIds = is_array($order->carts_ids)
+            ? $order->carts_ids
+            : (json_decode($order->carts_ids, true) ?? []);
+
+
+        // Fetch carts with product relationship
+        $carts = \App\Models\Cart::with('product')
+            ->whereIn('id', $cartIds)
+            ->get();
+
+        return view('dashboard.order.show', [
+            'order' => $order,
+            'carts' => $carts,
+        ]);
     }
+
+
+
 
     /**
      * Show the form for editing the specified resource.

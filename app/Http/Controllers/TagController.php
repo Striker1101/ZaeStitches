@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\StoreColorRequest;
+use App\Http\Requests\StoreSizeRequest;
 use App\Http\Requests\StoreTagRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Requests\UpdateColorRequest;
+use App\Http\Requests\UpdateSizeRequest;
 use App\Http\Requests\UpdateTagRequest;
 use App\Models\Tag;
 
@@ -14,6 +20,8 @@ class TagController extends Controller
     public function index()
     {
         //
+        $tags = Tag::latest()->paginate(10);
+        return view('dashboard.tag.index', compact('tags'));
     }
 
     /**
@@ -21,7 +29,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.tag.create');
     }
 
     /**
@@ -30,6 +38,8 @@ class TagController extends Controller
     public function store(StoreTagRequest $request)
     {
         //
+        $tag = Tag::create($request->validated());
+        return redirect()->route('dashboard.tag.index')->with('success', 'Tag created successfully.');
     }
 
     /**
@@ -46,6 +56,7 @@ class TagController extends Controller
     public function edit(Tag $tag)
     {
         //
+        return view('dashboard.tag.edit', compact('tag'));
     }
 
     /**
@@ -53,8 +64,14 @@ class TagController extends Controller
      */
     public function update(UpdateTagRequest $request, Tag $tag)
     {
-        //
+        $validatedData = $request->validated();
+        $tag->update($validatedData);
+
+        return redirect()
+            ->route('dashboard.tag.index')
+            ->with('success', 'Tag updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -62,5 +79,8 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         //
+        $tag->delete();
+
+        return redirect()->route('dashboard.tag.index')->with('success', 'Tag deleted successfully.');
     }
 }

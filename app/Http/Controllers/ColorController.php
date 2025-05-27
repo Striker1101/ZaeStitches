@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreColorRequest;
+use App\Http\Requests\StoreSizeRequest;
 use App\Http\Requests\UpdateColorRequest;
+use App\Http\Requests\UpdateSizeRequest;
 use App\Models\Color;
 
 class ColorController extends Controller
@@ -14,6 +16,8 @@ class ColorController extends Controller
     public function index()
     {
         //
+        $colors =Color::latest()->paginate(10);
+        return view('dashboard.color.index', compact('colors'));
     }
 
     /**
@@ -21,7 +25,7 @@ class ColorController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.color.create');
     }
 
     /**
@@ -30,6 +34,8 @@ class ColorController extends Controller
     public function store(StoreColorRequest $request)
     {
         //
+        $color =Color::create($request->validated());
+        return redirect()->route('dashboard.color.index')->with('success', 'Color created successfully.');
     }
 
     /**
@@ -46,15 +52,22 @@ class ColorController extends Controller
     public function edit(Color $color)
     {
         //
+        return view('dashboard.color.edit', compact('color'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateColorRequest $request, Color $color)
+    public function update(UpdateColorRequest $request,Color $color)
     {
-        //
+        $validatedData = $request->validated();
+        $color->update($validatedData);
+
+        return redirect()
+            ->route('dashboard.color.index')
+            ->with('success', 'Color updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -62,5 +75,8 @@ class ColorController extends Controller
     public function destroy(Color $color)
     {
         //
+        $color->delete();
+
+        return redirect()->route('dashboard.color.index')->with('success', 'Color deleted successfully.');
     }
 }

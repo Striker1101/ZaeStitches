@@ -7,7 +7,7 @@
     @livewireScripts
     <script src="{{ asset('js/custom_one.js') }}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('custom.site_name') }} | @yield('title')</title>
+    <title> @yield('title') || {{ config('custom.site_name') }} </title>
     <link rel="preload" data-rocket-preload as="image" href="{{ asset('images/global/home-v4.jpg') }}"
         fetchpriority="high">
     <meta name='robots' content='max-image-preview:large' />

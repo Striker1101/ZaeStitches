@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->text('content');
             $table->nullableMorphs('commentable'); // creates commentable_id and commentable_type
+            $table->string('parent_id')->nullable();
+            $table->string('type')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });

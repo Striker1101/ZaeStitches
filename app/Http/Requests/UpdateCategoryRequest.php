@@ -11,7 +11,7 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,7 @@ class UpdateCategoryRequest extends FormRequest
             'name' => 'sometimes|required|string|unique:categories,name,' . $this->category->id,
             'slug' => 'sometimes|required|string|unique:categories,slug,' . $this->category->id,
             'description' => 'nullable|string',
+            'type' => 'in:both,product,blog',
         ];
     }
 }

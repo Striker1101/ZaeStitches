@@ -11,7 +11,7 @@ class UpdateCurrencyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,11 @@ class UpdateCurrencyRequest extends FormRequest
     {
         return [
             //
+            'code' => 'sometimes|string|unique:currencies,code',
+            'name' => 'sometimes|string',
+            'symbol' => 'sometimes|string',
+            'rate_to_naira' => 'sometimes|numeric|min:0.01',
+            'country_code' => 'sometimes|string|size:3',
         ];
     }
 }
