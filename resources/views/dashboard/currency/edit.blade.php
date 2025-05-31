@@ -32,6 +32,11 @@
                    class="w-full mb-4 border px-3 py-2 rounded" />
             </label>
 
+             <label class="block mb-2">Flag
+            <input type="url" name="flag" value="{{ old('flag', $currency->flag) }}" required
+                   class="w-full mb-4 border px-3 py-2 rounded" />
+            </label>
+
             <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Update Currency</button>
         </form>
 

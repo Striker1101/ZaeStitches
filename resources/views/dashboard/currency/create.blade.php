@@ -45,6 +45,14 @@
                     </label>
                     </div>
 
+                    <br/>
+                    <div class="form-group m-3 p-3">
+                    <label for="flag" class="form-label m-3" >Flag *
+                    <input type="text" name="flag" id="flag" value="{{ old('flag') }}" class="form-control w-full" required>
+                     @error('flag') <div class="text-danger small">{{ $message }}</div> @enderror
+                    </label>
+                    </div>
+
 
                 </div>
 
