@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductVariantRequest;
 use App\Http\Requests\UpdateProductVariantRequest;
+use App\Models\Color;
+use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Models\Size;
 
 class ProductVariantController extends Controller
 {
@@ -14,6 +17,8 @@ class ProductVariantController extends Controller
     public function index()
     {
         //
+        $variants = ProductVariant::with(['product', 'size', 'color'])->latest()->paginate(10);
+        return view('dashboard.variant.index', compact('variants'));
     }
 
     /**
@@ -22,6 +27,10 @@ class ProductVariantController extends Controller
     public function create()
     {
         //
+        $sizes = Size::all();
+        $colors = Color::all();
+        $products = Product::all();
+        return view('dashboard.variant.create', compact('products', 'sizes', 'colors'));
     }
 
     /**
@@ -29,7 +38,17 @@ class ProductVariantController extends Controller
      */
     public function store(StoreProductVariantRequest $request)
     {
-        //
+        try
+        {
+            $validated = $request->validated();
+
+            $variant = ProductVariant::create($validated);
+
+            return redirect()->route('dashboard.variant.index')->with('success', 'Variant added successfully.');
+        } catch (\Exception $e)
+        {
+            return redirect()->back()->withInput()->with('error', 'Failed to add variant: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -43,9 +62,19 @@ class ProductVariantController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProductVariant $productVariant)
+    public function edit(ProductVariant $variant)
     {
         //
+        $variant->load('product', 'size', 'color');
+        $sizes = Size::all();
+        $colors = Color::all();
+        $products = Product::all();
+        return view('dashboard.variant.edit', [
+            'variant' => $variant,
+            'sizes' => $sizes,
+            'colors' => $colors,
+            'products' => $products,
+        ]);
     }
 
     /**
@@ -53,8 +82,19 @@ class ProductVariantController extends Controller
      */
     public function update(UpdateProductVariantRequest $request, ProductVariant $productVariant)
     {
-        //
+        try
+        {
+            $validated = $request->validated();
+
+            $productVariant->update($validated);
+
+            return redirect()->route('dashboard.variant.index')->with('success', 'Variant updated successfully.');
+        } catch (\Exception $e)
+        {
+            return redirect()->back()->withInput()->with('error', 'Failed to update variant: ' . $e->getMessage());
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -62,5 +102,8 @@ class ProductVariantController extends Controller
     public function destroy(ProductVariant $productVariant)
     {
         //
+        $productVariant->delete();
+
+        return redirect()->route('dashboard.variant.index')->with('success', 'Variant deleted successfully.');
     }
 }

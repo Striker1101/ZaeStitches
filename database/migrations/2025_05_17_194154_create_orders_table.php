@@ -13,11 +13,12 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete(); // null for guests
-            $table->foreignId('payment_transaction_id')->nullable()->constrained()->nullOnDelete();
             $table->string('order_number')->unique();
             $table->enum('status', ['pending', 'paid', 'shipped', 'completed', 'cancelled'])->default('pending');
             $table->decimal('total_amount', 10, 2);
+            $table->string('country_code')->nullable();
             $table->json('carts_ids')->nullable();
+            $table->string('payment_method')->nullable();
             $table->json('shipping_details')->nullable(); // name, address, phone
             $table->timestamps();
         });

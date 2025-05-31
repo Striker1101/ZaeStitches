@@ -2071,7 +2071,7 @@ li.product:not(.is-animated-entry):before {
 }
 
 .woocommerce-cart .wc-proceed-to-checkout {
-    *zoom: 1;
+    zoom: 1;
     padding: 1em 0
 }
 
@@ -2096,7 +2096,7 @@ li.product:not(.is-animated-entry):before {
 }
 
 .woocommerce-cart .cart-collaterals {
-    *zoom: 1;
+    zoom: 1;
     width: 100%
 }
 
@@ -2126,7 +2126,7 @@ li.product:not(.is-animated-entry):before {
 
 @media(min-width:1025px) {
     .woocommerce-cart .cart-collaterals .shipping_calculator {
-        *zoom: 1;
+        zoom: 1;
         width: 48%;
         clear: right;
         float: right
@@ -3200,7 +3200,7 @@ p.woocommerce-shipping-contents {
 
 .woocommerce-checkout #payment ul.payment_methods,
 #add_payment_method #payment ul.payment_methods {
-    *zoom: 1;
+    zoom: 1;
     text-align: start;
     padding: 15px;
     border-bottom: 1px solid HSL(var(--neutral-3));
@@ -3309,7 +3309,7 @@ p.woocommerce-shipping-contents {
 
 .woocommerce-checkout #payment ul.payment_methods li:not(.woocommerce-notice),
 #add_payment_method #payment ul.payment_methods li:not(.woocommerce-notice) {
-    *zoom: 1
+    zoom: 1
 }
 
 .woocommerce-checkout #payment ul.payment_methods li:not(.woocommerce-notice)::before,
@@ -3821,7 +3821,7 @@ p.woocommerce-shipping-contents {
 }
 
 .woocommerce form.woocommerce-checkout {
-    *zoom: 1
+    zoom: 1
 }
 
 .woocommerce form.woocommerce-checkout::before,

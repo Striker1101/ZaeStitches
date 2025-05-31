@@ -19,7 +19,7 @@
                 @forelse($comments as $comment)
                     <tr class="border-t border-gray-200">
                         <td class="px-4 py-2">{{ $comment->id }}</td>
-                            <td class="px-4 py-2">{{ $comment->user->name }}</td>
+                            <td class="px-4 py-2">{{ $comment->user->name ?? "Anonymous"}}</td>
                         <td class="px-4 py-2">{{ $comment->commentable_type }}</td>
                          <td class="px-4 py-2">{{ $comment->commentable_id }}</td>
                          <td class="px-4 py-2">{{ $comment->created_at }}</td>

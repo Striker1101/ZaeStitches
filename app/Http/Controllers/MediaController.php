@@ -94,6 +94,6 @@ class MediaController extends Controller
     {
         //
         $media->delete();
-        return redirect()->route('dashboard.media.index')->with('success', 'Media deleted successfully.');
+        return redirect()->back()->with('success', 'Media deleted successfully.');
     }
 }

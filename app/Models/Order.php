@@ -11,9 +11,10 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'payment_transaction_id',
+        'payment_method',
         'order_number',
         'status',
+        'country_code',
         'total_amount',
         'carts_ids',
         'shipping_details',
@@ -25,20 +26,9 @@ class Order extends Model
     ];
 
     // Relationships
-
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function paymentTransaction()
-    {
-        return $this->belongsTo(PaymentTransaction::class);
-    }
-
-    // If this order is morphable by payment_transactions (polymorphic relation)
-    public function transactions()
-    {
-        return $this->morphMany(PaymentTransaction::class, 'payable');
-    }
 }

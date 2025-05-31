@@ -504,32 +504,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="elementor-section elementor-top-section elementor-element elementor-element-8670103 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-                            data-id="8670103" data-element_type="section">
-                            <div class="elementor-container elementor-column-gap-no">
-                                <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-0b4ab1d"
-                                    data-id="0b4ab1d" data-element_type="column">
-                                    <div
-                                        class="elementor-column-wrap--0b4ab1d elementor-widget-wrap elementor-element-populated">
-                                        <div data-lazy-load="{&quot;element_id&quot;:&quot;ea7876c&quot;,&quot;skin&quot;:&quot;&quot;,&quot;trigger&quot;:&quot;scroll&quot;,&quot;qid&quot;:1702,&quot;pid&quot;:1702,&quot;options&quot;:{&quot;prevent_ba_content&quot;:&quot;yes&quot;,&quot;prevent_stretched&quot;:&quot;yes&quot;},&quot;cache&quot;:true}"
-                                            class="elementor-element elementor-element-ea7876c elementor-widget elementor-widget-reycore-product-grid"
-                                            data-id="ea7876c" data-element_type="widget"
-                                            data-widget_type="reycore-product-grid.default">
-                                            <div class="elementor-widget-container">
-                                                <div class="__placeholder-wrapper placeholder_products products">
-                                                    <div
-                                                        class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 __placeholder-wrapper placeholder_products products">
-                                                        @foreach ($latestProducts as $product)
-                                                            <x-product-card :product="$product" />
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
+                        <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ">
+                            @foreach ($latestProducts as $product)
+                                <x-product-card :product="$product" />
+                            @endforeach
+
                         </div>
+
+
+
                         <div class="elementor-section elementor-top-section elementor-element elementor-element-b601888 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
                             data-id="b601888" data-element_type="section">
                             <div class="elementor-container elementor-column-gap-no">
@@ -778,19 +763,17 @@
                                             data-id="917d3cf" data-element_type="widget"
                                             data-widget_type="reycore-product-grid.default">
                                             <div class="elementor-widget-container">
-                                                <div class="__placeholder-wrapper placeholder_products products">
-                                                    <div class="__placeholders "
-                                                        style="--cols: 4; --cols-tablet: 2; --cols-mobile: 2;">
 
-                                                        <div
-                                                            class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 __placeholder-wrapper placeholder_products products">
-                                                            @foreach ($latestProducts as $product)
-                                                                <x-product-card :product="$product" />
-                                                            @endforeach
-                                                        </div>
 
-                                                    </div>
+                                                <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ">
+                                                    @foreach ($latestProducts as $product)
+                                                        <x-product-card
+                                                        :product="$product"
+                                                        :currency_symbol="session('currency_symbol', '₦')"
+                                                        :currency_rate="session('currency_rate', 1)" />
+                                                    @endforeach
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -826,13 +809,13 @@
                                             data-id="9513866" data-element_type="widget"
                                             data-widget_type="reycore-basic-post-grid.default">
                                             <div class="elementor-widget-container">
-                                                <div class="__placeholder-wrapper placeholder_posts">
-                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                        @foreach ($blogs as $blog)
-                                                            <x-blog-card :blog="$blog" />
-                                                        @endforeach
-                                                    </div>
+
+                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                    @foreach ($blogs as $blog)
+                                                        <x-blog-card :blog="$blog" />
+                                                    @endforeach
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>

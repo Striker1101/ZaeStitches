@@ -701,10 +701,17 @@
                                  data-id="3af0c577" data-element_type="widget"
                                  data-widget_type="reycore-header-cart.default">
                                  <div class="elementor-widget-container">
-
-                                     <div class="rey-headerCart-wrapper rey-headerIcon  " data-rey-cart-count="0">
-                                         <a href="{{ route('cart.index') }}"
+                                     {{-- @dd(session()->all()); --}}
+                                     <div class="rey-headerCart-wrapper rey-headerIcon" data-rey-cart-count="0">
+                                         <a href="{{ route('cart.index') }}" id="cart-link"
                                              class="btn rey-headerIcon-btn rey-headerCart js-rey-headerCart">
+                                             <script>
+                                                 const token = localStorage.getItem('guestToken');
+                                                 if (token) {
+                                                     const cartLink = document.getElementById('cart-link');
+                                                     cartLink.href = "{{ route('cart.index') }}" + '?token=' + encodeURIComponent(token);
+                                                 }
+                                             </script>
                                              <span class="__icon rey-headerIcon-icon " aria-hidden="true">
                                                  <svg aria-hidden="true" role="img"
                                                      id="rey-icon-bag-681785629a73e" class="rey-icon rey-icon-bag "
@@ -713,21 +720,13 @@
                                                          d="M21,3h-4.4C15.8,1.2,14,0,12,0S8.2,1.2,7.4,3H3C2.4,3,2,3.4,2,4v19c0,0.6,0.4,1,1,1h18c0.6,0,1-0.4,1-1V4  C22,3.4,21.6,3,21,3z M12,1c1.5,0,2.8,0.8,3.4,2H8.6C9.2,1.8,10.5,1,12,1z M20,22H4v-4h16V22z M20,17H4V5h3v4h1V5h8v4h1V5h3V17z" />
                                                  </svg>
                                              </span>
-                                             <span class="rey-headerIcon-counter --bubble">
-                                                 <span class="__cart-count">
-                                                     {{ session('cart') ? collect(session('cart'))->sum('quantity') : 0 }}
-                                                 </span>
-                                                 <script>
-                                                     document.addEventListener('DOMContentLoaded', () => {
-                                                         // Get cart from localStorage or default to empty array
-                                                         const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-                                                         // Update cart count
-                                                         document.querySelectorAll('.__cart-count').forEach(span => {
-                                                             span.textContent = cart.length;
-                                                         });
-                                                     });
-                                                 </script>
+                                             <span class="rey-headerIcon-counter --bubble">
+                                                 <span class="__cart-count ">
+
+                                                 {{ session('cart') ? count(session('cart')) : 0 }}
+
+                                                 </span>
                                              </span>
                                              <span class="screen-reader-text">Open cart</span>
                                          </a>
@@ -775,7 +774,7 @@
 
              <?php
              use App\Models\Category;
-             
+
              $categories = Category::take(5)->get();
              ?>
 

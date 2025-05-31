@@ -33,7 +33,7 @@ class CommentController extends Controller
     {
         //
         $comment = Comment::create($request->validated());
-        return redirect()->route('dashboard.comment.index')->with('success', 'Comment created successfully.');
+        return redirect()->back()->with('success', 'Comment created successfully.');
     }
 
     /**

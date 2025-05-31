@@ -26,6 +26,7 @@ class StoreCurrencyRequest extends FormRequest
             'code' => 'required|string|unique:currencies,code',
             'name' => 'sometimes|string',
             'symbol' => 'sometimes|string',
+            'flag' => 'sometimes|string',
             'rate_to_naira' => 'sometimes|numeric|min:0.01',
             'country_code' => 'sometimes|string|size:3',
         ];

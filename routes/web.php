@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
@@ -10,12 +11,17 @@ use App\Http\Controllers\ExtraController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\TagController;
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+
+Route::get('/clear-session', function () {
+    session()->flush();
+    return 'Session cleared';
+});
 
 Route::get('/', [ExtraController::class, 'homepage'])->name('home');
 Route::post('/contact-shore', [ExtraController::class, 'contact'])->name('contact.store');
@@ -39,13 +45,17 @@ Route::get('/search', function () {
     return view('pages.search');
 })->name('search');
 
-Route::resource('cart', CartController::class);
+
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-Route::resource('checkout', OrderController::class);
+Route::resource('cart', CartController::class);
+
+Route::resource('order', OrderController::class);
 
 
 Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
 Route::post('/subscribe', [ExtraController::class, 'subscribe'])->name('subscribe');
+Route::get('/checkout', [ExtraController::class, 'checkout'])->name('checkout');
+Route::post('/currency/convert', [CurrencyController::class, 'convert'])->name('currency.convert');
 
 
 Route::get('/shop', [ProductController::class, 'pageIndex'])->name('shop');
@@ -72,17 +82,23 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
+Route::get('/flutterwave/pay', [App\Http\Controllers\FlutterwavePaymentController::class, 'index'])->name('flutterwave.index');
+Route::post('/flutterwave/pay', [App\Http\Controllers\FlutterwavePaymentController::class, 'initiatePayment'])->name('flutterwave.pay');
+Route::get('/flutterwave/callback', [App\Http\Controllers\FlutterwavePaymentController::class, 'handleCallback'])->name('flutterwave.callback');
 
-Route::middleware(['auth', 'verified'])
+Route::get('/set-currency/{code}', [CurrencyController::class, 'setCurrency'])->name('set.currency');
+Route::middleware(['auth'])
     ->prefix('dashboard')
     ->name('dashboard.')
     ->group(function () {
         Route::get('/', [ExtraController::class, 'dashboard'])->name('index');
         Route::resource('product', ProductController::class);
+        Route::resource('variant', ProductVariantController::class);
         Route::resource('blog', BlogController::class);
         Route::resource('size', SizeController::class);
         Route::resource('color', ColorController::class);
-         Route::resource('category', CategoryController::class);
+        Route::resource('category', CategoryController::class);
+        Route::resource('brand', BrandController::class);
         Route::resource('comment', CommentController::class);
         Route::resource('currency', CurrencyController::class);
         Route::resource('media', MediaController::class)->parameters(['media' => 'media']);
@@ -90,5 +106,4 @@ Route::middleware(['auth', 'verified'])
         Route::resource('order', OrderController::class);
         Route::resource('tag', TagController::class);
     });
-
 require __DIR__ . '/auth.php';

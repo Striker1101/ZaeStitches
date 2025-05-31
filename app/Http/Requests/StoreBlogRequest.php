@@ -26,10 +26,12 @@ class StoreBlogRequest extends FormRequest
             'title' => 'required|string|unique:blogs,title',
             'slug' => 'required|string|unique:blogs,slug',
             'content' => 'required|string',
+            'description'=> 'required|string',
             'duration' => 'nullable|integer|min:1',
             'featured_image' => 'nullable|image',
             'status' => 'required|in:draft,published',
             'user_id' => 'required|exists:users,id',
+            'media.*' => 'file|max:20480',
         ];
     }
 }

@@ -21,9 +21,19 @@
             {{ __('Orders') }}
         </flux:navlist.item>
 
+         <flux:navlist.item icon="clipboard-document-list" :href="route('dashboard.brand.index')"
+            :current="request()->routeIs('dashboard.brand.*')" wire:navigate>
+            {{ __('Brand') }}
+        </flux:navlist.item>
+
         <flux:navlist.item icon="check-badge" :href="route('dashboard.product.index')"
             :current="request()->routeIs('dashboard.product.*')" wire:navigate>
             {{ __('Products') }}
+        </flux:navlist.item>
+
+          <flux:navlist.item icon="check-badge" :href="route('dashboard.variant.index')"
+            :current="request()->routeIs('dashboard.variant.*')" wire:navigate>
+            {{ __('Products Variant') }}
         </flux:navlist.item>
 
         <flux:navlist.item icon="newspaper" :href="route('dashboard.blog.index')"

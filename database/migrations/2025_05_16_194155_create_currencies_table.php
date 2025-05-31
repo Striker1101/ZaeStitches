@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('symbol');         // e.g., ₦, ₵, $
             $table->decimal('rate_to_naira', 10, 4); // 1 unit = ? Naira
             $table->string('country_code'); // e.g. NG, GH
+            $table->string('flag');
             $table->timestamps();
         });
     }

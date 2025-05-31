@@ -83,9 +83,34 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" href="{{ asset('css/custom/test.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://unpkg.com/alpinejs" defer></script>
 </head>
 
 <body @yield('body_attributes')>
+
+    <script>
+        window.toast = function(message, type = 'success') {
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: type === 'error' ? "#f44336" : "#4CAF50",
+                close: true
+            }).showToast();
+        }
+    </script>
+
+    <x-view-currency :currencies="$currencies" />
+
+    <script>
+        if (!localStorage.getItem("guestToken")) {
+            const guestToken = crypto.randomUUID(); // Generate unique ID
+            localStorage.setItem('guestToken', guestToken);
+        }
+    </script>
+
 
     @yield('extras')
 

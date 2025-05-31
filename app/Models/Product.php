@@ -28,8 +28,9 @@ class Product extends Model
         'material',
         'featured_image',
         'is_popular',
+        'is_latest',
+        'is_available',
         'rating',
-        'is_latest'
     ];
 
     /**
@@ -91,9 +92,8 @@ class Product extends Model
      */
     public function comments()
     {
-        return $this->belongsToMany(Comment::class, 'product_comment');
+        return $this->morphMany(Comment::class, 'commentable');
     }
-
     /**
      * The media that belong to the product.
      */

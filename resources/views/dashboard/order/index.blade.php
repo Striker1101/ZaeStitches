@@ -15,10 +15,7 @@
                     <th class="px-4 py-2">Payment Type</th>
                     <th class="px-4 py-2">Status</th>
                     <th class="px-4 py-2">Total Amount</th>
-                    <th class="px-4 py-2"> Amount Payed</th>
                     <th class="px-4 py-2">Currency</th>
-                    <th class="px-4 py-2">Paid At</th>
-                    <th class="px-4 py-2">Response</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -26,13 +23,10 @@
                 @forelse($orders as $order)
                     <tr class="border-t border-gray-200">
                         <td class="px-4 py-2">{{ $order->order_number }}</td>
-                        <td class="px-4 py-2">{{ $order->paymentTransaction->provider }}</td>
+                        <td class="px-4 py-2">{{ $order->payment_method }}</td>
                         <td class="px-4 py-2">{{ $order->status }}</td>
                         <td class="px-4 py-2">{{ $order->total_amount }}</td>
-                        <td class="px-4 py-2">{{ $order->paymentTransaction->amount }}</td>
-                        <td class="px-4 py-2">{{ $order->paymentTransaction->currency }}</td>
-                        <td class="px-4 py-2">{{ $order->paymentTransaction->paid_at }}</td>
-                         <td class="px-4 py-2">{{ $order->paymentTransaction->gateway_response['message']  }}</td>
+                        <td class="px-4 py-2">{{ $order->country_code }}</td>
                         <td class="px-4 py-2 flex gap-2">
                             <a href="{{ route('dashboard.order.show', $order) }}"
                                 class="text-blue-600 hover:underline">View</a>

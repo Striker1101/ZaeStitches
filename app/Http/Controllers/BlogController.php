@@ -6,6 +6,8 @@ use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
 use App\Models\Category;
+use App\Models\Media;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -42,7 +44,9 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('dashboard.blog.create');
+        $categories = Category::whereIn('type', ['blog', 'both'])->get();
+        $tags = Tag::whereIn('type', ['blog', 'both'])->get();
+        return view('dashboard.blog.create', compact('categories', 'tags'));
     }
 
     /**
@@ -50,8 +54,59 @@ class BlogController extends Controller
      */
     public function store(StoreBlogRequest $request)
     {
-        $blog = Blog::create($request->validated());
-        return redirect()->route('dashboard.blog.index')->with('success', 'Blog created successfully.');
+        try
+        {
+            // Handle featured image
+            $featuredImagePath = null;
+            if ($request->hasFile('featured_image'))
+            {
+                $image = $request->file('featured_image');
+                $path = $image->store('uploads/blogs', 'public');
+                $featuredImagePath = '/storage/' . $path;
+            }
+
+            // Create blog
+            $blogData = $request->validated();
+            $blogData['featured_image'] = $featuredImagePath;
+            $blog = Blog::create($blogData);
+
+            // Attach categories
+            if ($request->has('categories'))
+            {
+                $blog->categories()->attach($request->input('categories'));
+            }
+
+            // Attach tags
+            if ($request->has('tags'))
+            {
+                $blog->tags()->attach($request->input('tags'));
+            }
+
+            // Save media files (gallery)
+            if ($request->hasFile('media'))
+            {
+                foreach ($request->file('media') as $mediaFile)
+                {
+                    $mediaPath = $mediaFile->store('uploads/blogs/media', 'public');
+
+                    $media = Media::create([
+                        'name' => $mediaFile->getClientOriginalName(),
+                        'url' => '/storage/' . $mediaPath,
+                        'type' => 'blog',
+                        'mime_type' => $mediaFile->getMimeType(),
+                        'size' => round($mediaFile->getSize() / 1024, 2) . 'KB',
+                        'extension' => $mediaFile->getClientOriginalExtension(),
+                    ]);
+
+                    $blog->media()->attach($media->id);
+                }
+            }
+
+            return redirect()->route('dashboard.blog.index')->with('success', 'Blog created successfully.');
+        } catch (\Exception $e)
+        {
+            return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -85,7 +140,10 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        return view('dashboard.blog.edit', compact('blog'));
+        $blog->load('media');
+        $categories = Category::whereIn('type', ['blog', 'both'])->get();
+        $tags = Tag::whereIn('type', ['blog', 'both'])->get();
+        return view('dashboard.blog.edit', compact('blog', 'categories', 'tags'));
     }
 
     /**
@@ -93,8 +151,64 @@ class BlogController extends Controller
      */
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
-        $blog->update($request->validated());
-        return redirect()->route('dashboard.blog.index')->with('success', 'Blog updated successfully.');
+        try
+        {
+            $blogData = $request->validated();
+
+            // Handle featured image
+            if ($request->hasFile('featured_image'))
+            {
+                // Delete old featured image if exists
+                if ($blog->featured_image && \Storage::disk('public')->exists(str_replace('/storage/', '', $blog->featured_image)))
+                {
+                    \Storage::disk('public')->delete(str_replace('/storage/', '', $blog->featured_image));
+                }
+
+                $image = $request->file('featured_image');
+                $path = $image->store('uploads/blogs', 'public');
+                $blogData['featured_image'] = '/storage/' . $path; // ✅ Store proper path here
+            }
+
+            // Update blog data
+            $blog->update($blogData);
+
+            // Sync categories
+            if ($request->has('categories'))
+            {
+                $blog->categories()->sync($request->input('categories'));
+            }
+
+            // Sync tags
+            if ($request->has('tags'))
+            {
+                $blog->tags()->sync($request->input('tags'));
+            }
+
+            // Handle new media files (gallery)
+            if ($request->hasFile('media'))
+            {
+                foreach ($request->file('media') as $mediaFile)
+                {
+                    $mediaPath = $mediaFile->store('uploads/blogs/media', 'public');
+
+                    $media = Media::create([
+                        'name' => $mediaFile->getClientOriginalName(),
+                        'url' => '/storage/' . $mediaPath,
+                        'type' => 'blog',
+                        'mime_type' => $mediaFile->getMimeType(),
+                        'size' => round($mediaFile->getSize() / 1024, 2) . 'KB',
+                        'extension' => $mediaFile->getClientOriginalExtension(),
+                    ]);
+
+                    $blog->media()->attach($media->id);
+                }
+            }
+
+            return redirect()->back()->with('success', 'Blog updated successfully.');
+        } catch (\Exception $e)
+        {
+            return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -102,6 +216,17 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
+        $blog->categories()->detach();
+        $blog->tags()->detach();
+        $blog->comments()->detach();
+        $blog->media()->detach();
+
+        // Delete featured image file
+        if ($blog->featured_image)
+        {
+            \Storage::disk('public')->delete($blog->featured_image);
+        }
+
         $blog->delete();
         return redirect()->route('dashboard.blog.index')->with('success', 'Blog deleted successfully.');
     }

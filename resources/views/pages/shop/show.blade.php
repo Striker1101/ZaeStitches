@@ -26,12 +26,21 @@
 
 
  @section('content')
+     @php
+         $currencySymbol = session('currency_symbol', '₦');
+         $currencyRate = (float) session('currency_rate', 1);
+         $convertedPrice = number_format($product['price'] / $currencyRate, 2);
+         $convertedDiscountPrice = $product['discount_price']
+             ? number_format($product['discount_price'] / $currencyRate, 2)
+             : null;
+     @endphp
+
      <div class="container py-5 m-3">
          <div class="flex gap-2">
              {{-- Product Gallery --}}
              <div class="col-md-6">
                  <div class="border  p-2">
-                     <img src="{{ asset('storage/' . $product->featured_image) }}" alt="{{ $product->title }}"
+                     <img src="{{ asset($product->featured_image) }}" alt="{{ $product->title }}"
                          class="img-fluid w-100 mb-3 rounded">
 
                  </div>
@@ -40,6 +49,27 @@
              {{-- Product Details & Actions --}}
              <div class="col-md-6">
                  <h2 class="fw-bold">{{ $product->title }}</h2>
+                 <div class="text-blue-600 font-bold text-lg flex gap-4">
+                     @if ($product['discount_price'])
+                         <del> {{ $currencySymbol }}
+                             <span class="defaultPrice">{{ $convertedPrice }}
+                             </span>
+                         </del>
+                         <span> {{ $currencySymbol }}
+                             <span class="discountPrice">
+                                 {{ $convertedDiscountPrice }}
+                             </span>
+                         </span>
+                     @else
+                         <span>{{ $currencySymbol }}
+                             <span class="defaultPrice">
+                                 {{ $convertedPrice }}
+                             </span>
+                         </span>
+                     @endif
+
+
+                 </div>
                  <p class="text-muted font-extrabold  mb-1">Brand: {{ $product->brand->name ?? 'N/A' }}</p>
                  <p>{{ $product->description }}</p>
 
@@ -49,7 +79,7 @@
                      $uniqueColors = $product->productVariants->pluck('color.name')->unique()->filter();
                  @endphp
 
-                 <div class="mb-3 flex gap-4">
+                 <div class="mb-3 flex gap-4 items-center align-middle align-content-center">
                      <div>
                          <label class="form-label">Choose Size:</label>
                          <select class="form-select" id="size">
@@ -67,6 +97,10 @@
                              @endforeach
                          </select>
                      </div>
+
+
+                     <div id="variant-price" class="text-primary fs-5 fw-bold mt-3 items-center"></div>
+
                  </div>
 
 
@@ -86,7 +120,7 @@
                      </div>
 
                      <!-- Add to Cart Button -->
-                     <button class="btn btn-primary" onclick="addToCart()">Add to Cart</button>
+                     <button class="btn btn-primary" id="addToCart">Add to Cart</button>
                      <!-- View Size Guide Button -->
                      <button data-modal-target="default-modal" data-modal-toggle="default-modal"
                          class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-5 rounded-lg shadow-md">
@@ -103,86 +137,6 @@
                          ];
                      });
                  @endphp
-
-                 <script>
-                     const qtyInput = document.getElementById('qty');
-
-                     function increaseQty() {
-                         let current = parseInt(qtyInput.value) || 1;
-                         qtyInput.value = current + 1;
-                     }
-
-                     function decreaseQty() {
-                         let current = parseInt(qtyInput.value) || 1;
-                         if (current > 1) qtyInput.value = current - 1;
-                     }
-
-                     function toast(message, type = 'success') {
-                         Toastify({
-                             text: message,
-                             duration: 3000,
-                             gravity: "top",
-                             position: "right",
-                             backgroundColor: type === 'error' ? "#f44336" : "#4CAF50",
-                             close: true
-                         }).showToast();
-                     }
-
-                     function addToCart() {
-                         let size = document.getElementById('size').value;
-                         let color = document.getElementById('color').value;
-                         let qty = parseInt(document.getElementById('qty').value);
-
-                         if (!size) {
-                             toast('Please select a size.', 'error');
-                             return;
-                         }
-
-                         if (!color) {
-                             toast('Please select a color.', 'error');
-                             return;
-                         }
-
-                         if (qty < 1) {
-                             toast('Quantity must be at least 1.', 'error');
-                             return;
-                         }
-
-                         const variants = @json($variants);
-
-                         const match = variants.find(v => v.size === size && v.color === color);
-
-                         if (!match) {
-                             toast('This combination is not available.', 'error');
-                             return;
-                         }
-
-                         if (qty > match.stock) {
-                             toast(`Only ${match.stock} items available in stock.`, 'error');
-                             return;
-                         }
-
-                         fetch("{{ route('cart.add') }}", {
-                                 method: "POST",
-                                 headers: {
-                                     'Content-Type': 'application/json',
-                                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                 },
-                                 body: JSON.stringify({
-                                     product_id: productId,
-                                     size: size,
-                                     color: color,
-                                     quantity: qty
-                                 })
-                             })
-                             .then(res => res.json())
-                             .then(data => {
-                                 toast(data.message, 'success');
-                                 document.querySelector('.__cart-count').innerText = data.count;
-                             });
-                     }
-                 </script>
-
 
              </div>
          </div>
@@ -203,9 +157,9 @@
              <div>
                  <h5 class="text-lg font-semibold mb-2">Information</h5>
                  <ul class="space-y-2">
-                     <li><strong>Shipping:</strong> Free worldwide over $100</li>
+                     <li><strong>Shipping:</strong> Free worldwide over </li>
                      <li><strong>Returns:</strong> 14-day refund/exchange policy</li>
-                     <li><strong>Support:</strong> (+44) 555 88 65 or support@reytheme.com</li>
+                     <li><strong>Support:</strong> {{ config('custom.phone') }} or {{ config('custom.email') }}</li>
                  </ul>
              </div>
          </div>
@@ -213,7 +167,8 @@
          <div class="flex flex-wrap gap-4 g-2">
              @foreach ($product->media as $media)
                  <div class="col-3">
-                     <img src="{{ asset('storage/' . $media->url) }}" class="img-thumbnail" alt="Media">
+                     <img width="300" height="250" src="{{ asset($media->url) }}" class="img-thumbnail"
+                         alt="Media">
                  </div>
              @endforeach
          </div>
@@ -248,12 +203,29 @@
                          @csrf
                          <div class="mb-3">
                              <label for="comment" class="form-label">Leave a comment</label>
-                             <textarea name="content" id="comment" rows="3" class="form-control" required></textarea>
-                             <input type="hidden" name="parent_id" value="{{ $product->id }}">
+                             <textarea name="content" id="content" rows="3" class="form-control" required></textarea>
+
+                             {{-- Only these hidden fields are needed --}}
+                             <input type="hidden" name="commentable_id" value="{{ $product->id }}">
+                             <input type="hidden" name="commentable_type" value="{{ get_class($product) }}">
                              <input type="hidden" name="type" value="product">
                          </div>
-                         <button type="submit" class="btn btn-primary">Post Comment</button>
+                         <button type ="submit" class="btn btn-primary">Post Comment</button>
                      </form>
+
+                     @if ($errors->any())
+                         <div class="alert alert-danger">
+                             @foreach ($errors->all() as $error)
+                                 <div class="text-red-500">{{ $error }}</div>
+                             @endforeach
+                         </div>
+                     @endif
+
+                     @if (session('success'))
+                         <div class="alert alert-success text-green-500">
+                             {{ session('success') }}
+                         </div>
+                     @endif
 
                      {{-- existing comments… --}}
                  </div>
@@ -571,6 +543,139 @@
              </div>
          </div>
      </div>
+
+     <script defer>
+         const qtyInput = document.getElementById('qty');
+
+
+         function increaseQty() {
+             let current = parseInt(qtyInput.value) || 1;
+             qtyInput.value = current + 1;
+         }
+
+         function decreaseQty() {
+             let current = parseInt(qtyInput.value) || 1;
+             if (current > 1) qtyInput.value = current - 1;
+         }
+
+         function toast(message, type = 'success') {
+             Toastify({
+                 text: message,
+                 duration: 3000,
+                 gravity: "top",
+                 position: "right",
+                 backgroundColor: type === 'error' ? "#f44336" : "#4CAF50",
+                 close: true
+             }).showToast();
+         }
+
+         function addToCart() {
+             let size = document.getElementById('size').value;
+             let color = document.getElementById('color').value;
+             let qty = parseInt(document.getElementById('qty').value);
+             const urlParts = window.location.pathname.split('/');
+             const productId = urlParts[urlParts.length - 1]; // '84' in /shop/84
+             const price = localStorage.getItem("price");
+             const defaultPrice = document.querySelector('.defaultPrice').textContent;
+             const discountPrice = document.querySelector('.discountPrice').textContent;
+             const token = localStorage.getItem('guestToken');
+             const variants = @json($variants);
+
+             const match = variants.find(v => v.size === size && v.color === color);
+
+             if (!size) {
+                 toast('Please select a size.', 'error');
+                 return;
+             }
+
+             if (!color) {
+                 toast('Please select a color.', 'error');
+                 return;
+             }
+
+             if (qty < 1) {
+                 toast('Quantity must be at least 1.', 'error');
+                 return;
+             }
+
+
+
+             if (!match) {
+                 toast('This combination is not available.', 'error');
+                 return;
+             }
+
+             if (qty > match.stock) {
+                 toast(`Only ${match.stock} items available in stock.`, 'error');
+                 return;
+             }
+
+
+             console.log("price", price,
+                 "defaultPrice", defaultPrice, "discountPrice", discountPrice);
+             fetch("{{ route('cart.add') }}", {
+                     method: "POST",
+                     headers: {
+                         'Content-Type': 'application/json',
+                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                     },
+                     body: JSON.stringify({
+                         product_id: productId,
+                         token: token,
+                         size: size,
+                         color: color,
+                         quantity: qty,
+                         price: price ?
+                             parseFloat(price) : (parseFloat(discountPrice) > 0 ?
+                                 parseFloat(discountPrice) :
+                                 parseFloat(defaultPrice)),
+                         currency: "{{ session('currency_symbol', '₦') }}"
+                     })
+                 })
+                 .then(res => res.json())
+                 .then(data => {
+
+                     toast(data.message, 'success');
+                     localStorage.removeItem('price')
+                     document.querySelector('.__cart-count').innerText = data.count;
+
+                 })
+                 .catch(err => {
+                     console.error(err);
+                     toast("Something went wrong while adding to cart", 'error');
+                 });
+         }
+
+         document.getElementById('addToCart').onclick = addToCart;
+     </script>
+
+     <script defer>
+         const variantPrices = @json($variantPrices);
+         const currencySymbol = "{{ session('currency_symbol', '₦') }}";
+         const currencyRate = {{ session('currency_rate', 1) }};
+
+         const priceDisplay = document.getElementById('variant-price');
+
+         function updateVariantPrice() {
+             const selectedSize = document.getElementById('size').value;
+             const selectedColor = document.getElementById('color').value;
+
+             const matched = variantPrices.find(v =>
+                 v.size === selectedSize && v.color === selectedColor
+             );
+
+             if (matched) {
+                 const price = (matched.price / currencyRate).toFixed(2);
+                 priceDisplay.innerHTML = `Variant Price ${currencySymbol} ${price}`;
+                 localStorage.setItem("price", price)
+             } else {
+                 priceDisplay.innerHTML = '';
+             }
+         }
+
+         document.getElementById('size').addEventListener('change', updateVariantPrice);
+         document.getElementById('color').addEventListener('change', updateVariantPrice);
+     </script>
 
 
  @endsection

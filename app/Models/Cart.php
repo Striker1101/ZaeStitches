@@ -10,7 +10,7 @@ class Cart extends Model
     /** @use HasFactory<\Database\Factories\CartFactory> */
     use HasFactory;
 
-    protected $fillable = ['user_id', 'token', 'status', 'product_id', 'quantity', 'price', 'color', 'size'];
+    protected $fillable = ['user_id', 'token', 'status', 'product_id', 'quantity', 'price', 'color', 'size','currency'];
 
 
 

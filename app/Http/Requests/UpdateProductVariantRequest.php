@@ -23,6 +23,11 @@ class UpdateProductVariantRequest extends FormRequest
     {
         return [
             //
+            'product_id' => 'sometimes|exists:products,id',
+            'color_id' => 'sometimes|exists:colors,id',
+            'size_id' => 'sometimes|exists:sizes,id',
+            'price' => 'sometimes|numeric|min:0',
+            'stock' => 'sometimes|integer|min:0',
         ];
     }
 }

@@ -13,13 +13,14 @@ return new class extends Migration {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete(); // for logged-in users
-            $table->uuid('token')->nullable()->unique(); // for guest cart identification
+            $table->uuid('token')->nullable(); // for guest cart identification
             $table->enum('status', ['active', 'abandoned', 'ordered'])->default('active');
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->integer('quantity')->default(1);
             $table->decimal('price', 10, 2)->default(0); // price at time of adding
             $table->string('color')->nullable();
             $table->string('size')->nullable();
+            $table->string(column: 'currency')->nullable();
             $table->timestamps();
         });
     }

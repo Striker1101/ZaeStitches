@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
+use App\Models\PaymentTransaction;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -13,7 +17,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with(['user', 'paymentTransaction'])->latest()->paginate(10);
+        $orders = Order::with(['user'])->latest()->paginate(10);
         return view('dashboard.order.index', compact('orders'));
     }
 
@@ -28,38 +32,53 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOrderRequest $request)
+    public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'country_code' => 'required|string|max:10',
+            'total_amount' => 'required|numeric',
+            'carts_ids' => 'nullable',
+            'shipping_details' => 'nullable',
+        ]);
+
+        return DB::transaction(function () use ($data) {
+
+            $order_number = 'TX-' . time();
+
+            // 2. Create Order with payment_transaction_id set
+            $order = Order::create([
+                'user_id' => auth()->id(),
+                'payment_method' => "FlutterWave",
+                'order_number' => $order_number,
+                'status' => 'paid',
+                'total_amount' => $data['total_amount'],
+                'country_code' => $data['country_code'],
+                'carts_ids' => $data['carts_ids'],
+                'shipping_details' => $data['shipping_details'],
+            ]);
+
+            return response()->json([
+                'message' => 'Order and payment transaction created successfully',
+                'order' => $order,
+            ], 201);
+        });
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(Order $order)
     {
-        // Load related user and payment transaction
-        $order->load(['user', 'paymentTransaction']);
+        $order->load('user');
 
-        // Safely decode carts_ids and ensure it's an array
-        $cartIds = is_array($order->carts_ids)
-            ? $order->carts_ids
-            : (json_decode($order->carts_ids, true) ?? []);
-
-
-        // Fetch carts with product relationship
-        $carts = \App\Models\Cart::with('product')
-            ->whereIn('id', $cartIds)
-            ->get();
+        $cartData = json_decode($order->carts_ids, true) ?? [];
 
         return view('dashboard.order.show', [
             'order' => $order,
-            'carts' => $carts,
+            'carts' => collect($cartData),
         ]);
     }
-
-
-
 
     /**
      * Show the form for editing the specified resource.

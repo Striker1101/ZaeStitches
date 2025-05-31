@@ -27,7 +27,7 @@ class UpdateBrandRequest extends FormRequest
             'name' => 'sometimes|required|string|unique:brands,name,' . $id,
             'slug' => 'sometimes|nullable|string|unique:brands,slug,' . $id,
             'description' => 'nullable|string',
-            'logo' => 'nullable|url',
+            'logo' => 'nullable|image|max:2048'
         ];
     }
 }

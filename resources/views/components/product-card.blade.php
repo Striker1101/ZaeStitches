@@ -1,113 +1,97 @@
 @props(['product'])
 
 @php
-    $currency = '₦'; // Default for guests
-    if (auth()->check() && auth()->user()->currency) {
-        $currency = auth()->user()->currency;
-    } elseif (session('currency')) {
-        $currency = session('currency');
-    }
+    $currencySymbol = session('currency_symbol', '₦');
+    $currencyRate = (float) session('currency_rate', 1);
+    $convertedPrice = number_format($product['price'] / $currencyRate, 2);
 @endphp
 
-<div class="bg-white shadow rounded-lg overflow-hidden">
-    <img src="{{ $product['featured_image'] }}" alt="P{{ $product['name'] }}" class="w-full h-72 object-cover">
-    <div class="p-4">
-        <div class="text-sm text-gray-500 mb-1">{{ $product['name'] }}</div>
-        <h3 class="text-lg font-semibold mb-2">{{ Str::limit($product['description'], 15) }}</h3>
+{{-- @dd($product); --}}
 
-        <div class="text-blue-600 font-bold text-lg mb-4 price" data-raw-price="{{ $product['price'] }}">
-            <span class="currency-symbol">{{ $currency }}</span> {{ $product['price'] }}
-        </div>
+<!-- Product Card -->
+<div
+    class="group relative bg-white shadow-md hover:shadow-lg transition rounded-xl overflow-hidden"
+>
+    <img src="{{ $product['featured_image'] }}" alt="{{ $product['name'] }}" class="w-full h-60 object-cover">
 
-        <div class="flex flex-col gap-2">
-            <a href="{{ route('shop.show', $product['id']) }}"
-                class="w-full text-center border border-gray-300 text-gray-700 py-2 rounded hover:bg-gray-100 transition">
-                Quick View
-            </a>
-            <button class="w-full text-center text-red-500 hover:text-red-600 transition wishlist-btn"
-                data-id="{{ $product['id'] }}">
-                Add to Wishlist ❤️
-            </button>
+    <div class="p-4 space-y-2">
+         <h3 class="text-base font-semibold text-gray-800">{{ $product['name'] }} </h3>
+        <div class="text-sm text-gray-500"> {{ $product['description'] }}</div>
+
+        <div class="text-blue-600 font-bold text-lg">
+            {{ $currencySymbol }} {{ $convertedPrice }}
         </div>
+    </div>
+
+    <!-- Slide-in Buttons -->
+    <div
+        class="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 bg-white p-3 flex gap-3 justify-center transition duration-300"
+    >
+        <a href="{{ route('shop.show', $product['id']) }}"
+           class="flex-1 text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-sm">
+            View Product
+        </a>
+        <button type="button"
+                data-product='@json($product)'
+                class="flex-1 text-center bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-800 text-sm open-quick-view">
+            Quick View
+        </button>
     </div>
 </div>
 
+<!-- Quick View Modal -->
+<div id="quickViewModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center px-4">
+    <div class="bg-white rounded-lg max-w-md w-full p-6 relative shadow-lg animate__animated animate__fadeIn">
+        <button class="absolute top-2 right-3 text-gray-600 hover:text-red-600 text-2xl" onclick="closeQuickView()">&times;</button>
+        <img id="modalImage" src="" class="w-full h-48 object-cover mb-4 rounded" alt="Product image">
+        <h2 id="modalName" class="text-lg font-bold mb-2"></h2>
+        <p id="modalDescription" class="text-sm text-gray-600 mb-4"></p>
+        <div class="mb-3">
+            <span id="modalPrice" class="text-blue-600 text-lg font-semibold"></span>
+        </div>
+        <div class="flex items-center gap-3 mb-4">
+            <label for="quantity" class="text-sm font-medium">Qty:</label>
+            <input type="number" id="modalQuantity" value="1" min="1" class="border rounded p-1 w-16 text-sm">
+        </div>
+        <a href="#" id="modalProductLink"
+           class="block w-full text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition text-sm">
+            Go to Product Page
+        </a>
+    </div>
+</div>
+
+<!-- Scripts -->
 <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        // Currency handling
-        const prices = document.querySelectorAll('.price');
-        let currency = localStorage.getItem('user_currency');
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('quickViewModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalName = document.getElementById('modalName');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalProductLink = document.getElementById('modalProductLink');
+        const modalQuantity = document.getElementById('modalQuantity');
 
-        if (!currency) {
-            try {
-                const res = await fetch('/currency-detect');
-                currency = await res.text();
-                localStorage.setItem('user_currency', currency);
-            } catch (e) {
-                currency = 'NGN'; // fallback
-            }
-        }
+        const currencySymbol = '{{ session('currency_symbol', '₦') }}';
+        const currencyRate = parseFloat('{{ session('currency_rate', 1) }}');
 
-        prices.forEach(priceDiv => {
-            const rawPrice = parseFloat(priceDiv.dataset.rawPrice);
-
-            try {
-                const formatted = new Intl.NumberFormat(undefined, {
-                    style: 'currency',
-                    currency: currency
-                }).format(rawPrice);
-
-                priceDiv.innerHTML = formatted;
-            } catch {
-                priceDiv.querySelector('.currency-symbol').textContent = '₦';
-            }
-        });
-
-        // Wishlist logic with event delegation
-        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-
-        // Initialize buttons based on stored wishlist
-        document.querySelectorAll('.wishlist-btn').forEach(btn => {
-            const id = btn.dataset.id;
-            if (wishlist.includes(id)) {
-                btn.textContent = 'Remove from Wishlist ❤️';
-            } else {
-                btn.textContent = 'Add to Wishlist ❤️';
-            }
-        });
-
-        if (!window.wishlistListenerAdded) {
-            document.body.addEventListener('click', function(e) {
-                if (e.target.classList.contains('wishlist-btn')) {
-                    const btn = e.target;
-                    const id = btn.dataset.id;
-                    const index = wishlist.indexOf(id);
-
-                    if (index === -1) {
-                        wishlist.push(id);
-                        btn.textContent = 'Remove from Wishlist ❤️';
-                        showToast('Added to wishlist');
-                    } else {
-                        wishlist.splice(index, 1);
-                        btn.textContent = 'Add to Wishlist ❤️';
-                        showToast('Removed from wishlist');
-                    }
-                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-                }
+        document.querySelectorAll('.open-quick-view').forEach(button => {
+            button.addEventListener('click', function () {
+                const product = JSON.parse(this.dataset.product);
+                modalImage.src = product.featured_image;
+                modalName.textContent = product.name;
+                modalDescription.textContent = product.description;
+                modalPrice.textContent = `${currencySymbol} ${(product.price / currencyRate).toFixed(2)}`;
+                modalProductLink.href = `/shop/${product.id}`;
+                modalQuantity.value = 1;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
             });
-            window.wishlistListenerAdded = true;
-        }
-
-
-        function showToast(message) {
-            Toastify({
-                text: message,
-                duration: 2500,
-                gravity: "top",
-                position: "right",
-                backgroundColor: "#4caf50",
-                close: true
-            }).showToast();
-        }
+        });
     });
+
+    function closeQuickView() {
+        const modal = document.getElementById('quickViewModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
 </script>

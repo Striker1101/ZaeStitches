@@ -6,8 +6,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Brand;
+use App\Models\Color;
+use App\Models\Media;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\ProductVariant;
+use App\Models\Size;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -25,9 +29,6 @@ class ProductController extends Controller
         return view('dashboard.product.index', compact('products'));
     }
 
-    /**
-     * Public product page with brand grouping and filtering
-     */
     public function pageIndex(Request $request)
     {
         $categories = Category::take(5)->get();
@@ -57,7 +58,15 @@ class ProductController extends Controller
         };
 
         // Get filtered products with pagination
-        $products = Product::with(['categories', 'tags', 'comments', 'productVariants', 'brand'])
+        $products = Product::with([
+            'categories',
+            'tags',
+            'comments',
+            'productVariants',
+            'productVariants.size',
+            'productVariants.color',
+            'brand'
+        ])
             ->where(fn($q) => $applyProductFilters($q))
             ->latest()
             ->paginate(20);
@@ -130,7 +139,15 @@ class ProductController extends Controller
             ['path' => $request->url(), 'query' => $request->query()]
         );
 
-        $latestProducts = Product::with(['categories', 'tags', 'comments', 'productVariants', 'brand'])
+        $latestProducts = Product::with([
+            'categories',
+            'tags',
+            'comments',
+            'productVariants',
+            'productVariants.size',
+            'productVariants.color',
+            'brand'
+        ])
             ->latest()
             ->take(10)
             ->get()
@@ -165,13 +182,14 @@ class ProductController extends Controller
             })
             ->toArray();
 
-        return view('pages.product.index', [
+        return view('pages.shop.index', [
             'brandsWithProducts' => $paginatedBrands,
             'products' => $products,
             'categories' => $categories,
             'latestProducts' => $latestProducts
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -191,9 +209,61 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $product = Product::create($request->validated());
-        return redirect()->route('dashboard.product.index')->with('success', 'Product created successfully.');
+        try
+        {
+            // Handle featured image
+            $featuredImagePath = null;
+            if ($request->hasFile('featured_image'))
+            {
+                $image = $request->file('featured_image');
+                $path = $image->store('uploads/products', 'public');
+                $featuredImagePath = '/storage/' . $path;
+            }
+
+            // Create product
+            $productData = $request->validated();
+            $productData['featured_image'] = $featuredImagePath;
+            $product = Product::create($productData);
+
+            // Attach categories
+            if ($request->has('categories'))
+            {
+                $product->categories()->attach($request->input('categories'));
+            }
+
+            // Attach tags
+            if ($request->has('tags'))
+            {
+                $product->tags()->attach($request->input('tags'));
+            }
+
+            // Save media files (gallery)
+            if ($request->hasFile('media'))
+            {
+                foreach ($request->file('media') as $mediaFile)
+                {
+                    $mediaPath = $mediaFile->store('uploads/products/media', 'public');
+
+                    $media = Media::create([
+                        'name' => $mediaFile->getClientOriginalName(),
+                        'url' => '/storage/' . $mediaPath,
+                        'type' => 'product',
+                        'mime_type' => $mediaFile->getMimeType(),
+                        'size' => round($mediaFile->getSize() / 1024, 2) . 'KB',
+                        'extension' => $mediaFile->getClientOriginalExtension(),
+                    ]);
+
+                    $product->media()->attach($media->id);
+                }
+            }
+
+            return redirect()->route('dashboard.product.index')->with('success', 'Product created successfully.');
+        } catch (\Exception $e)
+        {
+            return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
+        }
     }
+
 
     /**
      * Display the specified resource (Dashboard).
@@ -231,7 +301,15 @@ class ProductController extends Controller
             ->first();
 
         // Latest products list
-        $latestProducts = Product::with(['categories', 'tags', 'comments', 'productVariants', 'brand'])
+        $latestProducts = Product::with([
+            'categories',
+            'tags',
+            'comments',
+            'productVariants',
+            'productVariants.size',
+            'productVariants.color',
+            'brand'
+        ])
             ->latest()
             ->take(10)
             ->get()
@@ -266,7 +344,16 @@ class ProductController extends Controller
             })
             ->toArray();
 
-        return view('pages.shop.show', compact('product', 'latestProducts', 'nextProduct', 'prevProduct'));
+        $variantPrices = $product->productVariants->map(function ($variant) {
+            return [
+                'size' => $variant->size->name ?? null,
+                'color' => $variant->color->name ?? null,
+                'price' => $variant->price,
+                'stock' => $variant->stock,
+            ];
+        });
+
+        return view('pages.shop.show', compact('product', 'latestProducts', 'nextProduct', 'prevProduct', 'variantPrices'));
     }
 
 
@@ -275,6 +362,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $product->load('media');
         $brands = Brand::all();
         $categories = Category::whereIn('type', ['product', 'both'])->get();
         $tags = Tag::whereIn('type', ['product', 'both'])->get();
@@ -282,33 +370,72 @@ class ProductController extends Controller
         return view('dashboard.product.edit', compact('product', 'brands', 'categories', 'tags'));
     }
 
+
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $product->update($request->validated());
-        // Handle file upload
-        if ($request->hasFile('featured_image'))
+        try
         {
-            // Delete old image if exists
-            if ($product->featured_image)
+            $productData = $request->validated();
+
+            // Handle featured image
+            if ($request->hasFile('featured_image'))
             {
-                \Storage::disk('public')->delete($product->featured_image);
+                // Delete old featured image if exists
+                if ($product->featured_image && \Storage::disk('public')->exists(str_replace('/storage/', '', $product->featured_image)))
+                {
+                    \Storage::disk('public')->delete(str_replace('/storage/', '', $product->featured_image));
+                }
+
+                $image = $request->file('featured_image');
+                $path = $image->store('uploads/products', 'public');
+                $productData['featured_image'] = '/storage/' . $path; // ✅ Store proper path here
             }
-            $path = $request->file('featured_image')->store('products', 'public');
-            $validated['featured_image'] = $path;
+
+            // Update product data
+            $product->update($productData);
+
+            // Sync categories
+            if ($request->has('categories'))
+            {
+                $product->categories()->sync($request->input('categories'));
+            }
+
+            // Sync tags
+            if ($request->has('tags'))
+            {
+                $product->tags()->sync($request->input('tags'));
+            }
+
+            // Handle new media files (gallery)
+            if ($request->hasFile('media'))
+            {
+                foreach ($request->file('media') as $mediaFile)
+                {
+                    $mediaPath = $mediaFile->store('uploads/products/media', 'public');
+
+                    $media = Media::create([
+                        'name' => $mediaFile->getClientOriginalName(),
+                        'url' => '/storage/' . $mediaPath,
+                        'type' => 'product',
+                        'mime_type' => $mediaFile->getMimeType(),
+                        'size' => round($mediaFile->getSize() / 1024, 2) . 'KB',
+                        'extension' => $mediaFile->getClientOriginalExtension(),
+                    ]);
+
+                    $product->media()->attach($media->id);
+                }
+            }
+
+            return redirect()->back()->with('success', 'Product updated successfully.');
+        } catch (\Exception $e)
+        {
+            return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
-
-        // Update product
-        $product->update($validated);
-
-        // Sync categories & tags relationships
-        $product->categories()->sync($request->input('categories', []));
-        $product->tags()->sync($request->input('tags', []));
-
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -427,3 +554,4 @@ class ProductController extends Controller
 
 
 }
+
