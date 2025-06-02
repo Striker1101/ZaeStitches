@@ -445,7 +445,7 @@ class ProductController extends Controller
         // Detach relationships to prevent orphan relations
         $product->categories()->detach();
         $product->tags()->detach();
-        $product->comments()->detach();
+        $product->comments()->delete();
         $product->media()->detach();
 
         // Delete featured image file

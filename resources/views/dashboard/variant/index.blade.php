@@ -7,6 +7,7 @@
             </a>
         </div>
 
+          <div class="overflow-x-auto">
         <table class="w-full table-auto border border-gray-300">
             <thead class="bg-gray-500">
                 <tr>
@@ -46,6 +47,7 @@
                 @endforelse
             </tbody>
         </table>
+          </div>
 
         <div class="mt-4">
             {{ $variants->links() }}

@@ -48,6 +48,7 @@ Route::get('/search', function () {
 
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::resource('cart', CartController::class);
+Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 
 Route::resource('order', OrderController::class);
 

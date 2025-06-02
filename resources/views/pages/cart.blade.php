@@ -64,7 +64,7 @@
 
                                                                  <div class="rey-cartShippingBar --over"
                                                                      style="--bar-perc:100%;">
-                                                                     <div class="__text">Free shipping!</div>
+                                                                     {{-- <div class="__text">Free shipping!</div> --}}
                                                                      <div class="__bar"></div>
                                                                  </div>
 
@@ -125,32 +125,50 @@
 
                                                                                                  {{-- Remove link --}}
                                                                                                  <div>
-                                                                                                     <form
-                                                                                                         action="{{ route('cart.destroy', $item->id) }}"
-                                                                                                         method="POST"
-                                                                                                         onsubmit="return confirm('Are you sure?')"
-                                                                                                         style="display: inline-block;">
-                                                                                                         @csrf
-                                                                                                         @method('DELETE')
-                                                                                                         <button
-                                                                                                             type="submit"
-                                                                                                             aria-label="Remove this item"
-                                                                                                             style="background: none; border: none; cursor: pointer; color: red; padding: 0;">
-                                                                                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                                                 width="16"
-                                                                                                                 height="16"
-                                                                                                                 fill="red"
-                                                                                                                 viewBox="0 0 24 24">
-                                                                                                                 <path
-                                                                                                                     d="M18 6L6 18M6 6l12 12"
-                                                                                                                     stroke="red"
-                                                                                                                     stroke-width="2"
-                                                                                                                     stroke-linecap="round"
-                                                                                                                     stroke-linejoin="round" />
-                                                                                                             </svg>
-                                                                                                             Remove
-                                                                                                         </button>
-                                                                                                     </form>
+                                                                                                     <button type="button"
+                                                                                                         class="delete-cart-item"
+                                                                                                         data-id="{{ $item->id }}"
+                                                                                                         style="background: none; border: none; cursor: pointer; color: red; padding: 0;">
+                                                                                                         <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                                             width="16"
+                                                                                                             height="16"
+                                                                                                             fill="red"
+                                                                                                             viewBox="0 0 24 24">
+                                                                                                             <path
+                                                                                                                 d="M18 6L6 18M6 6l12 12"
+                                                                                                                 stroke="red"
+                                                                                                                 stroke-width="2"
+                                                                                                                 stroke-linecap="round"
+                                                                                                                 stroke-linejoin="round" />
+                                                                                                         </svg>
+                                                                                                         Remove
+                                                                                                     </button>
+
+                                                                                                     <script>
+                                                                                                         document.querySelectorAll('.delete-cart-item').forEach(button => {
+                                                                                                             button.addEventListener('click', async function() {
+                                                                                                                 if (!confirm('Are you sure you want to remove this item?')) return;
+
+                                                                                                                 const itemId = this.dataset.id;
+                                                                                                                 const token = '{{ csrf_token() }}';
+
+                                                                                                                 const response = await fetch(`/cart/${itemId}`, {
+                                                                                                                     method: 'DELETE',
+                                                                                                                     headers: {
+                                                                                                                         'X-CSRF-TOKEN': token,
+                                                                                                                         'Accept': 'application/json'
+                                                                                                                     }
+                                                                                                                 });
+
+                                                                                                                 if (response.ok) {
+                                                                                                                     // Optionally reload or remove item from the DOM
+                                                                                                                     location.reload();
+                                                                                                                 } else {
+                                                                                                                     alert('Failed to remove item.');
+                                                                                                                 }
+                                                                                                             });
+                                                                                                         });
+                                                                                                     </script>
 
                                                                                                  </div>
                                                                                              </div>
@@ -422,7 +440,7 @@
                  .then(data => {
                      localStorage.setItem("currency", JSON.stringify(data))
                      document.querySelectorAll('.cart_total').forEach(element => {
-                          element.textContent = data.total
+                         element.textContent = data.total
                      });
                  });
          }
@@ -459,7 +477,7 @@
                          // Optionally redirect after success
                          // Save to localStorage
                          localStorage.setItem('cartItems', JSON.stringify(cartItems));
-                          localStorage.setItem('paymentSaved', 'false');
+                         localStorage.setItem('paymentSaved', 'false');
                          window.location.href = "/checkout";
                      })
                      .catch(error => {

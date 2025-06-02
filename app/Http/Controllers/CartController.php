@@ -82,6 +82,8 @@ class CartController extends Controller
     public function index(Request $request)
     {
         $token = $request->query('token');
+        $sessionCart = session('cart', []);
+        $cartIds = collect($sessionCart)->pluck('id')->unique()->values();
 
         $popularProducts = Product::with([
             'categories',
@@ -103,10 +105,16 @@ class CartController extends Controller
             return view('pages.cart', ['cartItems' => null, 'token' => null, 'popularProducts' => $popularProducts]);
         }
 
-        $cartItems = Cart::with('product')
-            ->where('token', $token)
-            ->get();
+        if ($cartIds->isEmpty())
+        {
+            return view('pages.cart', ['cartItems' => null, 'token' => $token, 'popularProducts' => $popularProducts]);
+        }
 
+
+        // Now fetch only cart items matching those IDs
+        $cartItems = Cart::with('product')
+            ->whereIn('id', $cartIds)
+            ->get();
 
         return view('pages.cart', compact('cartItems', 'token', 'popularProducts'));
     }
@@ -180,19 +188,24 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart)
+    public function destroy($id)
     {
+        // Remove from session cart
         $sessionCart = session('cart', []);
-        $id = $cart->id;
-
         if (isset($sessionCart[$id]))
         {
             unset($sessionCart[$id]);
             session(['cart' => $sessionCart]);
         }
 
-        $cart->delete();
+        // Remove from database cart table
+        $cartItem = \App\Models\Cart::find($id);
+        if ($cartItem)
+        {
+            $cartItem->delete();
+        }
 
-        return back()->with('success', 'Item removed from cart.');
+        return response()->json(['message' => 'Item removed from cart.'], 200);
     }
+
 }

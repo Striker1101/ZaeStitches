@@ -19,11 +19,14 @@
 
                                          <div class="rey-siteLogo">
                                              <a href="{{ route('home') }}" data-no-lazy="1" data-skip-lazy="1"
-                                                 class="no-lazy custom-logo-link" rel="home" itemprop="url"><img
+                                                 class="no-lazy custom-logo-link" rel="home" itemprop="url">
+                                                 <img
                                                      src="{{ asset('images/logo.png') }}" data-no-lazy="1"
                                                      data-skip-lazy="1" class="no-lazy custom-logo" alt="London Demo"
-                                                     loading="eager" width="107" height="44"
-                                                     decoding="async" /></a>
+                                                     loading="eager" width="44" height="44"
+                                                     style="width: 60px; height: 60px;"
+                                                     decoding="async" />
+                                                    </a>
                                          </div>
 
                                      </div>

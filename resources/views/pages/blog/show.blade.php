@@ -104,7 +104,7 @@
                                          in</span>
                                      <ul class="post-categories">
                                          <li>
-                                             @foreach ($blog->tags as $tags)
+                                             @foreach ($blog->tags as $tag)
                                                  <a href="{{ route('shop', ['tag' => $tag->name]) }}"
                                                      rel="category tag">{{ $tag->name }}
                                                  </a>
@@ -121,7 +121,7 @@
                          <div class="flex g-2 flex-wrap gap-4">
                              @foreach ($blog->media as $media)
                                  <div class="col-3">
-                                     <img src="{{ asset('storage/' . $media->url) }}" class="img-thumbnail" alt="Media">
+                                     <img height="250" width="300" src="{{ asset( $media->url) }}" class="img-thumbnail" alt="Media">
                                  </div>
                              @endforeach
                          </div>

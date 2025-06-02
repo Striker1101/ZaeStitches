@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-bold">Comments List</h1>
         </div>
-
+  <div class="overflow-x-auto">
         <table class="w-full table-auto border border-gray-300">
             <thead class="bg-gray-500">
                 <tr>
@@ -41,6 +41,7 @@
                 @endforelse
             </tbody>
         </table>
+  </div>
 
         <div class="mt-4">
             {{ $comments->links() }}

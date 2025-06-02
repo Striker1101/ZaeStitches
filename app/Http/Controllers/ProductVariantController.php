@@ -103,7 +103,6 @@ class ProductVariantController extends Controller
     {
         //
         $productVariant->delete();
-
         return redirect()->route('dashboard.variant.index')->with('success', 'Variant deleted successfully.');
     }
 }
