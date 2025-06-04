@@ -151,7 +151,7 @@
                                             data-id="0d7b51b" data-element_type="section"
                                             data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                                             <div class="elementor-container elementor-column-gap-default">
-                                                <div class="rey-lazyBg elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-f16e448 rey-colbg--classic"
+                                                {{-- <div class="rey-lazyBg elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-f16e448 rey-colbg--classic"
                                                     data-id="f16e448" data-element_type="column"
                                                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                                                     <div
@@ -197,7 +197,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-e449912 elementor-hidden-tablet elementor-hidden-phone"
                                                     data-id="e449912" data-element_type="column">
                                                     <div
@@ -270,7 +270,7 @@
                                             class="elementor-section elementor-inner-section elementor-element elementor-element-94bad0c rey-flexWrap elementor-section-boxed elementor-section-height-default elementor-section-height-default"
                                             data-id="94bad0c" data-element_type="section">
                                             <div class="elementor-container elementor-column-gap-default">
-                                                <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-f926090 rey-colbg--classic"
+                                                {{-- <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-f926090 rey-colbg--classic"
                                                     data-id="f926090" data-element_type="column"
                                                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                                                     <div
@@ -304,7 +304,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-2013deb rey-colbg--classic"
                                                     data-id="2013deb" data-element_type="column"
                                                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
@@ -376,8 +376,8 @@
                                                 <div class="rey-lazyBg elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-fe2aef8 rey-colbg--classic"
                                                     data-id="fe2aef8" data-element_type="column"
                                                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                                                    <div
-                                                        class="elementor-column-wrap--fe2aef8 elementor-widget-wrap elementor-element-populated">
+                                                    <div class="elementor-column-wrap--fe2aef8 elementor-widget-wrap elementor-element-populated"
+                                                        style="background-image: url('{{ asset($categories[0]->image) }}'); background-size: cover; background-position: center;">
                                                         <div class="elementor-background-overlay"></div>
                                                         <div class="elementor-element elementor-element-c1c3275 p-ani--underline p-trg--column elementor-widget elementor-widget-heading"
                                                             data-id="c1c3275" data-element_type="widget"
@@ -385,8 +385,9 @@
                                                             <div class="elementor-widget-container">
                                                                 <h3 class="elementor-heading-title elementor-size-default">
                                                                     <a class="h-ani"
-                                                                        href="{{ route('shop', ['category' => 't-shirts_and_tops']) }}">T-SHIRTS
-                                                                        &amp; TOPS</a>
+                                                                        href="{{ route('shop', ['category' => $categories[0]->name]) }}">
+                                                                        {{ $categories[0]->name }}
+                                                                    </a>
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -396,7 +397,8 @@
                                                     data-id="de7627c" data-element_type="column"
                                                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                                                     <div
-                                                        class="elementor-column-wrap--de7627c elementor-widget-wrap elementor-element-populated">
+                                                        class="elementor-column-wrap--de7627c elementor-widget-wrap elementor-element-populated"
+                                                        style="background-image: url('{{ asset($categories[1]->image) }}'); background-size: cover; background-position: center;">
                                                         <div class="elementor-background-overlay"></div>
                                                         <div class="elementor-element elementor-element-ec274de p-ani--underline p-trg--column elementor-widget elementor-widget-heading"
                                                             data-id="ec274de" data-element_type="widget"
@@ -404,7 +406,7 @@
                                                             <div class="elementor-widget-container">
                                                                 <h3 class="elementor-heading-title elementor-size-default">
                                                                     <a class="h-ani"
-                                                                        href="{{ route('shop', ['category' => 'jeans']) }}">JEANS</a>
+                                                                        href="{{ route('shop', ['category' => $categories[1]->name]) }}">{{ $categories[1]->name }}</a>
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -449,7 +451,8 @@
                                     data-id="1fd19f0" data-element_type="column"
                                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                                     <div
-                                        class="elementor-column-wrap--1fd19f0 elementor-widget-wrap elementor-element-populated">
+                                        class="elementor-column-wrap--1fd19f0 elementor-widget-wrap elementor-element-populated"
+                                         style="background-image: url('{{ asset($categories[2]->image) }}'); background-size: cover; background-position: center;">>
                                         <div class="elementor-background-overlay"></div>
                                         <div class="elementor-element elementor-element-52003a7 p-ani--underline p-trg--column elementor-widget elementor-widget-heading"
                                             data-id="52003a7" data-element_type="widget"
@@ -457,8 +460,7 @@
                                             <div class="elementor-widget-container">
                                                 <h3 class="elementor-heading-title elementor-size-default"><a
                                                         class="h-ani"
-                                                        href="{{ route('shop', ['category' => 'coats']) }}">Down
-                                                        Coats,<br> Jackets & Gilets</a></h3>
+                                                        href="{{ route('shop', ['category' => $categories[1]->name]) }}">{{ $categories[1]->name }}</a></h3>
                                             </div>
                                         </div>
                                     </div>
@@ -653,7 +655,9 @@
                         <section
                             class="rey-lazyBg elementor-section elementor-top-section elementor-element elementor-element-897ea15 elementor-section-height-min-height rey-section-bg--classic elementor-section-items-bottom elementor-section-boxed elementor-section-height-default"
                             data-id="897ea15" data-element_type="section"
-                            data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+                            data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"
+                             style="background-image: url('{{ asset($extra->homepage_brand ?? '') }}'); background-size: cover; background-position: center;"
+                            >
                             <div class="elementor-background-overlay"></div>
                             <div class="elementor-container elementor-column-gap-no">
                                 <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-01785de"
@@ -767,10 +771,8 @@
 
                                                 <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ">
                                                     @foreach ($latestProducts as $product)
-                                                        <x-product-card
-                                                        :product="$product"
-                                                        :currency_symbol="session('currency_symbol', '₦')"
-                                                        :currency_rate="session('currency_rate', 1)" />
+                                                        <x-product-card :product="$product" :currency_symbol="session('currency_symbol', '₦')"
+                                                            :currency_rate="session('currency_rate', 1)" />
                                                     @endforeach
                                                 </div>
 
@@ -792,7 +794,7 @@
                                             data-id="8c38a48" data-element_type="widget"
                                             data-widget_type="heading.default">
                                             <div class="elementor-widget-container">
-                                                <h3 class="elementor-heading-title elementor-size-default">REY
+                                                <h3 class="elementor-heading-title elementor-size-default">{{ config('custom.site_name') }}
                                                     JOURNAL</h3>
                                             </div>
                                         </div>
@@ -822,7 +824,7 @@
                                 </div>
                             </div>
                         </section>
-                        <div class="elementor-section elementor-top-section elementor-element elementor-element-54f8032 elementor-section-full_width elementor-section-height-default elementor-section-height-default"
+                        {{-- <div class="elementor-section elementor-top-section elementor-element elementor-element-54f8032 elementor-section-full_width elementor-section-height-default elementor-section-height-default"
                             data-id="54f8032" data-element_type="section">
                             <div class="elementor-container elementor-column-gap-no">
                                 <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-7cadeaf"
@@ -849,8 +851,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="elementor-section elementor-top-section elementor-element elementor-element-fef80cd elementor-section-boxed elementor-section-height-default elementor-section-height-default"
+                        </div> --}}
+                        {{-- <div class="elementor-section elementor-top-section elementor-element elementor-element-fef80cd elementor-section-boxed elementor-section-height-default elementor-section-height-default"
                             data-id="fef80cd" data-element_type="section">
                             <div class="elementor-container elementor-column-gap-no">
                                 <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-a58e0bf"
@@ -986,11 +988,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="elementor-section elementor-top-section elementor-element elementor-element-c797855 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
                             data-id="c797855" data-element_type="section">
                             <div class="elementor-container elementor-column-gap-no">
-                                <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-dbd4f4e rey-colbg--classic"
+                                {{-- <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-dbd4f4e rey-colbg--classic"
                                     data-id="dbd4f4e" data-element_type="column"
                                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                                     <div
@@ -1090,7 +1092,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-8c192b2"
                                     data-id="8c192b2" data-element_type="column">
                                     <div

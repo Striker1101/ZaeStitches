@@ -58,11 +58,17 @@
                 Variant</button>
         </form>
 
-        @if ($errors->any())
+       @if ($errors->any())
             <div class="alert alert-danger">
                 @foreach ($errors->all() as $error)
                     <div class="text-red-500">{{ $error }}</div>
                 @endforeach
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="text-red-500 alert alert-danger">
+                {{ session('error') }}
             </div>
         @endif
 

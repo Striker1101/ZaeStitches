@@ -27,6 +27,7 @@
  @php
      $currencySymbol = session('currency_symbol', '₦');
      $currencyRate = (float) session('currency_rate', 1);
+     $shippingAmount =  (float) session('shipping_amount', 1);
  @endphp
 
  @section('content')
@@ -348,11 +349,15 @@
                                                                          </span>
                                                                      </td>
                                                                  </tr>
-                                                                 <tr class="tax-total">
-                                                                     <th>VAT</th>
-                                                                     <td data-title="VAT"><span
-                                                                             class="woocommerce-Price-amount amount"><bdi><span
-                                                                                     class="">{{ $currencySymbol }}</span>0.00</bdi></span>
+                                                                 <tr class="cart-shipping">
+                                                                     <th>Shipping</th>
+                                                                     <td>
+                                                                        <span class="woocommerce-Price-amount amount">
+                                                                             <span class="">
+                                                                                 {{ $currencySymbol }}
+                                                                             </span>
+
+                                                                              <span class="shipping_amount"></span>
                                                                      </td>
                                                                  </tr>
 
@@ -369,7 +374,7 @@
                                                                                      <span
                                                                                          class="">{{ $currencySymbol }}
                                                                                      </span>
-                                                                                     <span class="cart_total"></span>
+                                                                                     <span class="final_total"></span>
                                                                                  </bdi>
                                                                              </span>
                                                                          </strong>
@@ -416,7 +421,8 @@
 
      <script>
          const cartItems = @json($cartItems);
-         const currencyRate = @json($currencyRate)
+         const currencyRate = @json($currencyRate);
+         const shippingAmount = @json($shippingAmount);
 
 
          function getTotal() {
@@ -438,9 +444,16 @@
                  })
                  .then(res => res.json())
                  .then(data => {
+
                      localStorage.setItem("currency", JSON.stringify(data))
                      document.querySelectorAll('.cart_total').forEach(element => {
                          element.textContent = data.total
+                     });
+                     document.querySelectorAll('.shipping_amount').forEach(element => {
+                         element.textContent = data.shipping_amount
+                     });
+                     document.querySelectorAll('.final_total').forEach(element => {
+                         element.textContent = data.final_total
                      });
                  });
          }

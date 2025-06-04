@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\StoreColorRequest;
-use App\Http\Requests\StoreSizeRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Http\Requests\UpdateColorRequest;
-use App\Http\Requests\UpdateSizeRequest;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -35,9 +32,24 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
-        $category = Category::create($request->validated());
-        return redirect()->route('dashboard.category.index')->with('success', 'Category created successfully.');
+        try
+        {
+            $validated = $request->validated();
+
+            // Handle image upload
+            if ($request->hasFile('image'))
+            {
+                $path = $request->file('image')->store('category', 'public'); // saves to storage/app/public/brands
+                $validated['image'] = '/storage/' . $path;
+            }
+
+            // Create Category
+            $category = Category::create($request->validated());
+            return redirect()->route('dashboard.category.index')->with('success', 'Category created successfully.');
+        } catch (\Exception $e)
+        {
+            return redirect()->back()->withInput()->with('error', 'Failed to create Category: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -62,13 +74,43 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $validatedData = $request->validated();
-        $category->update($validatedData);
+        try
+        {
+            $validatedData = $request->validated();
 
-        return redirect()
-            ->route('dashboard.category.index')
-            ->with('success', 'Category updated successfully.');
+            // If a new image is uploaded
+            if ($request->hasFile('image'))
+            {
+                // Delete old image if it exists
+                if ($category->image)
+                {
+                    $oldPath = str_replace('/storage/', '', $category->image);
+                    if (Storage::disk('public')->exists($oldPath))
+                    {
+                        Storage::disk('public')->delete($oldPath);
+                    }
+                }
+
+                // Store new image
+                $path = $request->file('image')->store('category', 'public');
+                $validatedData['image'] = '/storage/' . $path;
+            }
+
+            // Update category
+            $category->update($validatedData);
+
+            return redirect()
+                ->route('dashboard.category.index')
+                ->with('success', 'Category updated successfully.');
+        } catch (\Exception $e)
+        {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Failed to update category: ' . $e->getMessage());
+        }
     }
+
 
 
     /**
@@ -76,9 +118,29 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
-        $category->delete();
+        try
+        {
+            // Delete image if it exists
+            if ($category->image)
+            {
+                $imagePath = str_replace('/storage/', '', $category->image); // convert to storage path
+                if (Storage::disk('public')->exists($imagePath))
+                {
+                    Storage::disk('public')->delete($imagePath);
+                }
+            }
 
-        return redirect()->route('dashboard.category.index')->with('success', 'Category deleted successfully.');
+            // Delete the category record
+            $category->delete();
+
+            return redirect()
+                ->route('dashboard.category.index')
+                ->with('success', 'Category deleted successfully.');
+        } catch (\Exception $e)
+        {
+            return redirect()
+                ->back()
+                ->with('error', 'Failed to delete category: ' . $e->getMessage());
+        }
     }
 }

@@ -50,7 +50,7 @@
              <div class="col-md-6">
                  <h2 class="fw-bold">{{ $product->title }}</h2>
                  <div class="text-blue-600 font-bold text-lg flex gap-4">
-                     @if ($product['discount_price'])
+                     @if ($product['discount_price'] > 0)
                          <del> {{ $currencySymbol }}
                              <span class="defaultPrice">{{ $convertedPrice }}
                              </span>
@@ -576,8 +576,8 @@
              const urlParts = window.location.pathname.split('/');
              const productId = urlParts[urlParts.length - 1]; // '84' in /shop/84
              const price = localStorage.getItem("price");
-             const defaultPrice = document.querySelector('.defaultPrice').textContent;
-             const discountPrice = document.querySelector('.discountPrice').textContent;
+             const defaultPrice = document.querySelector('.defaultPrice')?.textContent;
+             const discountPrice = document.querySelector('.discountPrice')?.textContent;
              const token = localStorage.getItem('guestToken');
              const variants = @json($variants);
 
@@ -610,9 +610,6 @@
                  return;
              }
 
-
-             console.log("price", price,
-                 "defaultPrice", defaultPrice, "discountPrice", discountPrice);
              fetch("{{ route('cart.add') }}", {
                      method: "POST",
                      headers: {
@@ -626,9 +623,9 @@
                          color: color,
                          quantity: qty,
                          price: price ?
-                             parseFloat(price) : (parseFloat(discountPrice) > 0 ?
-                                 parseFloat(discountPrice) :
-                                 parseFloat(defaultPrice)),
+                             parseFloat(price?.replace(/,/g, '')) : (parseFloat(discountPrice?.replace(/,/g, '')) > 0 ?
+                                 parseFloat(discountPrice?.replace(/,/g, '')) :
+                                 parseFloat(defaultPrice?.replace(/,/g, ''))),
                          currency: "{{ session('currency_symbol', '₦') }}"
                      })
                  })

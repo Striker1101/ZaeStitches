@@ -33,10 +33,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call(
             [
-                CurrencySeeder::class,
+                // CurrencySeeder::class,
                 ColorSeeder::class,
                 SizeSeeder::class,
                 CategorySeeder::class,
+                ExtraSeeder::class,
                 TagSeeder::class,
                 BrandSeeder::class,
                 // CartSeeder::class,

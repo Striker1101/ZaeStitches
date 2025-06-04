@@ -40,6 +40,26 @@
             <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Update Currency</button>
         </form>
 
+         @if ($errors->any())
+            <div class="alert alert-danger">
+                @foreach ($errors->all() as $error)
+                    <div class="text-red-500">{{ $error }}</div>
+                @endforeach
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="text-red-500 alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="alert alert-success text-green-500">
+                {{ session('success') }}
+            </div>
+        @endif
+
         {{-- Delete button --}}
         <form action="{{ route('dashboard.currency.destroy', $currency) }}" method="POST" onsubmit="return confirm('Confirm delete?')" class="mt-4">
             @csrf

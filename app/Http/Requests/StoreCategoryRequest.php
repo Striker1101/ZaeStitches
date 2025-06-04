@@ -21,9 +21,11 @@ class StoreCategoryRequest extends FormRequest
      */
     public function rules(): array
     {
+        // dd($this->image);
         return [
             'name' => 'required|string|unique:categories,name',
             'slug' => 'required|string|unique:categories,slug',
+            'image'=> 'nullable|image|max:2048',
             'description' => 'nullable|string',
             'type' => 'in:both,product,blog',
         ];

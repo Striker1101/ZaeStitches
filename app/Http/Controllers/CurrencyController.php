@@ -91,6 +91,7 @@ class CurrencyController extends Controller
                 'currency_code' => $currency->code,
                 'currency_symbol' => $currency->symbol,
                 'currency_rate' => $currency->rate_to_naira,
+                'shipping_amount' => $currency->shipping_amount
             ]);
         }
 
@@ -125,11 +126,14 @@ class CurrencyController extends Controller
         $activeCurrency = Currency::where('symbol', $sessionCurrency)->first();
         // Final converted value
         $convertedTotal = $baseTotal / $sessionRate;
+        $shipping_amount = $activeCurrency->shipping_amount;
 
         return response()->json([
             'total' => round($convertedTotal, 2),
             'symbol' => $sessionCurrency,
-            'country_code' => $activeCurrency->code
+            'country_code' => $activeCurrency->code,
+            'shipping_amount' => round($shipping_amount, 2),
+            'final_total' => round($convertedTotal + $shipping_amount, 2)
         ]);
     }
 }

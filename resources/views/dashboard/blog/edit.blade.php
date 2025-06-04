@@ -74,8 +74,11 @@
                         class="mb-4 max-h-32" />
                 @endif
             </div>
-            <input type="file" name="featured_image" accept="image/*" class="mb-6"
-                onchange="previewFeaturedImage(this)" />
+            <label for="featured_image"> Featured Image
+                <input type="file" name="featured_image" accept="image/*" class="mb-6"
+                    onchange="previewFeaturedImage(this)" />
+            </label>
+            <br />
 
             <script>
                 function previewFeaturedImage(input) {
@@ -90,43 +93,16 @@
                 }
             </script>
 
-            {{-- Media --}}
-            <label class="block mb-2">Media</label>
-            @if ($blog->media && $blog->media->count())
-                <div class="flex flex-wrap gap-4 my-3">
-                    @foreach ($blog->media as $media)
-                        <div class="relative max-w-xs">
-                            @php
-                                $ext = strtolower(pathinfo($media->url, PATHINFO_EXTENSION));
-                                $isImage = in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif']);
-                            @endphp
 
-                            @if ($isImage)
-                                <img src="{{ asset($media->url) }}" alt="{{ asset($media->name) }}"
-                                    class="rounded border max-h-32" />
-                            @else
-                                <video src="{{ asset($media->url) }}" controls class="rounded border max-h-32"></video>
-                            @endif
 
-                            <form action="{{ route('dashboard.media.destroy', $media->id) }}" method="POST"
-                                class="absolute top-0 right-0">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" onclick="return confirm('Delete this media?')"
-                                    class="bg-red-500 text-white p-1 w-7 h-7 rounded-full hover:bg-red-700 absolute top-0 right-0">
-                                    &times;
-                                </button>
-                            </form>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-
-            <input type="file" name="media[]" id="media" class="form-control" multiple accept="image/*,video/*">
-            @error('media')
-                <div class="text-danger small">{{ $message }}</div>
-            @enderror
-
+            <label>Media Upload:
+                <input type="file" name="media[]" id="media" class="form-control" multiple
+                    accept="image/*,video/*">
+                @error('media')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
+            </label>
+            <br />
             <button type="submit" class="bg-green-600 text-white p-3  py- my-5 rounded hover:bg-green-700">
                 Update Blog
             </button>
@@ -140,9 +116,49 @@
             </div>
         @endif
 
+        @if (session('error'))
+            <div class="text-red-500 alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+
         @if (session('success'))
             <div class="alert alert-success text-green-500">
                 {{ session('success') }}
+            </div>
+        @endif
+
+
+        {{-- Media --}}
+        <label class="block mb-2">Media</label>
+        @if ($blog->media && $blog->media->count())
+            <div class="flex flex-wrap gap-4 my-3">
+                @foreach ($blog->media as $media)
+                    <div class="relative max-w-xs">
+                        @php
+                            $ext = strtolower(pathinfo($media->url, PATHINFO_EXTENSION));
+                            $isImage = in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif']);
+                        @endphp
+
+                        @if ($isImage)
+                            <img src="{{ asset($media->url) }}" alt="{{ asset($media->name) }}"
+                                class="rounded border max-h-32" />
+                        @else
+                            <video src="{{ asset($media->url) }}" controls class="rounded border max-h-32"></video>
+                        @endif
+
+                        <form action="{{ route('dashboard.media.destroy', $media->id) }}" method="POST"
+                            class="absolute top-0 right-0">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Delete this media?')"
+                                class="bg-red-500 text-white p-1 w-7 h-7 rounded-full hover:bg-red-700 absolute top-0 right-0">
+                                &times;
+                            </button>
+                        </form>
+                    </div>
+                @endforeach
             </div>
         @endif
 

@@ -201,15 +201,17 @@
 
                                                                  <input type="hidden" name="amount"
                                                                      :value="JSON.parse(localStorage.getItem('currency') ||
-                                                                         '{}').total">
+                                                                         '{}').final_total">
                                                                  <input type="hidden" name="country_code"
                                                                      :value="JSON.parse(localStorage.getItem('currency') ||
                                                                          '{}').country_code">
-                                                                         <div>
-                                                                            <input type="hidden" name="carts_ids" :value="localStorage.getItem('cartItems')">
-                                                                            <input type="hidden" name="shipping_details" :value="localStorage.getItem('UserData')">
-                                                                            <input type="hidden" name="">
-                                                                         </div>
+                                                                 <div>
+                                                                     <input type="hidden" name="carts_ids"
+                                                                         :value="localStorage.getItem('cartItems')">
+                                                                     <input type="hidden" name="shipping_details"
+                                                                         :value="localStorage.getItem('UserData')">
+                                                                     <input type="hidden" name="">
+                                                                 </div>
 
                                                                  <button type="submit"
                                                                      class="bg-green-600 text-white px-4 py-2">
@@ -295,7 +297,7 @@
                                                                          </tbody>
 
 
-                                                                         <tfoot>
+                                                                         <tfoot x-data="{ currency: JSON.parse(localStorage.getItem('currency') || '{}') }">
 
 
 
@@ -316,16 +318,14 @@
                                                                                      </span>
                                                                                  </td>
                                                                              </tr> --}}
-
-                                                                             {{-- <tr class="cart-shipping">
+                                                                             <tr class="cart-shipping">
                                                                                  <th>Shipping</th>
-                                                                                 <td><span
-                                                                                         class="woocommerce-Price-amount amount"><span
-                                                                                             class="">&#036;</span>30.00</span>
+                                                                                 <td>
+                                                                                     <span x-text="currency.symbol"></span>
+                                                                                     <span
+                                                                                         x-text="currency.shipping_amount"></span>
                                                                                  </td>
-                                                                             </tr> --}}
-
-
+                                                                             </tr>
 
                                                                              {{-- <tr class="tax-total">
                                                                                  <th>VAT</th>
@@ -348,7 +348,7 @@
                                                                                                  <span
                                                                                                      x-text="currency.symbol"></span>
                                                                                                  <span
-                                                                                                     x-text="currency.total.toLocaleString()"></span>
+                                                                                                     x-text="currency.final_total.toLocaleString()"></span>
                                                                                              </bdi>
                                                                                          </span>
                                                                                      </strong>

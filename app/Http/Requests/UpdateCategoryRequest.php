@@ -24,6 +24,7 @@ class UpdateCategoryRequest extends FormRequest
         return [
             'name' => 'sometimes|required|string|unique:categories,name,' . $this->category->id,
             'slug' => 'sometimes|required|string|unique:categories,slug,' . $this->category->id,
+            'image' => 'sometimes|nullable|image|max:2048',
             'description' => 'nullable|string',
             'type' => 'in:both,product,blog',
         ];

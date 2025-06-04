@@ -1,13 +1,13 @@
 <?php
 
 return [
-    'address' => 'DKI Jakarta — Jl. Patimura Timur XII, No. 68South Jakarta, 81566',
-    'phone' => '(011) 223 432 255',
-    'email' => 'info@zeastitches.com',
+    'address' => 'Abuja, Nigeria ',
+    'phone' => '+234 904 683 3916',
+    'email' => 'info@zaestitches.com',
     'facebook' => '',
-    'twitter' => '',
+    'twitter' => 'https://x.com/zaestitches?s=21',
     'linkedin' => '',
     'youtube' => '',
-    'instagram' => '',
+    'instagram' => 'https://www.instagram.com/zaestitches?igsh=MXd4aXZrNHZ5NTZr&utm_source=qr',
     'site_name' => 'Zea Stitches'
 ];

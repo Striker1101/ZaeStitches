@@ -633,7 +633,7 @@
                                                  </ul>
                                              </div>
 
-                                             <div class="rey-mobileNav-footer">
+                                             {{-- <div class="rey-mobileNav-footer">
 
                                                  <a href="https://demos.reytheme.com/london/my-account/"
                                                      class="rey-mobileNav--footerItem">
@@ -648,7 +648,7 @@
                                                          </path>
                                                      </svg></a>
 
-                                             </div>
+                                             </div> --}}
                                          </div>
 
                                      </nav>

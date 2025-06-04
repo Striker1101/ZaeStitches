@@ -21,6 +21,7 @@ class CategoryFactory extends Factory
         return [
             'name' => ucfirst($name),
             'slug' => Str::slug($name),
+            'image' => $this->faker->imageUrl(200, 200, 'business', true),
             'description' => $this->faker->sentence,
             'type' => $this->faker->randomElement(['product', 'blog', 'both']),
         ];

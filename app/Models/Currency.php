@@ -9,7 +9,7 @@ class Currency extends Model
 {
     /** @use HasFactory<\Database\Factories\CurrencyFactory> */
     use HasFactory;
-    protected $fillable = ['code', 'name', 'symbol', 'rate_to_naira', 'country_code','flag'];
+    protected $fillable = ['code', 'name', 'symbol', 'rate_to_naira', 'country_code','flag','shipping_amount'];
 
 
     public function users()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Currency;
+use App\Models\Extra;
 use App\Models\Product;
 use App\Traits\ProductTransformer;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ class ExtraController extends Controller
     public function homepage(Request $request)
     {
         $categories = Category::take(5)->get();
+        $extra = Extra::first();
 
         // 1. Popular Products (is_popular = true)
         $popularProducts = Product::with([
@@ -74,7 +76,7 @@ class ExtraController extends Controller
         $blogs = Blog::take(5)->get();
         $currencies = Currency::all();
 
-        return view('pages.home', compact('categories', 'latestProducts', 'popularProducts', 'blogs'));
+        return view('pages.home', compact('categories', 'latestProducts', 'popularProducts', 'blogs', 'extra'));
     }
 
     public function dashboard()

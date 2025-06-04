@@ -22,7 +22,8 @@ class CurrencyFactory extends Factory
             'name' => $this->faker->country . ' Currency',
             'symbol' => $this->faker->randomElement(['₦', '₵', '$', '€']),
             'rate_to_naira' => $this->faker->randomFloat(4, 0.1, 1500),
-            'country_code' => $this->faker->countryCode
+            'country_code' => $this->faker->countryCode,
+            'shipping_amount' => $this->faker->randomFloat(4, 0.1, 1500),
         ];
     }
 }
