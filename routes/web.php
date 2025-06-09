@@ -31,6 +31,15 @@ Route::get('/contact', function () {
     return view('pages.contact');
 })->name('contact');
 
+Route::get('/faq', function () {
+    return view('pages.faq');
+})->name('faq');
+
+Route::get('/terms', action: function () {
+    return view('pages.terms');
+})->name('terms');
+
+
 Route::get('/currency-detect', function () {
     $response = Http::get('https://ipapi.co/currency/');
     return $response->body();
