@@ -27,11 +27,6 @@
                    class="w-full mb-4 border px-3 py-2 rounded" />
             </label>
 
-             <label class="block mb-2">Shipping Amount
-            <input type="text" name="shipping_amount" value="{{ old('shipping_amount', $currency->shipping_amount) }}" required
-                   class="w-full mb-4 border px-3 py-2 rounded" />
-            </label>
-
              <label class="block mb-2">Country Code
             <input type="text" name="country_code" value="{{ old('country_code', $currency->country_code) }}" required
                    class="w-full mb-4 border px-3 py-2 rounded" />

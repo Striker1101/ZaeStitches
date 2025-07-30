@@ -47,14 +47,6 @@
 
                     <br/>
                     <div class="form-group m-3 p-3">
-                    <label for="shipping_amount" class="form-label m-3" >Shipping Address *
-                    <input type="number" name="shipping_amount" id="shipping_amount" value="{{ old('shipping_amount') }}" class="form-control w-full" required>
-                     @error('shipping_amount') <div class="text-danger small">{{ $message }}</div> @enderror
-                    </label>
-                    </div>
-
-                    <br/>
-                    <div class="form-group m-3 p-3">
                     <label for="flag" class="form-label m-3" >Flag *
                     <input type="text" name="flag" id="flag" value="{{ old('flag') }}" class="form-control w-full" required>
                      @error('flag') <div class="text-danger small">{{ $message }}</div> @enderror

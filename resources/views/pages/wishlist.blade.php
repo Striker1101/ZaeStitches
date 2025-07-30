@@ -897,7 +897,7 @@
                                             data-id="8c38a48" data-element_type="widget"
                                             data-widget_type="heading.default">
                                             <div class="elementor-widget-container">
-                                                <h3 class="elementor-heading-title elementor-size-default">{{ config('custom.site_name') }}
+                                                <h3 class="elementor-heading-title elementor-size-default">REY
                                                     JOURNAL</h3>
                                             </div>
                                         </div>
