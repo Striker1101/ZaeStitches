@@ -134,7 +134,7 @@
                                                         href="{{ route('shop', ['category' => 'hoody']) }}">
                                                         <span class="elementor-button-content-wrapper">
                                                             <span class="elementor-button-text">shop
-                                                                Hoody</span>
+                                                                </span>
                                                         </span>
                                                     </a>
                                                 </div>
@@ -722,21 +722,7 @@
                                     data-id="d9eec33" data-element_type="column">
                                     <div
                                         class="elementor-column-wrap--d9eec33 elementor-widget-wrap elementor-element-populated">
-                                        <div class="elementor-element elementor-element-05b92ce elementor-button-dashed --large elementor-widget__width-auto elementor-widget elementor-widget-button"
-                                            data-id="05b92ce" data-element_type="widget"
-                                            data-widget_type="button.default">
-                                            <div class="elementor-widget-container">
-                                                <div class="elementor-button-wrapper">
-                                                    <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                        href="{{ route('shop', ['category' => 'women']) }}">
-                                                        <span class="elementor-button-content-wrapper">
-                                                            <span class="elementor-button-text">SHOP
-                                                                WOMEN'S</span>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                     
                                         <div class="elementor-element elementor-element-e23f4c7 elementor-button-dashed --large elementor-widget__width-auto elementor-widget elementor-widget-button"
                                             data-id="e23f4c7" data-element_type="widget"
                                             data-widget_type="button.default">
@@ -1121,8 +1107,7 @@
                                             data-widget_type="text-editor.default">
                                             <div class="elementor-widget-container">
                                                 <p>
-                                                    If you purchase over 100$, shipping is on us. Receive your order
-                                                    within 1 to 2 working days.
+                                                    If you purchase over 400$, shipping is on us. Check Terms and condition for more details 
                                                 </p>
 
                                             </div>

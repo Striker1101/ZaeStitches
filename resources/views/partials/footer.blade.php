@@ -207,21 +207,21 @@
                                                              class="reyEl-menu-nav rey-navEl --menuHover-ulr --thinner">
                                                              <li id="menu-item-1017"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1017 o-id-971">
-                                                                 <a href="#"><span>FAQ</span></a>
+                                                                 <a href="{{ asset('faq') }}"><span>FAQ</span></a>
                                                              </li>
                                                              <li id="menu-item-1016"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-1016 o-id-981">
-                                                                 <a href="#"><span>Privacy
+                                                                 <a href="{{ asset('terms') }}"><span>Privacy
                                                                          policy</span></a>
                                                              </li>
                                                              <li id="menu-item-1018"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-1018 o-id-981">
-                                                                 <a href="#"><span>Terms
+                                                                 <a href="{{ asset('terms') }}"><span>Terms
                                                                          &#038; Conditions</span></a>
                                                              </li>
                                                              <li id="menu-item-1019"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-1019 o-id-981">
-                                                                 <a href="#"><span>Returns
+                                                                 <a href="{{ asset('terms') }}"><span>Returns
                                                                          &#038; Exchanges</span></a>
                                                              </li>
                                                          </ul>
@@ -254,20 +254,20 @@
                                                              class="reyEl-menu-nav rey-navEl --menuHover-ulr --thinner">
                                                              <li id="menu-item-1022"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1022 o-id-25">
-                                                                 <a href="#"><span>Journal</span></a>
+                                                                 <a href="{{ asset('blog') }}"><span>Journal</span></a>
                                                              </li>
                                                              <li id="menu-item-1021"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1021 o-id-935">
-                                                                 <a href="#"><span>Our
+                                                                 <a href="{{ asset('about_us') }}"><span>Our
                                                                          Story</span></a>
                                                              </li>
                                                              <li id="menu-item-1020"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1020 o-id-954">
-                                                                 <a href="#"><span>Contact</span></a>
+                                                                 <a href="{{ asset('contact') }}"><span>Contact</span></a>
                                                              </li>
                                                              <li id="menu-item-130"
                                                                  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-130">
-                                                                 <a href="#"><span>Store
+                                                                 <a href="{{ asset('contact') }}"><span>Store
                                                                          Locator</span></a>
                                                              </li>
                                                          </ul>

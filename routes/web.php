@@ -21,7 +21,7 @@ use Livewire\Volt\Volt;
 Route::get('/clear-session', function () {
     session()->flush();
     return 'Session cleared';
-});
+}); 
 
 Route::get('/', [ExtraController::class, 'homepage'])->name('home');
 Route::post('/contact-shore', [ExtraController::class, 'contact'])->name('contact.store');
