@@ -13,7 +13,7 @@ services:
       - laravel
 
   mysql:
-    image:  mysql:8
+    image:  mysql:8.0.33-debian
     restart: always
     environment:
       MYSQL_DATABASE: bestwedo_zaestitches
@@ -25,6 +25,8 @@ services:
       - "3306:3306"
     networks:
       - laravel
+    security_opt:
+    - seccomp:unconfined
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin

@@ -68,8 +68,8 @@
     <meta name="author" content="Marius H" />
     <meta name="copyright" content="Copyright (c)2019-2025 Zar Stitches. All Rights Reserved." />
     <meta name="description"
-        content="Transform eCommerce Stores Into a Powerhouse Using Zar Stitches - World’s Most Exceptionally Intuitive WooCommerce Theme With FREE High-Converting, Captivating Designs" />
-    <meta name="keywords" content="WordPress, WooCommerce, WooCommerce theme, Zar Stitches, Elementor" />
+        content="Zae Stitches exists for the man who understands that personal style is a statement — and every detail is part of the story. Blending the precision of modern tailoring with subtle nods to African heritage, we craft pieces that speak with bold confidence and unmistakable presence." />
+    <meta name="keywords" content="Zae_Stitches, Clothes, Agbadar" />
     <meta name="generator"
         content="Elementor 3.28.4; features: e_font_icon_svg, additional_custom_breakpoints, e_local_google_fonts; settings: css_print_method-external, google_font-disabled, font_display-auto">
     <link rel="icon" href="{{ asset('icon.png') }}" sizes="32x32" />

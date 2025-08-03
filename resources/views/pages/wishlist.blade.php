@@ -744,7 +744,7 @@
                                             data-widget_type="heading.default">
                                             <div class="elementor-widget-container">
                                                 <h3 class="elementor-heading-title elementor-size-default">
-                                                    <b>TACHEN '25</b><br>SPRING COLLECTION
+                                                    <b>MOAM '25</b><br>SPRING COLLECTION
                                                 </h3>
                                             </div>
                                         </div>
@@ -897,7 +897,8 @@
                                             data-id="8c38a48" data-element_type="widget"
                                             data-widget_type="heading.default">
                                             <div class="elementor-widget-container">
-                                                <h3 class="elementor-heading-title elementor-size-default">{{ config('custom.site_name') }}
+                                                <h3 class="elementor-heading-title elementor-size-default">
+                                                    {{ config('custom.site_name') }}
                                                     JOURNAL</h3>
                                             </div>
                                         </div>

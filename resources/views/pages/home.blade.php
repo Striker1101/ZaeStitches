@@ -134,7 +134,7 @@
                                                         href="{{ route('shop', ['category' => 'hoody']) }}">
                                                         <span class="elementor-button-content-wrapper">
                                                             <span class="elementor-button-text">shop
-                                                                </span>
+                                                            </span>
                                                         </span>
                                                     </a>
                                                 </div>
@@ -396,8 +396,7 @@
                                                 <div class="rey-lazyBg elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-de7627c rey-colbg--classic"
                                                     data-id="de7627c" data-element_type="column"
                                                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                                                    <div
-                                                        class="elementor-column-wrap--de7627c elementor-widget-wrap elementor-element-populated"
+                                                    <div class="elementor-column-wrap--de7627c elementor-widget-wrap elementor-element-populated"
                                                         style="background-image: url('{{ asset($categories[1]->image) }}'); background-size: cover; background-position: center;">
                                                         <div class="elementor-background-overlay"></div>
                                                         <div class="elementor-element elementor-element-ec274de p-ani--underline p-trg--column elementor-widget elementor-widget-heading"
@@ -450,9 +449,9 @@
                                 <div class="rey-lazyBg elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-1fd19f0 rey-colbg--classic"
                                     data-id="1fd19f0" data-element_type="column"
                                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                                    <div
-                                        class="elementor-column-wrap--1fd19f0 elementor-widget-wrap elementor-element-populated"
-                                         style="background-image: url('{{ asset($categories[2]->image) }}'); background-size: cover; background-position: center;">>
+                                    <div class="elementor-column-wrap--1fd19f0 elementor-widget-wrap elementor-element-populated"
+                                        style="background-image: url('{{ asset($categories[2]->image) }}'); background-size: cover; background-position: center;">
+                                        >
                                         <div class="elementor-background-overlay"></div>
                                         <div class="elementor-element elementor-element-52003a7 p-ani--underline p-trg--column elementor-widget elementor-widget-heading"
                                             data-id="52003a7" data-element_type="widget"
@@ -460,7 +459,8 @@
                                             <div class="elementor-widget-container">
                                                 <h3 class="elementor-heading-title elementor-size-default"><a
                                                         class="h-ani"
-                                                        href="{{ route('shop', ['category' => $categories[1]->name]) }}">{{ $categories[1]->name }}</a></h3>
+                                                        href="{{ route('shop', ['category' => $categories[1]->name]) }}">{{ $categories[1]->name }}</a>
+                                                </h3>
                                             </div>
                                         </div>
                                     </div>
@@ -579,7 +579,7 @@
                                                                         href="{{ route('shop') }}">
                                                                         <span class="elementor-button-content-wrapper">
                                                                             <span class="elementor-button-text">EXPLORE
-                                                                                SHIRTS</span>
+                                                                                COLLECTION</span>
                                                                         </span>
                                                                     </a>
                                                                 </div>
@@ -656,8 +656,7 @@
                             class="rey-lazyBg elementor-section elementor-top-section elementor-element elementor-element-897ea15 elementor-section-height-min-height rey-section-bg--classic elementor-section-items-bottom elementor-section-boxed elementor-section-height-default"
                             data-id="897ea15" data-element_type="section"
                             data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"
-                             style="background-image: url('{{ asset($extra->homepage_brand ?? '') }}'); background-size: cover; background-position: center;"
-                            >
+                            style="background-image: url('{{ asset($extra->homepage_brand ?? '') }}'); background-size: cover; background-position: center;">
                             <div class="elementor-background-overlay"></div>
                             <div class="elementor-container elementor-column-gap-no">
                                 <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-01785de"
@@ -677,7 +676,7 @@
                                             data-widget_type="heading.default">
                                             <div class="elementor-widget-container">
                                                 <h3 class="elementor-heading-title elementor-size-default">
-                                                    <b>TACHEN '25</b><br>SPRING COLLECTION
+                                                    <b>MOAM '25</b><br>SPRING COLLECTION
                                                 </h3>
                                             </div>
                                         </div>
@@ -722,7 +721,7 @@
                                     data-id="d9eec33" data-element_type="column">
                                     <div
                                         class="elementor-column-wrap--d9eec33 elementor-widget-wrap elementor-element-populated">
-                                     
+
                                         <div class="elementor-element elementor-element-e23f4c7 elementor-button-dashed --large elementor-widget__width-auto elementor-widget elementor-widget-button"
                                             data-id="e23f4c7" data-element_type="widget"
                                             data-widget_type="button.default">
@@ -780,7 +779,8 @@
                                             data-id="8c38a48" data-element_type="widget"
                                             data-widget_type="heading.default">
                                             <div class="elementor-widget-container">
-                                                <h3 class="elementor-heading-title elementor-size-default">{{ config('custom.site_name') }}
+                                                <h3 class="elementor-heading-title elementor-size-default">
+                                                    {{ config('custom.site_name') }}
                                                     JOURNAL</h3>
                                             </div>
                                         </div>
@@ -1107,7 +1107,8 @@
                                             data-widget_type="text-editor.default">
                                             <div class="elementor-widget-container">
                                                 <p>
-                                                    If you purchase over 400$, shipping is on us. Check Terms and condition for more details 
+                                                    If you purchase over 400$, shipping is on us. Check Terms and condition
+                                                    for more details
                                                 </p>
 
                                             </div>
