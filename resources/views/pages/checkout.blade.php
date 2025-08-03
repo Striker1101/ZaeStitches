@@ -97,7 +97,8 @@
                                                              x-data="{
                                                                  step: 2,
                                                                  user: JSON.parse(localStorage.getItem('UserData') || '{}'),
-                                                                 goToShipping() {
+                                                             
+                                                                 async goToShipping() {
                                                                      if (!this.user.name || !this.user.email || !this.user.phone) {
                                                                          alert('Please fill all information fields.');
                                                                          return;
@@ -105,13 +106,41 @@
                                                                      localStorage.setItem('UserData', JSON.stringify(this.user));
                                                                      this.step = 3;
                                                                  },
-                                                                 goToPayment() {
+                                                             
+                                                                 async goToPayment() {
                                                                      if (!this.user.address || !this.user.city || !this.user.state || !this.user.country) {
                                                                          alert('Please fill all shipping fields.');
                                                                          return;
                                                                      }
-                                                                     localStorage.setItem('UserData', JSON.stringify(this.user));
-                                                                     this.step = 4;
+                                                             
+                                                                     try {
+                                                                         const csrf = document.querySelector('meta[name=\'csrf-token\']')?.getAttribute('content');
+                                                             
+                                                                         const response = await fetch('/shipping_cost', {
+                                                                             method: 'POST',
+                                                                             headers: {
+                                                                                 'Content-Type': 'application/json',
+                                                                                 'X-CSRF-TOKEN': csrf
+                                                                             },
+                                                                             body: JSON.stringify(this.user)
+                                                                         });
+                                                             
+                                                                         if (!response.ok) throw new Error('Failed to fetch shipping cost');
+                                                             
+                                                                         const data = await response.json();
+                                                             
+                                                                         if (!data.amount) throw new Error(data.message || 'Invalid shipping response');
+                                                             
+                                                                         let currency = JSON.parse(localStorage.getItem('currency') || '{}');
+                                                                         currency.shipping_amount = data.amount;
+                                                                         currency.final_total = (currency.subtotal || 0) + data.amount;
+                                                                         localStorage.setItem('currency', JSON.stringify(currency));
+                                                             
+                                                                         localStorage.setItem('UserData', JSON.stringify(this.user));
+                                                                         this.step = 4;
+                                                                     } catch (error) {
+                                                                         alert('Shipping error: ' + error.message);
+                                                                     }
                                                                  }
                                                              }">
                                                              @csrf
@@ -170,9 +199,20 @@
                                                                  <input type="text" name="state"
                                                                      x-model="user.state" class="block w-full"
                                                                      placeholder="State" required>
-                                                                 <input type="text" name="country"
-                                                                     x-model="user.country" class="block w-full"
-                                                                     placeholder="Country" required>
+                                                                 <select name="country" x-model="user.country"
+                                                                     class="block w-full" required>
+                                                                     <option value="">Select Country</option>
+                                                                     <option value="NG">Nigeria</option>
+                                                                     <option value="US">United States</option>
+                                                                     <option value="GB">United Kingdom</option>
+                                                                     <option value="GH">Ghana</option>
+                                                                     <option value="ZA">South Africa</option>
+                                                                     <option value="KE">Kenya</option>
+                                                                     <option value="CA">Canada</option>
+                                                                     <option value="DE">Germany</option>
+                                                                     <option value="FR">France</option>
+                                                                     <option value="IN">India</option>
+                                                                 </select>
                                                                  <button type="button"
                                                                      class="bg-blue-500 text-white px-4 py-2"
                                                                      @click="goToPayment()">Next</button>
@@ -296,29 +336,8 @@
                                                                              </template>
                                                                          </tbody>
 
-
                                                                          <tfoot x-data="{ currency: JSON.parse(localStorage.getItem('currency') || '{}') }">
-
-
-
-
-
-                                                                             {{-- <tr class="cart-subtotal">
-                                                                                 <th>Subtotal</th>
-                                                                                 <td><span
-                                                                                         class="woocommerce-Price-amount amount">
-                                                                                         <bdi>
-                                                                                             <span
-                                                                                                 class="">
-                                                                                                                                                                                             </span>
-                                                                                            <span>
-                                                                                                 183.00
-                                                                                            </span>
-                                                                                         </bdi>
-                                                                                     </span>
-                                                                                 </td>
-                                                                             </tr> --}}
-                                                                             <tr class="cart-shipping">
+                                                                             <tr class="cart-shipping d-block">
                                                                                  <th>Shipping</th>
                                                                                  <td>
                                                                                      <span x-text="currency.symbol"></span>
@@ -326,16 +345,6 @@
                                                                                          x-text="currency.shipping_amount"></span>
                                                                                  </td>
                                                                              </tr>
-
-                                                                             {{-- <tr class="tax-total">
-                                                                                 <th>VAT</th>
-                                                                                 <td><span
-                                                                                         class="woocommerce-Price-amount amount"><bdi><span
-                                                                                                 class="">&#36;</span>0.00</bdi></span>
-                                                                                 </td>
-                                                                             </tr> --}}
-
-
                                                                              <tr class="order-total">
                                                                                  <th>Total</th>
                                                                                  <td x-data="{

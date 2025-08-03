@@ -27,7 +27,7 @@
  @php
      $currencySymbol = session('currency_symbol', '₦');
      $currencyRate = (float) session('currency_rate', 1);
-     $shippingAmount =  (float) session('shipping_amount', 1);
+     $shippingAmount = (float) session('shipping_amount', 1);
  @endphp
 
  @section('content')
@@ -349,7 +349,7 @@
                                                                          </span>
                                                                      </td>
                                                                  </tr>
-                                                                 <tr class="cart-shipping">
+                                                                 {{-- <tr class="cart-shipping">
                                                                      <th>Shipping</th>
                                                                      <td>
                                                                         <span class="woocommerce-Price-amount amount">
@@ -359,7 +359,7 @@
 
                                                                               <span class="shipping_amount"></span>
                                                                      </td>
-                                                                 </tr>
+                                                                 </tr> --}}
 
                                                                  <tr class="__no-shipping-text">
                                                                      <td colspan="2">Taxes and Shipping are
@@ -423,6 +423,7 @@
          const cartItems = @json($cartItems);
          const currencyRate = @json($currencyRate);
          const shippingAmount = @json($shippingAmount);
+
 
 
          function getTotal() {

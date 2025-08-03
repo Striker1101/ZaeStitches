@@ -21,7 +21,7 @@ use Livewire\Volt\Volt;
 Route::get('/clear-session', function () {
     session()->flush();
     return 'Session cleared';
-}); 
+});
 
 Route::get('/', [ExtraController::class, 'homepage'])->name('home');
 Route::post('/contact-shore', [ExtraController::class, 'contact'])->name('contact.store');
@@ -66,6 +66,7 @@ Route::post('/comment', [CommentController::class, 'store'])->name('comment.stor
 Route::post('/subscribe', [ExtraController::class, 'subscribe'])->name('subscribe');
 Route::get('/checkout', [ExtraController::class, 'checkout'])->name('checkout');
 Route::post('/currency/convert', [CurrencyController::class, 'convert'])->name('currency.convert');
+Route::post('/shipping_cost', [ExtraController::class, 'getCost'])->name('shipping_cost');
 
 
 Route::get('/shop', [ProductController::class, 'pageIndex'])->name('shop');

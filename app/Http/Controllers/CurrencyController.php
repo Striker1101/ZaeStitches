@@ -64,11 +64,8 @@ class CurrencyController extends Controller
         $validatedData = $request->validated();
         $currency->update($validatedData);
 
-        return redirect()
-            ->route('dashboard.currency.index')
-            ->with('success', 'Currency updated successfully.');
+        return redirect()->route('dashboard.currency.index')->with('success', 'Currency updated successfully.');
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -85,17 +82,18 @@ class CurrencyController extends Controller
     {
         $currency = Currency::where('code', strtoupper($code))->first();
 
-        if ($currency)
-        {
+        if ($currency) {
             session([
                 'currency_code' => $currency->code,
                 'currency_symbol' => $currency->symbol,
                 'currency_rate' => $currency->rate_to_naira,
-                'shipping_amount' => $currency->shipping_amount
+                'shipping_amount' => $currency->shipping_amount,
             ]);
         }
 
-        return redirect()->back()->with('success', 'Currency switched to ' . $currency->name);
+        return redirect()
+            ->back()
+            ->with('success', 'Currency switched to ' . $currency->name);
     }
 
     public function convert(Request $request)
@@ -103,15 +101,15 @@ class CurrencyController extends Controller
         $totals = $request->input('totals', []);
         $baseTotal = 0;
 
-        foreach ($totals as $price)
-        {
+        foreach ($totals as $price) {
             // Extract symbol
             $symbol = mb_substr(trim($price), 0, 1);
 
             // Find currency
             $currency = Currency::where('symbol', $symbol)->first();
-            if (!$currency)
+            if (!$currency) {
                 continue;
+            }
 
             // Clean and parse amount
             $amount = floatval(str_replace([',', $symbol], '', $price));
@@ -133,7 +131,8 @@ class CurrencyController extends Controller
             'symbol' => $sessionCurrency,
             'country_code' => $activeCurrency->code,
             'shipping_amount' => round($shipping_amount, 2),
-            'final_total' => round($convertedTotal + $shipping_amount, 2)
+            // 'final_total' => round($convertedTotal + $shipping_amount, 2)
+            'final_total' => round($convertedTotal + 0, 2),
         ]);
     }
 }
