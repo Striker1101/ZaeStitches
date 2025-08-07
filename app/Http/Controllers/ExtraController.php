@@ -11,6 +11,7 @@ use App\Traits\ProductTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class ExtraController extends Controller
 {
@@ -73,7 +74,6 @@ class ExtraController extends Controller
         return view('pages.checkout');
     }
 
-
     public function getCost(Request $request)
     {
         $validated = $request->validate([
@@ -83,11 +83,11 @@ class ExtraController extends Controller
             'country' => 'required|string',
         ]);
 
+        // dd(env('DHL_USERNAME'), env('DHL_PASSWORD'),env('DHL_BASE_URL'));
+
         try {
-            $response = Http::withHeaders([
-                'DHL-API-Key' => env('DHL_API_KEY'),
-                'Content-Type' => 'application/json',
-            ])->withoutVerifying()->get(env('DHL_BASE_URL') . '/rates', [
+            $query = [
+                'accountNumber' => env('DHL_ACCOUNT_NUMBER'),
                 'originCountryCode' => 'NG',
                 'originCityName' => 'Lagos',
                 'destinationCountryCode' => $validated['country'],
@@ -96,13 +96,37 @@ class ExtraController extends Controller
                 'length' => 10,
                 'width' => 10,
                 'height' => 10,
-                'plannedShippingDate' => now()->addDays(1)->toDateString(),
-                'isCustomsDeclarable' => true,
+                'plannedShippingDate' => now()->addDay()->toDateString(),
+                'isCustomsDeclarable' => 'false',
                 'unitOfMeasurement' => 'metric',
-            ]);
+            ];
+
+            $response = Http::withHeaders([
+                'Message-Reference' => (string) Str::uuid(),
+                'Message-Reference-Date' => now()->toIso8601String(),
+                'Plugin-Name' => 'MyShippingPlugin',
+                'Plugin-Version' => '1.0.0',
+                'Shipping-System-Platform-Name' => 'Laravel',
+                'Shipping-System-Platform-Version' => app()->version(),
+                'Webstore-Platform-Name' => 'Jiconstruct',
+                'Webstore-Platform-Version' => '1.0.0',
+                'Authorization' => 'Basic ' . base64_encode(env('DHL_USERNAME') . ':' . env('DHL_PASSWORD')),
+            ])
+                ->withoutVerifying()
+                ->get(env('DHL_BASE_URL') . '/rates', $query);
 
             if ($response->failed()) {
-                return response()->json(['error' => $response->json()], 400);
+                 $responseJson = $response->json();
+
+                return response()->json(
+                    [
+                        'error' => $responseJson['detail'] ??  'Failed to fetch shipping rate',
+                        'status' => $response->status(),
+                        'body' => $response->body(),
+                        'json' => $response->json(),
+                    ],
+                    400,
+                );
             }
 
             return response()->json(['rates' => $response->json()]);

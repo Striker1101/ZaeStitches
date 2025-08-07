@@ -124,12 +124,16 @@
                                                                              },
                                                                              body: JSON.stringify(this.user)
                                                                          });
+                                                                         console.log(response.body)
                                                              
-                                                                         if (!response.ok) throw new Error('Failed to fetch shipping cost');
+                                                                         if (!response.ok) {
+                                                                             const errorData = await response.json();
+                                                                             throw new Error(errorData.error || errorData.message || 'Failed to fetch shipping cost');
+                                                                         }
                                                              
                                                                          const data = await response.json();
                                                              
-                                                                         if (!data.amount) throw new Error(data.message || 'Invalid shipping response');
+                                                             
                                                              
                                                                          let currency = JSON.parse(localStorage.getItem('currency') || '{}');
                                                                          currency.shipping_amount = data.amount;
