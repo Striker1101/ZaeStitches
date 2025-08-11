@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-
     use ProductTransformer;
 
     public function add(Request $request)
@@ -19,36 +18,42 @@ class CartController extends Controller
         $item = $request->only(['product_id', 'size', 'color', 'quantity', 'token', 'currency', 'price']);
         $cart = session()->get('cart', []);
 
+        // Check if cart already has items with a different currency
+        foreach ($cart as $cartItem) {
+            if ($cartItem['currency'] !== $item['currency']) {
+                return response()->json(
+                    [
+                        'message' => 'Cannot add items with different currencies to the cart.',
+                        'count' => count($cart),
+                        'status'=> 400
+                    ],
+                    400,
+                );
+            }
+        }
+
         // Generate key for session cart
         $key = $item['product_id'] . '_' . $item['size'] . '_' . $item['color'];
 
         // Try to find existing cart record in DB for this user/token + attributes
-        $existingCart = Cart::where('product_id', $item['product_id'])
-            ->where('size', $item['size'])
-            ->where('color', $item['color'])
-            ->where('token', $item['token'])
-            ->first();
+        $existingCart = Cart::where('product_id', $item['product_id'])->where('size', $item['size'])->where('color', $item['color'])->where('token', $item['token'])->first();
 
-        if ($existingCart)
-        {
+        if ($existingCart) {
             // Update quantity in DB
             $existingCart->quantity += $item['quantity'];
             $existingCart->save();
 
             // Update quantity in session
-            if (isset($cart[$key]))
-            {
+            if (isset($cart[$key])) {
                 $cart[$key]['quantity'] += $item['quantity'];
-            } else
-            {
+            } else {
                 // If session missing this key, add it
                 $cart[$key] = $item;
             }
 
             // Add DB id to session item for syncing
             $cart[$key]['id'] = $existingCart->id;
-        } else
-        {
+        } else {
             // Create new cart record in DB
             $cartModel = new Cart();
             $cartModel->product_id = $item['product_id'];
@@ -70,11 +75,10 @@ class CartController extends Controller
 
         return response()->json([
             'message' => 'Item added to cart',
-            'count' => count($cart)
+            'count' => count($cart),
+             'status'=> 200
         ]);
     }
-
-
 
     /**
      * Display a listing of the resource.
@@ -85,40 +89,26 @@ class CartController extends Controller
         $sessionCart = session('cart', []);
         $cartIds = collect($sessionCart)->pluck('id')->unique()->values();
 
-        $popularProducts = Product::with([
-            'categories',
-            'tags',
-            'comments',
-            'productVariants',
-            'productVariants.size',
-            'productVariants.color',
-            'brand'
-        ])
+        $popularProducts = Product::with(['categories', 'tags', 'comments', 'productVariants', 'productVariants.size', 'productVariants.color', 'brand'])
             ->where('is_popular', true)
             ->latest()
             ->take(10)
             ->get()
             ->map(fn($product) => $this->transformProduct($product));
 
-        if (!$token)
-        {
+        if (!$token) {
             return view('pages.cart', ['cartItems' => null, 'token' => null, 'popularProducts' => $popularProducts]);
         }
 
-        if ($cartIds->isEmpty())
-        {
+        if ($cartIds->isEmpty()) {
             return view('pages.cart', ['cartItems' => null, 'token' => $token, 'popularProducts' => $popularProducts]);
         }
 
-
         // Now fetch only cart items matching those IDs
-        $cartItems = Cart::with('product')
-            ->whereIn('id', $cartIds)
-            ->get();
+        $cartItems = Cart::with('product')->whereIn('id', $cartIds)->get();
 
         return view('pages.cart', compact('cartItems', 'token', 'popularProducts'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -159,31 +149,26 @@ class CartController extends Controller
     {
         $data = $request->all();
 
-        if (is_array($data) && array_is_list($data))
-        {
+        if (is_array($data) && array_is_list($data)) {
             // Bulk update
-            foreach ($data as $item)
-            {
-                if (isset($item['id']) && isset($item['quantity']))
-                {
+            foreach ($data as $item) {
+                if (isset($item['id']) && isset($item['quantity'])) {
                     Cart::where('id', $item['id'])->update([
-                        'quantity' => $item['quantity']
+                        'quantity' => $item['quantity'],
                     ]);
                 }
             }
             return response()->json(['message' => 'Cart items updated in bulk.']);
-        } elseif (is_array($data) && isset($data['id'], $data['quantity']))
-        {
+        } elseif (is_array($data) && isset($data['id'], $data['quantity'])) {
             // Single update
             Cart::where('id', $data['id'])->update([
-                'quantity' => $data['quantity']
+                'quantity' => $data['quantity'],
             ]);
             return response()->json(['message' => 'Cart item updated.']);
         }
 
         return response()->json(['error' => 'Invalid payload.'], 400);
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -192,20 +177,17 @@ class CartController extends Controller
     {
         // Remove from session cart
         $sessionCart = session('cart', []);
-        if (isset($sessionCart[$id]))
-        {
+        if (isset($sessionCart[$id])) {
             unset($sessionCart[$id]);
             session(['cart' => $sessionCart]);
         }
 
         // Remove from database cart table
         $cartItem = \App\Models\Cart::find($id);
-        if ($cartItem)
-        {
+        if ($cartItem) {
             $cartItem->delete();
         }
 
         return response()->json(['message' => 'Item removed from cart.'], 200);
     }
-
 }

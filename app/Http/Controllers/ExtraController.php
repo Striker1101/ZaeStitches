@@ -61,7 +61,7 @@ class ExtraController extends Controller
         $blogs = Blog::take(5)->get();
         $currencies = Currency::all();
 
-        return view('pages.home', compact('categories', 'latestProducts', 'popularProducts', 'blogs', 'extra'));
+        return view('pages.home', compact('categories', 'latestProducts', 'popularProducts', 'blogs', 'extra', 'currencies'));
     }
 
     public function dashboard()
@@ -84,7 +84,18 @@ class ExtraController extends Controller
         ]);
 
         // dd(env('DHL_USERNAME'), env('DHL_PASSWORD'),env('DHL_BASE_URL'));
+        $quantity = $request->quantity;
+        $baseWeight = 0.5; // kg
+        $baseLength = 30; // cm
+        $baseWidth = 25; // cm
+        $baseHeight = 2; // cm
 
+        $weight = $baseWeight * $quantity;
+        $length = $baseLength;
+        $width = $baseWidth;
+        $height = $baseHeight * $quantity;
+
+        $isCustomsDeclarable = $request->country_code == 'NGN' ? 'false' : 'true';
         try {
             $query = [
                 'accountNumber' => env('DHL_ACCOUNT_NUMBER'),
@@ -92,12 +103,12 @@ class ExtraController extends Controller
                 'originCityName' => 'Lagos',
                 'destinationCountryCode' => $validated['country'],
                 'destinationCityName' => $validated['city'],
-                'weight' => 1,
-                'length' => 10,
-                'width' => 10,
-                'height' => 10,
-                'plannedShippingDate' => now()->addDay()->toDateString(),
-                'isCustomsDeclarable' => 'false',
+                'weight' => $weight,
+                'length' => $length,
+                'width' => $width,
+                'height' => $height,
+                'plannedShippingDate' => now()->addWeekday()->toDateString(),
+                'isCustomsDeclarable' => $isCustomsDeclarable,
                 'unitOfMeasurement' => 'metric',
             ];
 
@@ -116,11 +127,11 @@ class ExtraController extends Controller
                 ->get(env('DHL_BASE_URL') . '/rates', $query);
 
             if ($response->failed()) {
-                 $responseJson = $response->json();
+                $responseJson = $response->json();
 
                 return response()->json(
                     [
-                        'error' => $responseJson['detail'] ??  'Failed to fetch shipping rate',
+                        'error' => $responseJson['detail'] ?? 'Failed to fetch shipping rate',
                         'status' => $response->status(),
                         'body' => $response->body(),
                         'json' => $response->json(),
@@ -129,7 +140,62 @@ class ExtraController extends Controller
                 );
             }
 
-            return response()->json(['rates' => $response->json()]);
+            if ($request->country_code == 'NGN') {
+                // Get the products array from the response
+                $products = $response->json()['products'] ?? [];
+
+                // Find the EXPRESS DOMESTIC product
+                $expressDomestic = collect($products)->first(function ($product) {
+                    return $product['productName'] === 'EXPRESS DOMESTIC';
+                });
+
+                // Extract the first totalPrice->price if found
+                $shippingCost = 0;
+                if ($expressDomestic && isset($expressDomestic['totalPrice'][0]['price'])) {
+                    $shippingCost = $expressDomestic['totalPrice'][0]['price'];
+                }
+
+                return response()->json([
+                    'cost' => $shippingCost,
+                    'symbol' => $request->currency_symbol,
+                ]);
+            } else {
+                // Get the products array from the response
+                $products = $response->json()['products'] ?? [];
+
+                // Find the EXPRESS DOMESTIC product
+                $expressDomestic = collect($products)->first(function ($product) {
+                    return $product['productName'] === 'EXPRESS WORLDWIDE';
+                });
+
+                // Extract the first totalPrice->price if found
+                $shippingCost = 0;
+                if ($expressDomestic && isset($expressDomestic['totalPrice'][0]['price'])) {
+                    $shippingCost = $expressDomestic['totalPrice'][0]['price'];
+                }
+
+                // Example: using ExchangeRate-API
+                $apiKey = env('EXCHANGE_RATE_API');
+                $fromCurrency = 'NGN';
+                $toCurrency = $request->country_code; // Make sure this is ISO code like "USD", "GBP", etc.
+
+                $url = "https://v6.exchangerate-api.com/v6/{$apiKey}/pair/{$fromCurrency}/{$toCurrency}";
+
+                $response = Http::withoutVerifying()->get($url);
+                if ($response->successful()) {
+                    $rate = $response->json()['conversion_rate'];
+                    $convertedCost = round($shippingCost * $rate, 2);
+
+                    return response()->json([
+                        'cost' => $convertedCost,
+                        'symbol' => $request->currency_symbol,
+                        '$response->json()' => $response->json(),
+                        'products' => $products,
+                    ]);
+                }
+
+                throw new \Exception('Currency conversion failed.');
+            }
         } catch (\Throwable $e) {
             return response()->json(
                 [
@@ -141,3 +207,6 @@ class ExtraController extends Controller
         }
     }
 }
+
+//Illinois
+//Springfield city

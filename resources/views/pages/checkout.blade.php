@@ -34,7 +34,6 @@
 
 
  @section('content')
-
      <script type="text/javascript" id="rey-instant-header" data-noptimize data-no-optimize="1" data-no-defer="1">
          (function() {
              const header = document.querySelector(".rey-siteHeader");
@@ -97,6 +96,10 @@
                                                              x-data="{
                                                                  step: 2,
                                                                  user: JSON.parse(localStorage.getItem('UserData') || '{}'),
+                                                                 country_code: JSON.parse(localStorage.getItem('currency') || '{}').country_code,
+                                                                 currency_symbol: JSON.parse(localStorage.getItem('currency') || '{}').symbol,
+                                                                 quantity: JSON.parse(localStorage.getItem('quantity') || 0),
+                                                             
                                                              
                                                                  async goToShipping() {
                                                                      if (!this.user.name || !this.user.email || !this.user.phone) {
@@ -113,6 +116,8 @@
                                                                          return;
                                                                      }
                                                              
+                                                             
+                                                             
                                                                      try {
                                                                          const csrf = document.querySelector('meta[name=\'csrf-token\']')?.getAttribute('content');
                                                              
@@ -122,22 +127,36 @@
                                                                                  'Content-Type': 'application/json',
                                                                                  'X-CSRF-TOKEN': csrf
                                                                              },
-                                                                             body: JSON.stringify(this.user)
+                                                                             body: JSON.stringify({
+                                                                                 ...this.user,
+                                                                                 country_code: this.country_code,
+                                                                                 currency_symbol: this.currency_symbol,
+                                                                                 quantity: this.quantity
+                                                                             })
                                                                          });
-                                                                         console.log(response.body)
                                                              
                                                                          if (!response.ok) {
                                                                              const errorData = await response.json();
                                                                              throw new Error(errorData.error || errorData.message || 'Failed to fetch shipping cost');
                                                                          }
                                                              
-                                                                         const data = await response.json();
+                                                                         const _shipping = await response.json();
+                                                                         const shipping_cost = _shipping.cost
+                                                                         const symbol = _shipping.symbol
+                                                             
+                                                                         localStorage.setItem('shipping_cost', shipping_cost)
+                                                                         localStorage.setItem('symbol', symbol)
+                                                             
+                                                                         const currency = JSON.parse(localStorage.getItem('currency'));
+                                                                         currency.shipping_amount = symbol + shipping_cost;
+                                                                         currency.final_total = (currency.total || 0) + shipping_cost;
+                                                             
+                                                                         this.shippingCost = shipping_cost;
+                                                                         document.getElementById('shipping_cost_sym').textContent = currency.shipping_amount
+                                                                         document.getElementById('final_total_sym').textContent = currency.final_total
+                                                                         document.getElementById('shipping_cost_head').style.display = 'flex';
                                                              
                                                              
-                                                             
-                                                                         let currency = JSON.parse(localStorage.getItem('currency') || '{}');
-                                                                         currency.shipping_amount = data.amount;
-                                                                         currency.final_total = (currency.subtotal || 0) + data.amount;
                                                                          localStorage.setItem('currency', JSON.stringify(currency));
                                                              
                                                                          localStorage.setItem('UserData', JSON.stringify(this.user));
@@ -195,6 +214,7 @@
                                                              <!-- Step 3: Shipping -->
                                                              <div x-show="step === 3"
                                                                  class="space-y-4 flex flex-col gap-3">
+
                                                                  <input type="text" name="address"
                                                                      x-model="user.address" class="block w-full"
                                                                      placeholder="Address" required>
@@ -340,36 +360,43 @@
                                                                              </template>
                                                                          </tbody>
 
-                                                                         <tfoot x-data="{ currency: JSON.parse(localStorage.getItem('currency') || '{}') }">
-                                                                             <tr class="cart-shipping d-block">
-                                                                                 <th>Shipping</th>
+                                                                         <tfoot x-data="{
+                                                                             shippingCost: localStorage.getItem('shipping_cost'),
+                                                                             currency: JSON.parse(localStorage.getItem('currency') || '{}'),
+                                                                             init() {
+                                                                                 window.addEventListener('storage', () => {
+                                                                                     this.shippingCost = localStorage.getItem('shipping_cost');
+                                                                                     this.currency = JSON.parse(localStorage.getItem('currency') || '{}');
+                                                                                 });
+                                                                             }
+                                                                         }">
+                                                                             <tr id="shipping_cost_head"
+                                                                                 style="display: none; justify-content: space-between;">
+                                                                                 <th>Shipping cost</th>
                                                                                  <td>
-                                                                                     <span x-text="currency.symbol"></span>
-                                                                                     <span
-                                                                                         x-text="currency.shipping_amount"></span>
+                                                                                     {{-- <span x-text="currency.symbol"></span> --}}
+                                                                                     <span x-text="shippingCost"
+                                                                                         id="shipping_cost_sym"></span>
                                                                                  </td>
                                                                              </tr>
+
                                                                              <tr class="order-total">
                                                                                  <th>Total</th>
-                                                                                 <td x-data="{
-                                                                                     currency: JSON.parse(localStorage.getItem('currency') || '{}')
-                                                                                 }">
+                                                                                 <td>
                                                                                      <strong>
-                                                                                         <span
-                                                                                             class="woocommerce-Price-amount amount">
+                                                                                         <span>
                                                                                              <bdi>
                                                                                                  <span
                                                                                                      x-text="currency.symbol"></span>
-                                                                                                 <span
-                                                                                                     x-text="currency.final_total.toLocaleString()"></span>
+                                                                                                 <span id="final_total_sym"
+                                                                                                     x-text="currency.final_total?.toLocaleString()"></span>
                                                                                              </bdi>
                                                                                          </span>
                                                                                      </strong>
                                                                                  </td>
                                                                              </tr>
-
-
                                                                          </tfoot>
+
                                                                      </table>
                                                                  </div>
 
@@ -400,5 +427,4 @@
          <!-- .rey-siteContainer -->
 
      </div>
-
  @endsection

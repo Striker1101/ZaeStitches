@@ -10,7 +10,7 @@
 <div
     class="group relative m-2 bg-white  shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl overflow-hidden border border-gray-100">
     <img src="{{ $product['featured_image'] }}" alt="{{ $product['name'] }}"
-        class="w-full h-60 object-cover transition-transform duration-300 group-hover:scale-105">
+        class="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105" style="height: 300px;">
 
     <div class="p-4 space-y-2">
         <h3 class="text-lg font-semibold text-gray-900">{{ $product['name'] }}</h3>

@@ -35,6 +35,8 @@
              : null;
      @endphp
 
+     <x-view-currency :currencies="$currencies" />
+
      <div class="container py-5 m-3">
          <div class="flex gap-2">
              {{-- Product Gallery --}}
@@ -623,7 +625,8 @@
                          color: color,
                          quantity: qty,
                          price: price ?
-                             parseFloat(price?.replace(/,/g, '')) : (parseFloat(discountPrice?.replace(/,/g, '')) > 0 ?
+                             parseFloat(price?.replace(/,/g, '')) : (parseFloat(discountPrice?.replace(/,/g,
+                                     '')) > 0 ?
                                  parseFloat(discountPrice?.replace(/,/g, '')) :
                                  parseFloat(defaultPrice?.replace(/,/g, ''))),
                          currency: "{{ session('currency_symbol', '₦') }}"
@@ -631,15 +634,21 @@
                  })
                  .then(res => res.json())
                  .then(data => {
+                     if (data.status == 200) {
+                         toast(data.message, 'success');
+                         localStorage.removeItem('price')
+                         document.querySelector('.__cart-count').innerText = data.count;
+                     } else {
+                         toast(data?.message || "Something went wrong while adding to cart", 'error');
+                     }
 
-                     toast(data.message, 'success');
-                     localStorage.removeItem('price')
-                     document.querySelector('.__cart-count').innerText = data.count;
+                     console.log(data)
+
 
                  })
                  .catch(err => {
                      console.error(err);
-                     toast("Something went wrong while adding to cart", 'error');
+                     toast(err?.message || "Something went wrong while adding to cart", 'error');
                  });
          }
 

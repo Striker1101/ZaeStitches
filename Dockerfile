@@ -1,7 +1,7 @@
 FROM php:8.2-apache
 
 RUN apt-get update && apt-get install -y \
-    zip unzip git curl libonig-dev libxml2-dev libzip-dev libpq-dev libpng-dev \
+    zip unzip git curl libonig-dev libxml2-dev libzip-dev libpq-dev libpng-dev ca-certificates \
     && docker-php-ext-install pdo pdo_mysql mbstring xml zip gd
 
 # Enable mod_rewrite

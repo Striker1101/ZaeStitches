@@ -102,8 +102,6 @@
         }
     </script>
 
-    <x-view-currency :currencies="$currencies" />
-
     <script>
         if (!localStorage.getItem("guestToken")) {
             const guestToken = crypto.randomUUID(); // Generate unique ID

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
 
 class FlutterwavePaymentController extends Controller
 {
@@ -21,14 +22,14 @@ class FlutterwavePaymentController extends Controller
         // Store temp data in session
         session([
             'order_payload' => [
-                'payable_type' => "App\\Models\\Order",
-                'provider' => "flutterwave",
+                'payable_type' => 'App\\Models\\Order',
+                'provider' => 'flutterwave',
                 'amount' => $request->amount,
                 'country_code' => $request->country_code ?? 'NGN',
                 'status' => 'paid',
                 'carts_ids' => $request->carts_ids,
                 'shipping_details' => $request->shipping_details,
-            ]
+            ],
         ]);
 
         // Prepare the data for the Flutterwave API
@@ -54,27 +55,14 @@ class FlutterwavePaymentController extends Controller
     }
 
     // Method to create payment link using Guzzle
-    private function createFlutterwavePaymentLink($data)
+    private function createFlutterwavePaymentLink(array $data)
     {
-        $client = new Client();
-        $url = 'https://api.flutterwave.com/v3/payments';
+         $token = preg_replace('/\s+/', '', config('services.flutterwave.secret_key')); // remove all whitespace
 
-        $response = $client->post($url, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . config('services.flutterwave.secret_key'),
-                'Content-Type' => 'application/json',
-            ],
-            'json' => $data,
-        ]);
+        // dd(bin2hex($token));
+        $response = Http::withoutVerifying()->withToken($token)->post('https://api.flutterwave.com/v3/payments', $data)->json();
 
-        $body = json_decode($response->getBody(), true);
-
-        if ($body['status'] == 'success')
-        {
-            return $body['data']['link'];
-        }
-
-        return back()->with('error', 'Error initiating payment.');
+        return $response['status'] === 'success' ? $response['data']['link'] : back()->with('error', $response['message'] ?? 'Error initiating payment.');
     }
 
     public function handleCallback(Request $request)
@@ -84,8 +72,7 @@ class FlutterwavePaymentController extends Controller
         // Verify the payment
         $verificationResponse = $this->verifyPayment($transactionID);
 
-        if ($verificationResponse['status'] === 'success')
-        {
+        if ($verificationResponse['status'] === 'success') {
             $order_number = 'TX-' . time();
             $sessionData = session('order_payload');
 

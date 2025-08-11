@@ -33,6 +33,7 @@
  @endsection
 
  @section('header')
+     <x-view-currency :currencies="$currencies" />
      <section class="rey-pageCover rey-pageCover--h-absolute">
          <div data-elementor-type="wp-post" data-elementor-id="1148" class="elementor elementor-1148"
              data-elementor-gstype="cover" data-page-el-selector="body.elementor-page-1148">

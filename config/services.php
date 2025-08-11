@@ -35,9 +35,9 @@ return [
         ],
     ],
     'flutterwave' => [
-        'public_key' => env('FLW_PUBLIC_KEY'),
-        'secret_key' => env('FLW_SECRET_KEY'),
-        'encryption_key' => env('FLW_ENCRYPTION_KEY'),
+        'public_key' => env('FLUTTER_WAVE_PUBLIC_KEY'),
+        'secret_key' => env('FLUTTER_WAVE_SECRET_KEY'),
+        'FLUTTER_WAVE_ENCRYPTION_KEY' => env('FLW_ENCRYPTION_KEY'),
     ],
 
 ];

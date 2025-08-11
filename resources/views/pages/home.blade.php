@@ -31,6 +31,7 @@
 @endsection
 
 @section('content')
+    <x-view-currency :currencies="$currencies" />
     <div id="content" class="rey-siteContent --tpl-template-builder-php">
 
         <div class="rey-siteContainer rey-pbTemplate" data-page-el-selector="body.elementor-page-1702">

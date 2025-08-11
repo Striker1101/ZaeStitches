@@ -420,7 +420,7 @@
      </div>
 
      <script>
-         const cartItems = @json($cartItems);
+         let cartItems = @json($cartItems);
          const currencyRate = @json($currencyRate);
          const shippingAmount = @json($shippingAmount);
 
@@ -462,7 +462,7 @@
          function checkout(items) {
              let dataSet = [];
              const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
+             let quantity = 0
              document.querySelectorAll('.qty').forEach((input) => {
                  const id = input?.getAttribute('data-id');
                  const quantity = parseInt(input.value) || 1;
@@ -490,8 +490,12 @@
                          window.toast(result?.message || 'Update Succesful', 'success');
                          // Optionally redirect after success
                          // Save to localStorage
+                         (cartItems || []).forEach((item) => {
+                             quantity = quantity + item.quantity
+                         })
                          localStorage.setItem('cartItems', JSON.stringify(cartItems));
                          localStorage.setItem('paymentSaved', 'false');
+                         localStorage.setItem('quantity', quantity);
                          window.location.href = "/checkout";
                      })
                      .catch(error => {
@@ -529,6 +533,21 @@
                      // Update display for total (if such an element exists)
                      const totalDisplay = document.querySelector('#total-price');
                      localStorage.setItem('rawTotal', total)
+
+                     //update quantity on cartItem
+                     const id = this.getAttribute('data-id');
+
+                     const newCartItems = cartItems.map((item) => {
+                         if (item.id == id) {
+                             item.quantity = qty; // make sure qty is defined
+                         }
+                         return item;
+                     });
+
+                     // Store as JSON string
+                     localStorage.setItem('cartItems', JSON.stringify(newCartItems));
+                     cartItems = newCartItems
+
                      if (totalDisplay) {
                          totalDisplay.textContent = total.toFixed(2);
                      }
