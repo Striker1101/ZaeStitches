@@ -26,7 +26,6 @@ Route::get('/clear-session', function () {
 Route::get('/', [ExtraController::class, 'homepage'])->name('home');
 Route::post('/contact-shore', [ExtraController::class, 'contact'])->name('contact.store');
 
-
 Route::get('/contact', function () {
     return view('pages.contact');
 })->name('contact');
@@ -35,10 +34,12 @@ Route::get('/faq', function () {
     return view('pages.faq');
 })->name('faq');
 
-Route::get('/terms', action: function () {
-    return view('pages.terms');
-})->name('terms');
-
+Route::get(
+    '/terms',
+    action: function () {
+        return view('pages.terms');
+    },
+)->name('terms');
 
 Route::get('/currency-detect', function () {
     $response = Http::get('https://ipapi.co/currency/');
@@ -49,11 +50,9 @@ Route::get('/wishlist', function () {
     return view('pages.wishlist');
 })->name('wishlist');
 
-
 Route::get('/search', function () {
     return view('pages.search');
 })->name('search');
-
 
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::resource('cart', CartController::class);
@@ -61,17 +60,14 @@ Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.dest
 
 Route::resource('order', OrderController::class);
 
-
 Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
 Route::post('/subscribe', [ExtraController::class, 'subscribe'])->name('subscribe');
 Route::get('/checkout', [ExtraController::class, 'checkout'])->name('checkout');
 Route::post('/currency/convert', [CurrencyController::class, 'convert'])->name('currency.convert');
 Route::post('/shipping_cost', [ExtraController::class, 'getCost'])->name('shipping_cost');
 
-
 Route::get('/shop', [ProductController::class, 'pageIndex'])->name('shop');
 Route::get('/shop/{product}', [ProductController::class, 'pageShow'])->name('shop.show');
-
 
 Route::get('/blog', [BlogController::class, 'pageIndex'])->name('blog');
 Route::get('/blog/{blog}', [BlogController::class, 'pageShow'])->name('blog.show');
@@ -83,7 +79,6 @@ Route::get('/about_us', function () {
 Route::get('/terms-conditions', function () {
     return view('pages.wishlist');
 })->name('terms-conditions');
-
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
@@ -115,6 +110,7 @@ Route::middleware(['auth'])
         Route::resource('media', MediaController::class)->parameters(['media' => 'media']);
         Route::resource('subscribe', SubscribeController::class);
         Route::resource('order', OrderController::class);
+        Route::post('/order/{order}/approve', [OrderController::class, 'approve'])->name('order.approve');
         Route::resource('tag', TagController::class);
     });
 require __DIR__ . '/auth.php';

@@ -18,6 +18,8 @@ class Order extends Model
         'total_amount',
         'carts_ids',
         'shipping_details',
+        'tracking_number',
+        'tracking_url'
     ];
 
     protected $casts = [

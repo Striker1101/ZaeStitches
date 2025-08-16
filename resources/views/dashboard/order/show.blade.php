@@ -47,7 +47,7 @@
                             {{-- @dd($cart); --}}
                             <tr>
                                 <td class="px-4 py-2 border">{{ $cart['product']['title'] ?? 'N/A' }}</td>
-                                <td class="px-4 py-2 border">{{ $cart["quantity"] }}</td>
+                                <td class="px-4 py-2 border">{{ $cart['quantity'] }}</td>
                                 <td class="px-4 py-2 border">{{ number_format($cart['price'], 2) }}</td>
                                 <td class="px-4 py-2 border">{{ $cart['color'] ?? '-' }}</td>
                                 <td class="px-4 py-2 border">{{ $cart['size'] ?? '-' }}</td>
@@ -58,6 +58,35 @@
                 </table>
             @endif
         </div>
+
+        @if ($order->status == 'paid')
+            <form action="{{ route('dashboard.order.approve', $order->id) }}" method="post">
+                @csrf
+                <button type="submit" class="cursor-pointer m-3 p-2 bg-gray-600 rounded text-teal-600">Approve
+                    Order</button>
+            </form>
+        @endif
+
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                @foreach ($errors->all() as $error)
+                    <div class="text-red-500">{{ $error }}</div>
+                @endforeach
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="text-red-500 alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="alert alert-success text-green-500">
+                {{ session('success') }}
+            </div>
+        @endif
     </div>
 
 </x-layouts.app>

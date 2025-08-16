@@ -6,6 +6,9 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use App\Mail\PaymentSuccess;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotifyCustomEmails;
 
 class FlutterwavePaymentController extends Controller
 {
@@ -32,6 +35,8 @@ class FlutterwavePaymentController extends Controller
             ],
         ]);
 
+        //  dd(session('order_payload')['shipping_details']);
+
         // Prepare the data for the Flutterwave API
         $paymentData = [
             'tx_ref' => $transactionRef,
@@ -57,7 +62,7 @@ class FlutterwavePaymentController extends Controller
     // Method to create payment link using Guzzle
     private function createFlutterwavePaymentLink(array $data)
     {
-         $token = preg_replace('/\s+/', '', config('services.flutterwave.secret_key')); // remove all whitespace
+        $token = preg_replace('/\s+/', '', config('services.flutterwave.secret_key')); // remove all whitespace
 
         // dd(bin2hex($token));
         $response = Http::withoutVerifying()->withToken($token)->post('https://api.flutterwave.com/v3/payments', $data)->json();
@@ -76,7 +81,11 @@ class FlutterwavePaymentController extends Controller
             $order_number = 'TX-' . time();
             $sessionData = session('order_payload');
 
-            Order::create([
+            // Decode shipping + carts
+            $shipping_details = json_decode($sessionData['shipping_details'], true);
+            $carts = json_decode($sessionData['carts_ids'], true);
+
+            $order = Order::create([
                 'user_id' => auth()->id(),
                 'order_number' => $order_number,
                 'status' => 'paid',
@@ -86,18 +95,30 @@ class FlutterwavePaymentController extends Controller
                 'carts_ids' => $sessionData['carts_ids'],
                 'shipping_details' => $sessionData['shipping_details'],
             ]);
+
+            // Send Payment Success Email
+            Mail::to($shipping_details['email'])->send(new PaymentSuccess($order, $shipping_details, $carts));
+
+            // Notify admins
+            $adminEmails = config('mail.custom_recipients');
+            if (!empty($adminEmails)) {
+                foreach ($adminEmails as $adminEmail) {
+                    Mail::to(trim($adminEmail))->send(new NotifyCustomEmails($order, $shipping_details, $carts));
+                }
+            }
+
             session()->flush();
-            // Payment was successful, handle post-payment actions (e.g., updating database)
+
             return view('flutterwave.success');
         }
 
-        return view('flutterwave.error');
+        return back()->with('error', 'Payment verification failed.');
     }
 
     // Method to verify payment using Guzzle
     private function verifyPayment($transactionID)
     {
-        $client = new Client();
+        $client = new Client(['verify' => false]); // disable SSL verification
         $url = "https://api.flutterwave.com/v3/transactions/{$transactionID}/verify";
 
         $response = $client->get($url, [

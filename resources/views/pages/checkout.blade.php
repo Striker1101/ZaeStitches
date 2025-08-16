@@ -99,7 +99,14 @@
                                                                  country_code: JSON.parse(localStorage.getItem('currency') || '{}').country_code,
                                                                  currency_symbol: JSON.parse(localStorage.getItem('currency') || '{}').symbol,
                                                                  quantity: JSON.parse(localStorage.getItem('quantity') || 0),
-                                                             
+                                                                 currency: JSON.parse(localStorage.getItem('currency') || '{}'),
+                                                                 cartItems: localStorage.getItem('cartItems'),
+                                                                 userData: localStorage.getItem('UserData'),
+                                                                 updateValues() {
+                                                                     this.currency = JSON.parse(localStorage.getItem('currency') || '{}');
+                                                                     this.cartItems = localStorage.getItem('cartItems');
+                                                                     this.userData = localStorage.getItem('UserData');
+                                                                 },
                                                              
                                                                  async goToShipping() {
                                                                      if (!this.user.name || !this.user.email || !this.user.phone) {
@@ -159,7 +166,16 @@
                                                              
                                                                          localStorage.setItem('currency', JSON.stringify(currency));
                                                              
-                                                                         localStorage.setItem('UserData', JSON.stringify(this.user));
+                                                                         let new_user = {
+                                                                             ...(JSON.parse(localStorage.getItem('UserData')) || {}),
+                                                                             ...this.user, // merge in all latest user fields
+                                                                             shipping_cost: shipping_cost,
+                                                                             symbol: symbol,
+                                                                             cost: currency.final_total
+                                                                         };
+                                                             
+                                                             
+                                                                         localStorage.setItem('UserData', JSON.stringify(new_user));
                                                                          this.step = 4;
                                                                      } catch (error) {
                                                                          alert('Shipping error: ' + error.message);
@@ -264,20 +280,15 @@
                                                                  </div>
 
                                                                  <input type="hidden" name="amount"
-                                                                     :value="JSON.parse(localStorage.getItem('currency') ||
-                                                                         '{}').final_total">
+                                                                     :value="currency.final_total">
                                                                  <input type="hidden" name="country_code"
-                                                                     :value="JSON.parse(localStorage.getItem('currency') ||
-                                                                         '{}').country_code">
-                                                                 <div>
-                                                                     <input type="hidden" name="carts_ids"
-                                                                         :value="localStorage.getItem('cartItems')">
-                                                                     <input type="hidden" name="shipping_details"
-                                                                         :value="localStorage.getItem('UserData')">
-                                                                     <input type="hidden" name="">
-                                                                 </div>
+                                                                     :value="currency.country_code">
+                                                                 <input type="hidden" name="carts_ids"
+                                                                     :value="cartItems">
+                                                                 <input type="hidden" name="shipping_details"
+                                                                     :value="userData">
 
-                                                                 <button type="submit"
+                                                                 <button type="submit" @click="updateValues()"
                                                                      class="bg-green-600 text-white px-4 py-2">
                                                                      Continue with Flutterwave
                                                                  </button>

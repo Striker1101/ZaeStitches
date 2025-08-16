@@ -35,6 +35,10 @@
 
  @section(section: 'content')
 
+     <script>
+         localStorage.clear()
+     </script>
+
      <body class="flex my-4 py-5 items-center justify-center h-screen" style="background-color: #0000;">
 
          <div class="max-w-lg mx-auto p-8 bg-white shadow-lg rounded-lg text-center my-4">
@@ -48,7 +52,7 @@
              <p class="text-gray-600 mb-6">Thank you for your payment. Your transaction has been completed successfully.</p>
              <a href="/"
                  class="inline-block py-3 px-6 bg-[#FB9129] text-white font-semibold rounded-lg shadow-md hover:bg-[#D17A24] transition duration-300">Go
-                 to Dashboard</a>
+                 to Homepage</a>
          </div>
      </body>
 
