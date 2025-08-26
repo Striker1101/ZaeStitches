@@ -67,6 +67,23 @@
             </form>
         @endif
 
+        {{-- @dd($document['content']) --}}
+        @if (!empty($document) && $document['imageFormat'] === 'PDF')
+            @php
+                $pdfData = 'data:application/pdf;base64,' . $document['content'];
+            @endphp
+
+            <div class="mt-4">
+                <iframe src="{{ $pdfData }}" width="100%" height="600px"></iframe>
+
+                <a href="{{ $pdfData }}" download="document.pdf" class="btn btn-primary mt-2">
+                    Download PDF
+                </a>
+            </div>
+        @endif
+
+
+
 
         @if ($errors->any())
             <div class="alert alert-danger">

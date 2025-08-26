@@ -19,7 +19,8 @@ class Order extends Model
         'carts_ids',
         'shipping_details',
         'tracking_number',
-        'tracking_url'
+        'tracking_url',
+        'document'
     ];
 
     protected $casts = [

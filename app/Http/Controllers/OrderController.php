@@ -81,9 +81,16 @@ class OrderController extends Controller
 
         $cartData = json_decode($order->carts_ids, true) ?? [];
 
+        // Decode document if it's JSON
+        $document = null;
+        if (!empty($order->document)) {
+            $document = json_decode($order->document, true); // <-- decode here
+        }
+
         return view('dashboard.order.show', [
             'order' => $order,
             'carts' => collect($cartData),
+            'document' => $document,
         ]);
     }
 
@@ -120,6 +127,40 @@ class OrderController extends Controller
         $shipping = json_decode($order->shipping_details, true);
         $carts = json_decode($order->carts_ids, true);
         $isCustomsDeclarable = $shipping['country'] == 'NG' ? false : true;
+        $imageOption =
+            $shipping['country'] == 'NG'
+                ? [
+                    [
+                        'templateName' => 'ECOM26_84_A4_001',
+                        'typeCode' => 'label',
+                    ],
+                    [
+                        'templateName' => 'ARCH_8X4_A4_002',
+                        'isRequested' => true,
+                        'typeCode' => 'waybillDoc',
+                        'hideAccountNumber' => true,
+                    ],
+                ]
+                : [
+                    [
+                        'templateName' => 'ECOM26_84_A4_001',
+                        'typeCode' => 'label',
+                    ],
+                    [
+                        'templateName' => 'ARCH_8X4_A4_002',
+                        'isRequested' => true,
+                        'hideAccountNumber' => true,
+                        'typeCode' => 'waybillDoc',
+                    ],
+                    [
+                        'templateName' => 'COMMERCIAL_INVOICE_P_10',
+                        'invoiceType' => 'commercial',
+                        'languageCode' => 'eng',
+                        'isRequested' => true,
+                        'typeCode' => 'invoice',
+                    ],
+                ];
+
         // Build packages
         $packages = [];
         foreach ($carts as $index => $cart) {
@@ -143,7 +184,7 @@ class OrderController extends Controller
             'outputImageProperties' => [
                 'allDocumentsInOneImage' => true,
                 'encodingFormat' => 'pdf',
-                'imageOptions' => [['templateName' => 'ECOM26_84_A4_001', 'typeCode' => 'label']],
+                'imageOptions' => $imageOption,
             ],
             'accounts' => [['number' => env('DHL_ACCOUNT_NUMBER'), 'typeCode' => 'shipper']],
             'customerDetails' => [
@@ -158,7 +199,7 @@ class OrderController extends Controller
                         'countryCode' => config('custom.countryCode'),
                     ],
                     'contactInformation' => [
-                       'fullName' => config('custom.site_name') . ' Store',
+                        'fullName' => config('custom.site_name') . ' Store',
                         'companyName' => config('custom.site_name'),
                         'email' => config('custom.email'),
                         'phone' => config('custom.raw_phone'),
@@ -211,10 +252,13 @@ class OrderController extends Controller
 
             $data = $response->json();
 
+            // dd($data['documents'][0]);
+
             // Save tracking info to order
             $order->status = 'shipped';
             $order->tracking_number = $data['shipmentTrackingNumber'] ?? null;
             $order->tracking_url = $data['trackingUrl'] ?? null;
+            $order->document = $data['documents'][0];
             $order->save();
 
             // Send mail to customer
