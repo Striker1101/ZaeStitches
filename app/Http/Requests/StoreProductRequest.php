@@ -49,6 +49,7 @@ class StoreProductRequest extends FormRequest
             'is_available' => 'nullable|in:0,1',
             'rating' => 'required|numeric|min:0|max:5',
             'categories' => 'nullable|array',
+            'hs_code' => 'nullable|string|max:255',
             'categories.*' => 'exists:categories,id',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',

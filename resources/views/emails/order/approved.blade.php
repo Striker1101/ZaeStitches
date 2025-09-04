@@ -46,7 +46,7 @@
         <p><strong>Tracking Number:</strong> {{ $shipmentData['shipmentTrackingNumber'] ?? 'N/A' }}</p>
 
         @if (!empty($shipmentData['trackingUrl']))
-            <a href="{{ $shipmentData['trackingUrl'] }}" class="button">Track Your Order</a>
+            <a href="https://www.dhl.com/ng-en/home/tracking.html" class="button">Track Your Order</a>
         @endif
 
         <p>You will also find your shipping label attached to this email.</p>

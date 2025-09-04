@@ -27,6 +27,15 @@
                             <div class="text-danger small">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <div class="mb-3 w-full">
+                        <label for="hs_code" class="form-label">HS Code</label>
+                        <input type="text" name="hs_code" id="hs_code" value="{{ old('hs_code') }}"
+                            class="form-control w-full">
+                        @error('hs_code')
+                            <div class="text-danger small">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -233,13 +242,13 @@
     </div>
     </form>
 
-       @if ($errors->any())
-            <div class="alert alert-danger text-red-500">
-                @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
-            </div>
-        @endif
+    @if ($errors->any())
+        <div class="alert alert-danger text-red-500">
+            @foreach ($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
+        </div>
+    @endif
 
 
     </div>

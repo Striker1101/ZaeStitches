@@ -91,6 +91,32 @@
                                                  <g id="Layer_1"></g>
                                              </svg> </a>
                                      </span>
+                                     <span class="elementor-grid-item">
+                                         <a class="elementor-icon elementor-social-icon elementor-social-icon-whatsapp elementor-repeater-item-3c38254"
+                                             href="{{ config('custom.whatsapp_link') }}" target="_blank">
+                                             <span class="elementor-screen-only">WhatsApp</span>
+                                             <!-- WhatsApp SVG -->
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="512px" height="512px"
+                                                 viewBox="0 0 32 32" fill="currentColor">
+                                                 <path
+                                                     d="M16.001 3C9.373 3 4 8.373 4 15c0 2.653.879 5.098 2.354 7.07L4 29l7.145-2.314C12.035 27.633 13.974 28 16.001 28 22.627 28 28 22.627 28 16S22.627 3 16.001 3zm0 22c-1.775 0-3.45-.52-4.863-1.414l-.348-.221-4.243 1.373 1.385-4.143-.226-.348C6.52 18.451 6 16.775 6 15c0-5.514 4.486-10 10.001-10S26 9.486 26 15s-4.486 10-9.999 10zm4.717-7.24c-.259-.13-1.533-.756-1.77-.84-.238-.088-.412-.129-.586.13-.176.259-.672.84-.824 1.014-.151.176-.303.196-.562.065-.259-.13-1.093-.403-2.08-1.283-.768-.685-1.285-1.533-1.436-1.792-.151-.259-.016-.399.115-.528.118-.117.259-.303.389-.454.13-.151.176-.259.259-.432.087-.173.043-.324-.022-.454-.065-.13-.585-1.415-.802-1.939-.21-.505-.424-.436-.586-.445l-.5-.009c-.173 0-.454.065-.692.324-.238.259-.907.887-.907 2.164s.929 2.508 1.058 2.683c.13.173 1.829 2.797 4.436 3.921.62.267 1.103.427 1.479.547.62.197 1.183.169 1.629.103.497-.073 1.533-.627 1.75-1.233.216-.605.216-1.124.151-1.233-.064-.108-.238-.173-.497-.303z" />
+                                             </svg>
+                                         </a>
+                                     </span>
+
+                                     <span class="elementor-grid-item">
+                                         <a class="elementor-icon elementor-social-icon elementor-social-icon-linkedin elementor-repeater-item-3c38254"
+                                             href="{{ config('custom.linkedin') }}" target="_blank">
+                                             <span class="elementor-screen-only">LinkedIn</span>
+                                             <!-- LinkedIn SVG -->
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="512px" height="512px"
+                                                 viewBox="0 0 32 32" fill="currentColor">
+                                                 <path
+                                                     d="M27 3H5C3.895 3 3 3.895 3 5v22c0 1.105.895 2 2 2h22c1.105 0 2-.895 2-2V5c0-1.105-.895-2-2-2zM10.337 24.667H6.667V12h3.67v12.667zM8.5 10.43c-1.176 0-2.13-.957-2.13-2.137 0-1.18.954-2.137 2.13-2.137s2.13.957 2.13 2.137c0 1.18-.954 2.137-2.13 2.137zM25.334 24.667h-3.666v-6.168c0-1.471-.026-3.364-2.049-3.364-2.052 0-2.367 1.6-2.367 3.256v6.276h-3.666V12h3.52v1.732h.05c.489-.924 1.687-1.898 3.47-1.898 3.711 0 4.385 2.442 4.385 5.618v7.215z" />
+                                             </svg>
+                                         </a>
+                                     </span>
+
                                  </div>
                              </div>
                          </div>
@@ -254,7 +280,8 @@
                                                              class="reyEl-menu-nav rey-navEl --menuHover-ulr --thinner">
                                                              <li id="menu-item-1022"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1022 o-id-25">
-                                                                 <a href="{{ asset('blog') }}"><span>Journal</span></a>
+                                                                 <a
+                                                                     href="{{ asset('blog') }}"><span>Journal</span></a>
                                                              </li>
                                                              <li id="menu-item-1021"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1021 o-id-935">
@@ -263,7 +290,8 @@
                                                              </li>
                                                              <li id="menu-item-1020"
                                                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1020 o-id-954">
-                                                                 <a href="{{ asset('contact') }}"><span>Contact</span></a>
+                                                                 <a
+                                                                     href="{{ asset('contact') }}"><span>Contact</span></a>
                                                              </li>
                                                              <li id="menu-item-130"
                                                                  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-130">

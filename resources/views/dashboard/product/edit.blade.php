@@ -36,6 +36,12 @@
                     class="w-full mb-4 border px-3 py-2 rounded" readonly />
             </label>
 
+            {{-- HS CODE --}}
+            <label class="block mb-2">HS Code
+                <input type="text" name="hs_code" value="{{ old('hs_code', $product->hs_code) }}" required
+                    class="w-full mb-4 border px-3 py-2 rounded" />
+            </label>
+
             {{-- Description --}}
             <label class="block mb-2">Description
                 <textarea name="description" class="w-full mb-4 border px-3 py-2 rounded" rows="4">{{ old('description', $product->description) }}</textarea>
@@ -177,47 +183,46 @@
 
         </form>
 
-         {{-- Media --}}
-            <div>
-                @if ($product->media && $product->media->count())
-                    <label class="block mb-2">Media
-                        <div class="flex flex-wrap gap-4 my-3">
-                            @foreach ($product->media as $media)
-                                @php
-                                    $ext = strtolower(pathinfo($media->url, PATHINFO_EXTENSION));
-                                    $isImage = in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif']);
-                                @endphp
+        {{-- Media --}}
+        <div>
+            @if ($product->media && $product->media->count())
+                <label class="block mb-2">Media
+                    <div class="flex flex-wrap gap-4 my-3">
+                        @foreach ($product->media as $media)
+                            @php
+                                $ext = strtolower(pathinfo($media->url, PATHINFO_EXTENSION));
+                                $isImage = in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif']);
+                            @endphp
 
-                                <div class="relative max-w-xs">
-                                    @if ($isImage)
-                                        <img src="{{ asset($media->url) }}" alt="{{ $media->name }}"
-                                            class="rounded border max-h-32" />
-                                    @else
-                                        <video controls class="rounded border max-h-32">
-                                            <source src="{{ asset($media->url) }}"
-                                                type="video/{{ $ext }}" />
-                                            Your browser does not support the video tag.
-                                        </video>
-                                    @endif
+                            <div class="relative max-w-xs">
+                                @if ($isImage)
+                                    <img src="{{ asset($media->url) }}" alt="{{ $media->name }}"
+                                        class="rounded border max-h-32" />
+                                @else
+                                    <video controls class="rounded border max-h-32">
+                                        <source src="{{ asset($media->url) }}" type="video/{{ $ext }}" />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                @endif
 
-                                    <div class="absolute top-1 right-1 max-w-xs">
-                                        <form action="{{ route('dashboard.media.destroy', $media->id) }}"
-                                            method="POST" class="">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Delete this media?')"
-                                                class="bg-red-500 text-white p-1 w-7 h-7 rounded-full hover:bg-red-700">
-                                                &times;
-                                            </button>
-                                        </form>
-                                    </div>
-
+                                <div class="absolute top-1 right-1 max-w-xs">
+                                    <form action="{{ route('dashboard.media.destroy', $media->id) }}" method="POST"
+                                        class="">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Delete this media?')"
+                                            class="bg-red-500 text-white p-1 w-7 h-7 rounded-full hover:bg-red-700">
+                                            &times;
+                                        </button>
+                                    </form>
                                 </div>
-                            @endforeach
-                        </div>
-                    </label>
-                @endif
-            </div>
+
+                            </div>
+                        @endforeach
+                    </div>
+                </label>
+            @endif
+        </div>
 
         @if ($errors->any())
             <div class="alert alert-danger">

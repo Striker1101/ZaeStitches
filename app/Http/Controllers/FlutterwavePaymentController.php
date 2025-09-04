@@ -39,7 +39,7 @@ class FlutterwavePaymentController extends Controller
 
         // Prepare the data for the Flutterwave API
         $paymentData = [
-            'tx_ref' => $transactionRef,
+            'tx_ref' => (string) $transactionRef,
             'amount' => $request->amount,
             'currency' => !empty($request->country_code) ? $request->country_code : 'NGN',
             'redirect_url' => route('flutterwave.callback'),
@@ -64,9 +64,10 @@ class FlutterwavePaymentController extends Controller
     {
         $token = preg_replace('/\s+/', '', config('services.flutterwave.secret_key')); // remove all whitespace
 
-        // dd(bin2hex($token));
+        // dd(($token), $data);
         $response = Http::withoutVerifying()->withToken($token)->post('https://api.flutterwave.com/v3/payments', $data)->json();
 
+        // dd($response);
         return $response['status'] === 'success' ? $response['data']['link'] : back()->with('error', $response['message'] ?? 'Error initiating payment.');
     }
 

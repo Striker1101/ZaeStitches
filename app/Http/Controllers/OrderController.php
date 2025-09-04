@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
+use App\Models\Currency;
 use App\Models\PaymentTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -124,9 +125,12 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Order cannot be approved.');
         }
 
+
+
         $shipping = json_decode($order->shipping_details, true);
         $carts = json_decode($order->carts_ids, true);
         $isCustomsDeclarable = $shipping['country'] == 'NG' ? false : true;
+        $productCode = $shipping['country'] == 'NG' ? 'N' : 'P';
         $imageOption =
             $shipping['country'] == 'NG'
                 ? [
@@ -176,10 +180,83 @@ class OrderController extends Controller
             ];
         }
 
+        $country_code = Currency::where('symbol', $shipping['symbol'])->first()->code ?? 'NGN';
+        // dd($shipping, $carts, $packages, $country_code);
+        $content =
+            $shipping['country'] == 'NG'
+                ? [
+                    'packages' => $packages,
+                    'isCustomsDeclarable' => $isCustomsDeclarable,
+                    'description' => 'Order from Zeastitches Store',
+                    'incoterm' => 'DAP',
+                    'unitOfMeasurement' => 'metric',
+                ]
+                : [
+                    'packages' => $packages,
+                    'isCustomsDeclarable' => $isCustomsDeclarable,
+                    'description' => 'Order from Zeastitches Store',
+                    'incoterm' => 'DAP',
+                    'unitOfMeasurement' => 'metric',
+                    'declaredValue' => collect($carts)->sum(function ($cart) {
+                        return isset($cart['price']) ? floatval($cart['price']) : 0;
+                    }), // total value of shipment
+                    'declaredValueCurrency' => $country_code,
+                    'exportDeclaration' => [
+                        'invoice' => [
+                            'number' => 'INV-' . $order->id,
+                            'date' => now()->format('Y-m-d'),
+                            'signatureName' => config('custom.site_name'),
+                            'signatureTitle' => 'Store Manager',
+                            'termsOfPayment' => 'Prepaid',
+                        ],
+                        'lineItems' => collect($carts)
+                            ->map(function ($cart, $index) {
+                                return [
+                                    'number' => $index + 1,
+                                    'description' => substr($cart['product']['description'] ?? 'Unknown Product', 0, 512),
+                                    'quantity' => [
+                                        'value' => $cart['quantity'] ?? 1,
+                                        'unitOfMeasurement' => 'PCS',
+                                    ],
+                                    //TODO: convert to shippment price
+                                    'price' => isset($cart['price']) ? floatval($cart['price']) : 0,
+                                    'commodityCodes' => [
+                                        [
+                                            'typeCode' => 'outbound',
+                                            'value' => $cart['product']['hs_code'] ?? '610910', // HS code
+                                        ],
+                                    ],
+                                    'exportReasonType' => 'permanent', // corrected
+                                    'weight' => [
+                                        'netValue' => isset($cart['product']['weight']) ? floatval($cart['product']['weight']) : 0.5,
+                                        'grossValue' => isset($cart['product']['weight']) ? floatval($cart['product']['weight']) : 0.5,
+                                    ],
+                                    'manufacturerCountry' => config('custom.countryCode', 'NG'),
+                                ];
+                            })
+                            ->toArray(),
+                        'placeOfIncoterm' => $shipping['city'] ?? 'Lagos',
+                        'exportReason' => 'Permanent',
+                        'exportReasonType'=> 'permanent',
+                        'additionalCharges' => [
+                            [
+                                'typeCode' => 'freight',
+                                'value' => $shipping['shipping_cost'],
+                                // 'currency' => $country_code,
+                            ],
+                            // [
+                            //     'typeCode' => 'insurance',
+                            //     'amount' => 0,
+                            //     'currency' => $country_code,
+                            // ],
+                        ],
+                    ],
+                ];
+
         // Payload to DHL
         $payload = [
             'plannedShippingDateAndTime' => now()->addDay()->format('Y-m-d\TH:i:s') . 'GMT+01:00',
-            'productCode' => 'N',
+            'productCode' => $productCode,
             'pickup' => ['isRequested' => false],
             'outputImageProperties' => [
                 'allDocumentsInOneImage' => true,
@@ -225,13 +302,7 @@ class OrderController extends Controller
                     'typeCode' => 'business',
                 ],
             ],
-            'content' => [
-                'packages' => $packages,
-                'isCustomsDeclarable' => $isCustomsDeclarable,
-                'description' => 'Order from Zeastitches Store',
-                'incoterm' => 'DAP',
-                'unitOfMeasurement' => 'metric',
-            ],
+            'content' => $content,
         ];
 
         try {

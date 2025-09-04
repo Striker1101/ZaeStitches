@@ -159,8 +159,8 @@
              <div>
                  <h5 class="text-lg font-semibold mb-2">Information</h5>
                  <ul class="space-y-2">
-                     <li><strong>Shipping:</strong> Free worldwide over </li>
-                     <li><strong>Returns:</strong> 14-day refund/exchange policy</li>
+                     {{-- <li><strong>Shipping:</strong> Free worldwide over </li> --}}
+                     <li><strong>Returns:</strong> 7-day refund/exchange policy</li>
                      <li><strong>Support:</strong> {{ config('custom.phone') }} or {{ config('custom.email') }}</li>
                  </ul>
              </div>

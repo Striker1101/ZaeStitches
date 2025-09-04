@@ -111,8 +111,7 @@
                                                 <p>The most commonly asked questions are covered in Our <a
                                                         href="#"><strong>FAQs</strong></a>. If you have any
                                                     specific questions please do not hesitate to contact us by
-                                                    completing this form or calling our customer services team on
-                                                    778 568 999.</p>
+                                                    completing this form or calling our customer services team.</p>
                                             </div>
                                         </div>
                                     </div>

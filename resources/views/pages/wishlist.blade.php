@@ -699,8 +699,7 @@
                                                     <a class="elementor-button elementor-button-link elementor-size-sm"
                                                         href="https://demos.reytheme.com/london/shop/">
                                                         <span class="elementor-button-content-wrapper">
-                                                            <span class="elementor-button-text">SHOP MEN
-                                                                HOODIES</span>
+                                                            <span class="elementor-button-text">SHOP FOR MEN</span>
                                                         </span>
                                                     </a>
                                                 </div>

@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->foreignId('brand_id')->constrained()->onDelete('cascade');
             $table->string('weight')->nullable();
             $table->string('dimension')->nullable();
+            $table->string('hs_code')->nullable();
             $table->string('material')->nullable();
             $table->string('featured_image')->nullable(); // single image path
             $table->enum('status', ['active', 'inactive', 'draft'])->default('active');
