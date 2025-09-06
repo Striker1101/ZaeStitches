@@ -31,7 +31,8 @@ class Product extends Model
         'is_latest',
         'is_available',
         'rating',
-        'hs_code'
+        'hs_code',
+        'content'
     ];
 
     /**

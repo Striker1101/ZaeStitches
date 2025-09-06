@@ -37,6 +37,7 @@ class StoreProductRequest extends FormRequest
             'title' => 'required|string|unique:products,title',
             'slug' => 'required|string|unique:products,slug',
             'description' => 'required|string',
+            'content' => 'required|string',
             'price' => 'required|numeric|min:0',
             'brand_id' => 'required|exists:brands,id',
             'discount_price' => 'required|numeric|min:0',

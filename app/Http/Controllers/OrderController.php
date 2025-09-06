@@ -213,7 +213,7 @@ class OrderController extends Controller
                             ->map(function ($cart, $index) {
                                 return [
                                     'number' => $index + 1,
-                                    'description' => substr($cart['product']['description'] ?? 'Unknown Product', 0, 512),
+                                    'description' => substr($cart['product']['content'] ?? 'Unknown Product', 0, 512),
                                     'quantity' => [
                                         'value' => $cart['quantity'] ?? 1,
                                         'unitOfMeasurement' => 'PCS',

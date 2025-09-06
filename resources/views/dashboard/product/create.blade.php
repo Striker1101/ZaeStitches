@@ -45,6 +45,14 @@
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <div class="mb-3">
+                    <label for="content" class="form-label">Content (DHL Description)</label>
+                    <textarea name="content" id="content" rows="4" class="form-control w-full">{{ old('content') }}</textarea>
+                    @error('content')
+                        <div class="text-danger small">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
             {{-- Pricing --}}

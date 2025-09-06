@@ -47,6 +47,11 @@
                 <textarea name="description" class="w-full mb-4 border px-3 py-2 rounded" rows="4">{{ old('description', $product->description) }}</textarea>
             </label>
 
+            {{-- Content --}}
+            <label class="block mb-2">Content (DHL Description)
+                <textarea name="content" class="w-full mb-4 border px-3 py-2 rounded" rows="4">{{ old('content', $product->content) }}</textarea>
+            </label>
+
             {{-- Price --}}
             <label class="block mb-2">Price
                 <input type="number" step="0.01" name="price" value="{{ old('price', $product->price) }}" required

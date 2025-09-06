@@ -36,6 +36,7 @@ class UpdateProductRequest extends FormRequest
             'title' => "sometimes|string|unique:products,title,$productId",
             'slug' => "sometimes|string|unique:products,slug,$productId",
             'description' => 'nullable|string',
+            'content' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'discount_price' => 'nullable|numeric|min:0',
             'brand_id' => 'required|exists:brands,id',
